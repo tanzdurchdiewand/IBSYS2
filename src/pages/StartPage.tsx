@@ -1,8 +1,9 @@
-import { Container, Step, StepLabel, Stepper } from "@mui/material";
+import { Box, Container, Step, StepLabel, Stepper } from "@mui/material";
 import {
   Dispatch,
   SetStateAction,
   createContext,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -15,6 +16,7 @@ import UploadResultInputXML from "../sections/uploadResultInputXML";
 import { uploadInputXML } from "../redux/slices/inputXML";
 import { GameData } from "../types/types";
 import ProduktionProgramm from "../sections/produktionProgramm";
+import NavBar from "../components/navBar/NavBar";
 
 type InputNewXMLContext = {
   setSelectedInputXML: Dispatch<SetStateAction<GameData | undefined>>;
@@ -31,6 +33,8 @@ export default function ListPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [openNav, setOpenNav] = useState(true);
+  const [openAside, setOpenAside] = useState(false);
   const [step, setStep] = useState(0);
   const [selectedInputXML, setSelectedInputXML] = useState<
     GameData | undefined
@@ -47,6 +51,23 @@ export default function ListPage() {
   const handleAbort = () => {
     navigate(PATH_PAGE.start.root);
   };
+  const handleOpenNav = useCallback(() => {
+    setOpenNav(true);
+  }, []);
+
+  const handleOpenAside = useCallback(() => {
+    setOpenAside(true);
+  }, []);
+
+  const handleCloseNav = useCallback(() => {
+    //TODO: warten auf AsideBar
+    // setOpenNav(false);
+  }, []);
+
+  const handleCloseAside = useCallback(() => {
+    setOpenAside(false);
+  }, []);
+
   useEffect(() => {
     selectedInputXML !== undefined &&
       dispatch(uploadInputXML(selectedInputXML));
@@ -65,6 +86,18 @@ export default function ListPage() {
 
   return (
     <SelectInputXML.Provider value={contextValue}>
+      <Box
+        sx={{
+          display: "flex",
+          minHeight: 1,
+        }}
+      >
+        <NavBar
+          open={openNav}
+          onOpen={handleOpenNav}
+          onClose={handleCloseNav}
+        />
+      </Box>
       <Container maxWidth={"xl"} sx={{ p: 3 }}>
         <StyledBox
           sx={{
