@@ -16,7 +16,13 @@ import UploadResultInputXML from "../sections/uploadResultInputXML";
 import { uploadInputXML } from "../redux/slices/inputXML";
 import { GameData } from "../types/types";
 import ProduktionProgramm from "../sections/produktionProgramm";
-import NavBar from "../components/navBar/NavBar";
+import MaterialPlanningP1 from "../sections/MaterialPlanningP1";
+import MaterialPlanningP3 from "../sections/MaterialPlanningP3";
+import MaterialPlanningP2 from "../sections/MaterialPlanningP2";
+import CapacityPlanningOverview from "../sections/CapacityPlanningOverview";
+import CapacityPlanningTotal from "../sections/CapacityPlanningTotal";
+import OrderPlanning from "../sections/OrderPlanning";
+import Result from "../sections/Result";
 
 type InputNewXMLContext = {
   setSelectedInputXML: Dispatch<SetStateAction<GameData | undefined>>;
@@ -140,6 +146,13 @@ export default function ListPage() {
         </StyledBox>
         {step === 0 && <UploadResultInputXML />}
         {step === 1 && <ProduktionProgramm />}
+        {step === 2 && <MaterialPlanningP1 />}
+        {step === 3 && <MaterialPlanningP2 />}
+        {step === 4 && <MaterialPlanningP3 />}
+        {step === 5 && <CapacityPlanningOverview />}
+        {step === 6 && <CapacityPlanningTotal />}
+        {step === 7 && <OrderPlanning />}
+        {step === 8 && <Result />}
       </Container>
     </SelectInputXML.Provider>
   );
