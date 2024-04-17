@@ -12,7 +12,7 @@ import { useDispatch } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { PATH_PAGE } from "../routes/paths";
 import UploadResultInputXML from "../sections/uploadResultInputXML";
-import { uploadInputXML } from "../redux/slices/InputXML";
+import { uploadInputXML } from "../redux/slices/inputXML";
 import { GameData } from "../types/types";
 
 type InputNewXMLContext = {

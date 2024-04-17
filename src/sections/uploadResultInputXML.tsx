@@ -1,15 +1,19 @@
-import { Button, Container, Typography } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import { useContext, useState } from "react";
 import { SelectInputXML } from "../pages/StartPage";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import * as xml2js from "xml2js";
 import { GameData } from "../types/types";
+import { Button, Container, Typography } from "@mui/material";
+import { XMLParser } from "fast-xml-parser";
 
 export default function UploadResultInputXML() {
   const { handleNextStep, setSelectedInputXML } = useContext(SelectInputXML);
   const [fileSelected, setFileSelected] = useState(false);
   const [fileName, setFileName] = useState("");
+
+  const options = { ignoreAttributes: false, attributeNamePrefix: "" };
+
+  const parser = new XMLParser(options);
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
@@ -40,20 +44,13 @@ export default function UploadResultInputXML() {
                 const file = event.target.files[0];
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                  if (typeof e.target?.result === "string") {
-                    xml2js.parseString(
-                      e.target.result,
-                      { explicitArray: false },
-                      (error, result) => {
-                        if (error) {
-                          console.error("Failed to parse XML:", error);
-                        } else {
-                          setSelectedInputXML(result as GameData);
-                          setFileSelected(true);
-                          setFileName(file.name);
-                        }
-                      }
-                    );
+                  if (typeof e.target!.result === "string") {
+                    console.log("xml", e.target!.result);
+                    let jsonObj = parser.parse(e.target!.result);
+                    console.log("JSON", jsonObj);
+                    setSelectedInputXML(jsonObj as GameData);
+                    setFileSelected(true);
+                    setFileName(file.name);
                   }
                 };
                 reader.readAsText(file);

@@ -33,7 +33,7 @@ export const initialState: InputXMLDataState = {
 };
 
 const slice = createSlice({
-  name: "inputXMLData",
+  name: "inputXML",
   initialState,
   reducers: {
     // List
@@ -57,8 +57,10 @@ export const uploadInputXML = (input: GameData): AppThunk => {
   return async (dispatch) => {
     dispatch(slice.actions.inputXMLUploadStarted());
 
-    let data: GameData | null = null;
-
-    console.log(input);
+    try {
+      dispatch(slice.actions.inputXMLUploadSucceeded(input));
+    } catch (error) {
+      dispatch(slice.actions.inputXMLUploadFailed(error));
+    }
   };
 };

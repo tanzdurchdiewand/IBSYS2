@@ -1,7 +1,6 @@
 import { ElementType, Suspense, lazy } from "react";
 import { Navigate, BrowserRouter as Router, useRoutes } from "react-router-dom";
 
-import LoadingScreen from "../components/loading-screen/LoadingScreen";
 import { PATH_PAGE } from "./paths";
 
 // ----------------------------------------------------------------------------
@@ -9,7 +8,7 @@ import { PATH_PAGE } from "./paths";
 // eslint-disable-next-line react/display-name, @typescript-eslint/no-explicit-any
 const Loadable = (Component: ElementType) => (props: any) =>
   (
-    <Suspense fallback={<LoadingScreen />}>
+    <Suspense>
       <Component {...props} />
     </Suspense>
   );
