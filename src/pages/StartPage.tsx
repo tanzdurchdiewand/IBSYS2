@@ -23,6 +23,7 @@ import CapacityPlanningOverview from "../sections/CapacityPlanningOverview";
 import CapacityPlanningTotal from "../sections/CapacityPlanningTotal";
 import OrderPlanning from "../sections/OrderPlanning";
 import Result from "../sections/Result";
+import NavBar from "../components/navBar/NavBar";
 
 type InputNewXMLContext = {
   setSelectedInputXML: Dispatch<SetStateAction<GameData | undefined>>;
