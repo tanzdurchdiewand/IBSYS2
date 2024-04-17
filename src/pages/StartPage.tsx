@@ -14,6 +14,7 @@ import { PATH_PAGE } from "../routes/paths";
 import UploadResultInputXML from "../sections/uploadResultInputXML";
 import { uploadInputXML } from "../redux/slices/inputXML";
 import { GameData } from "../types/types";
+import ProduktionProgramm from "../sections/produktionProgramm";
 
 type InputNewXMLContext = {
   setSelectedInputXML: Dispatch<SetStateAction<GameData | undefined>>;
@@ -105,6 +106,7 @@ export default function ListPage() {
           {/* Hier Burger Menu einfügen für Sprache DarkMode und Abbrechen */}
         </StyledBox>
         {step === 0 && <UploadResultInputXML />}
+        {step === 1 && <ProduktionProgramm />}
       </Container>
     </SelectInputXML.Provider>
   );
