@@ -1,5 +1,5 @@
 import { Box, Drawer, Stack, Typography } from "@mui/material";
-import { NAV, NavSectionType } from "./types";
+import { NAV } from "./types";
 import useResponsive from "../hooks/useResponsive";
 import Scrollbar from "../scrollbar/Scrollbar";
 import Logo from "../logo/logo";
@@ -9,11 +9,10 @@ import NavSectionVertical from "./NavSectionVertical";
 // ----------------------------------------------------------------------
 
 type Props = {
-  navConfig: NavSectionType[];
   onClose: VoidFunction;
 };
 
-export default function NavVertical({ navConfig, onClose }: Props) {
+export default function NavVertical({ onClose }: Props) {
   const isDesktop = useResponsive("up", "lg");
 
   const renderContent = (
@@ -44,12 +43,12 @@ export default function NavVertical({ navConfig, onClose }: Props) {
             textTransform="uppercase"
             fontWeight={500}
           >
-            Plattform
+            Bike Planner Pro
           </Typography>
         </Stack>
       </Stack>
 
-      <NavSectionVertical data={navConfig} />
+      <NavSectionVertical />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
@@ -61,6 +60,8 @@ export default function NavVertical({ navConfig, onClose }: Props) {
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV.W_FULL },
+        backgroundColor: "white",
+        boxShadow: "-10px 0px 15px rgba(0, 0, 0, 0.1)",
       }}
     >
       <DrawerToggleButton
@@ -79,7 +80,7 @@ export default function NavVertical({ navConfig, onClose }: Props) {
               zIndex: 0,
               width: NAV.W_FULL,
               bgcolor: "transparent",
-              borderRightStyle: "dashed",
+              border: "none",
             },
           }}
         >

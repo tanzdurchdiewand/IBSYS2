@@ -1,4 +1,4 @@
-import { Box, Container, Step, StepLabel, Stepper } from "@mui/material";
+import { Box } from "@mui/material";
 import {
   Dispatch,
   SetStateAction,
@@ -8,8 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { StyledBox } from "../components/styledComponets/styledBox";
-import { useDispatch } from "../redux/store";
+import { RootState, useDispatch } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { PATH_PAGE } from "../routes/paths";
 import UploadResultInputXML from "../sections/uploadResultInputXML";
@@ -24,6 +23,8 @@ import CapacityPlanningTotal from "../sections/CapacityPlanningTotal";
 import OrderPlanning from "../sections/OrderPlanning";
 import Result from "../sections/Result";
 import NavBar from "../components/navBar/NavBar";
+import { setStepper } from "../redux/slices/inputXML";
+import { useSelector } from "react-redux";
 
 type InputNewXMLContext = {
   setSelectedInputXML: Dispatch<SetStateAction<GameData | undefined>>;
@@ -36,23 +37,21 @@ export const SelectInputXML = createContext<InputNewXMLContext>(
   {} as InputNewXMLContext
 );
 
-export default function ListPage() {
+export default function StartPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [openNav, setOpenNav] = useState(true);
-  const [openAside, setOpenAside] = useState(false);
-  const [step, setStep] = useState(0);
+  const { step } = useSelector((state: RootState) => state.inputXML.list);
   const [selectedInputXML, setSelectedInputXML] = useState<
     GameData | undefined
   >(undefined);
-  console.log(selectedInputXML);
   const handleNextStep = () => {
-    setStep((s) => s + 1);
+    dispatch(setStepper(1));
   };
 
   const handleBack = () => {
-    setStep((s) => s - 1);
+    dispatch(setStepper(-1));
   };
 
   const handleAbort = () => {
@@ -62,17 +61,8 @@ export default function ListPage() {
     setOpenNav(true);
   }, []);
 
-  const handleOpenAside = useCallback(() => {
-    setOpenAside(true);
-  }, []);
-
   const handleCloseNav = useCallback(() => {
-    //TODO: warten auf AsideBar
-    // setOpenNav(false);
-  }, []);
-
-  const handleCloseAside = useCallback(() => {
-    setOpenAside(false);
+    setOpenNav(false);
   }, []);
 
   useEffect(() => {
@@ -88,6 +78,7 @@ export default function ListPage() {
       handleNextStep,
       handleBack,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [selectedInputXML]
   );
 
@@ -97,6 +88,12 @@ export default function ListPage() {
         sx={{
           display: "flex",
           minHeight: 1,
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: "url('/BikesBackground.webp')",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
         }}
       >
         <NavBar
@@ -104,47 +101,7 @@ export default function ListPage() {
           onOpen={handleOpenNav}
           onClose={handleCloseNav}
         />
-      </Box>
-      <Container maxWidth={"xl"} sx={{ p: 3 }}>
-        <StyledBox
-          sx={{
-            backgroundColor: "rgba(0, 0, 0, 0)", // leichter Hintergrund
-          }}
-        >
-          <Stepper
-            sx={{ width: { xs: "100%", md: "90%" }, mx: "auto" }}
-            activeStep={step}
-          >
-            <Step>
-              <StepLabel>XML Upload</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Produktions Programm</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Material Planning P1</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Material Planning P2</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Material Planning P3</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Capacity Planning Overview</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Capacity Planning Total</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Order Planning</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Result</StepLabel>
-            </Step>
-          </Stepper>
-          {/* Hier Burger Menu einfügen für Sprache DarkMode und Abbrechen */}
-        </StyledBox>
+
         {step === 0 && <UploadResultInputXML />}
         {step === 1 && <ProduktionProgramm />}
         {step === 2 && <MaterialPlanningP1 />}
@@ -154,7 +111,7 @@ export default function ListPage() {
         {step === 6 && <CapacityPlanningTotal />}
         {step === 7 && <OrderPlanning />}
         {step === 8 && <Result />}
-      </Container>
+      </Box>
     </SelectInputXML.Provider>
   );
 }

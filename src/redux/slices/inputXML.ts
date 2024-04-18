@@ -2,6 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { GameData } from "../../types/types";
 import { AppThunk } from "../store";
+
 export type AsyncCallStatus = "idle" | "loading" | "succeeded" | "failed";
 
 export type InputXMLData = {
@@ -12,6 +13,7 @@ export type InputXMLData = {
   error: {
     fetch: Error | string | null;
   };
+  step: number;
 
   XML: GameData | null;
 };
@@ -28,6 +30,7 @@ export const initialState: InputXMLDataState = {
     error: {
       fetch: null,
     },
+    step: 0,
     XML: null,
   },
 };
@@ -36,7 +39,6 @@ const slice = createSlice({
   name: "inputXML",
   initialState,
   reducers: {
-    // List
     inputXMLUploadStarted(state) {
       state.list.status.fetch = "loading";
     },
@@ -48,10 +50,14 @@ const slice = createSlice({
       state.list.status.fetch = "succeeded";
       state.list.XML = action.payload;
     },
+    setStepper(state, action: PayloadAction<number>) {
+      state.list.step += action.payload;
+    },
   },
 });
 
 export default slice.reducer;
+export const { setStepper } = slice.actions;
 
 export const uploadInputXML = (input: GameData): AppThunk => {
   return async (dispatch) => {

@@ -5,5 +5,4 @@ export const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  marginBottom: theme.spacing(3),
 }));
