@@ -20,6 +20,7 @@ export default function NavSectionVertical() {
           width: { xs: "100%", md: "90%" },
           height: { xs: "100%", md: "90%" },
           mx: "auto",
+          paddingLeft: 3.5,
         }}
         orientation="vertical"
         activeStep={step}

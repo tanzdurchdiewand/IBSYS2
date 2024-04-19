@@ -11,7 +11,7 @@ function NavSectionMini() {
   return (
     <StyledBox>
       <Stepper
-        sx={{ width: { xs: "90%", md: "90%" }, mx: "auto" }}
+        sx={{ width: { xs: "90%", md: "90%" }, mx: "auto", paddingLeft: 3.5 }}
         orientation="vertical"
         activeStep={step}
       >

@@ -9,21 +9,11 @@ import {
   useState,
 } from "react";
 import { RootState, useDispatch } from "../redux/store";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { PATH_PAGE } from "../routes/paths";
-import UploadResultInputXML from "../sections/uploadResultInputXML";
-import { uploadInputXML } from "../redux/slices/inputXML";
 import { GameData } from "../types/types";
-import ProduktionProgramm from "../sections/produktionProgramm";
-import MaterialPlanningP1 from "../sections/MaterialPlanningP1";
-import MaterialPlanningP3 from "../sections/MaterialPlanningP3";
-import MaterialPlanningP2 from "../sections/MaterialPlanningP2";
-import CapacityPlanningOverview from "../sections/CapacityPlanningOverview";
-import CapacityPlanningTotal from "../sections/CapacityPlanningTotal";
-import OrderPlanning from "../sections/OrderPlanning";
-import Result from "../sections/Result";
 import NavBar from "../components/navBar/NavBar";
-import { setStepper } from "../redux/slices/inputXML";
+import { setStepper, uploadInputXML } from "../redux/slices/inputXML";
 import { useSelector } from "react-redux";
 
 type InputNewXMLContext = {
@@ -66,6 +56,40 @@ export default function StartPage() {
   }, []);
 
   useEffect(() => {
+    switch (step) {
+      case 0:
+        navigate("/start/upload");
+        break;
+      case 1:
+        navigate("/start/produktion");
+        break;
+      case 2:
+        navigate("/start/material1");
+        break;
+      case 3:
+        navigate("/start/material2");
+        break;
+      case 4:
+        navigate("/start/material3");
+        break;
+      case 5:
+        navigate("/start/capacity-overview");
+        break;
+      case 6:
+        navigate("/start/capacity-total");
+        break;
+      case 7:
+        navigate("/start/order");
+        break;
+      case 8:
+        navigate("/start/result");
+        break;
+      default:
+        break;
+    }
+  }, [step, navigate]);
+
+  useEffect(() => {
     selectedInputXML !== undefined &&
       dispatch(uploadInputXML(selectedInputXML));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,15 +126,7 @@ export default function StartPage() {
           onClose={handleCloseNav}
         />
 
-        {step === 0 && <UploadResultInputXML />}
-        {step === 1 && <ProduktionProgramm />}
-        {step === 2 && <MaterialPlanningP1 />}
-        {step === 3 && <MaterialPlanningP2 />}
-        {step === 4 && <MaterialPlanningP3 />}
-        {step === 5 && <CapacityPlanningOverview />}
-        {step === 6 && <CapacityPlanningTotal />}
-        {step === 7 && <OrderPlanning />}
-        {step === 8 && <Result />}
+        <Outlet />
       </Box>
     </SelectInputXML.Provider>
   );

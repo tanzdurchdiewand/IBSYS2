@@ -35,7 +35,7 @@ export default function NavVertical({ onClose }: Props) {
           flexShrink: 0,
         }}
       >
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" alignItems="center" spacing={2}>
           <Logo />
           <Typography
             variant="body1"
@@ -61,7 +61,7 @@ export default function NavVertical({ onClose }: Props) {
         flexShrink: { lg: 0 },
         width: { lg: NAV.W_FULL },
         backgroundColor: "white",
-        boxShadow: "-10px 0px 15px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
       }}
     >
       <DrawerToggleButton
