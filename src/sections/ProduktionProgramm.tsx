@@ -5,6 +5,7 @@ import {
   Grid,
   Paper,
   TextField,
+  Typography,
   styled,
 } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
@@ -77,10 +78,40 @@ export default function ProduktionProgramm() {
               {" "}
             </Grid>
             <Grid item xs={4}>
-              <Item>Sales Order</Item>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  alignItems="center"
+                  justifyContent="center"
+                  autoComplete="off"
+                >
+                  <Typography variant="h6">Sales Order</Typography>
+                </Box>
+              </Item>
             </Grid>
             <Grid item xs={6}>
-              <Item>Forcast</Item>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  alignItems="center"
+                  justifyContent="center"
+                  autoComplete="off"
+                >
+                  <Typography variant="h6">Forecast</Typography>
+                </Box>
+              </Item>
             </Grid>
           </Grid>
           <Grid container>
@@ -88,19 +119,100 @@ export default function ProduktionProgramm() {
               {" "}
             </Grid>
             <Grid item xs={2}>
-              <Item>Product \ Periode</Item>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  alignItems="center"
+                  justifyContent="center"
+                  autoComplete="off"
+                >
+                  <Typography variant="h6">Product \ Periode</Typography>
+                </Box>
+              </Item>
             </Grid>
             <Grid item xs={2}>
-              <Item>6</Item>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  alignItems="center"
+                  justifyContent="center"
+                  autoComplete="off"
+                >
+                  <Typography variant="h6">{XML?.results.period}</Typography>
+                </Box>
+              </Item>
             </Grid>
             <Grid item xs={2}>
-              <Item>7</Item>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  alignItems="center"
+                  justifyContent="center"
+                  autoComplete="off"
+                >
+                  <Typography variant="h6">
+                    {(Number(XML?.results.period) || 0) + 1}
+                  </Typography>
+                </Box>
+              </Item>
             </Grid>
             <Grid item xs={2}>
-              <Item>8</Item>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  alignItems="center"
+                  justifyContent="center"
+                  autoComplete="off"
+                >
+                  <Typography variant="h6">
+                    {(Number(XML?.results.period) || 0) + 2}
+                  </Typography>
+                </Box>
+              </Item>
             </Grid>
             <Grid item xs={2}>
-              <Item>9</Item>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  alignItems="center"
+                  justifyContent="center"
+                  autoComplete="off"
+                >
+                  <Typography variant="h6">
+                    {(Number(XML?.results.period) || 0) + 3}
+                  </Typography>
+                </Box>
+              </Item>
             </Grid>
           </Grid>
           <Grid container>
@@ -150,7 +262,7 @@ export default function ProduktionProgramm() {
                   />
                   <TextField
                     id="outlined-basic"
-                    label="Outlined"
+                    label="Production Wish"
                     variant="outlined"
                   />
                 </Box>
