@@ -4,15 +4,28 @@ import { useContext } from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { SelectInputXML } from "../pages/StartPage";
+import { useNavigate } from "react-router-dom";
 
 export default function MaterialPlanningP1() {
   const { handleNextStep, handleBack } = useContext(SelectInputXML);
+
+  const navigate = useNavigate();
+
+  const handleOnKlickNextStep = () => {
+    handleNextStep();
+    navigate("/start/material2");
+  };
+
+  const handleOnKlickBack = () => {
+    handleBack();
+    navigate("/start/produktion");
+  };
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <Button
         variant="contained"
-        onClick={handleBack}
+        onClick={handleOnKlickBack}
         sx={{
           position: "absolute",
           left: 0,
@@ -39,7 +52,7 @@ export default function MaterialPlanningP1() {
 
       <Button
         variant="contained"
-        onClick={handleNextStep}
+        onClick={handleOnKlickNextStep}
         sx={{
           position: "absolute",
           right: 0,

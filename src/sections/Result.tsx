@@ -3,15 +3,23 @@ import { StyledCard } from "../components/styledComponets/styledCard";
 import { useContext } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { SelectInputXML } from "../pages/StartPage";
+import { useNavigate } from "react-router-dom";
 
 export default function Result() {
-  const { handleNextStep, handleBack } = useContext(SelectInputXML);
+  const { handleBack } = useContext(SelectInputXML);
+  const navigate = useNavigate();
+
+  const handleOnKlickBack = () => {
+    handleBack();
+    navigate("/start/order");
+  };
+
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <Button
         variant="contained"
-        onClick={handleBack}
+        onClick={handleOnKlickBack}
         sx={{
           position: "absolute",
           left: 0,

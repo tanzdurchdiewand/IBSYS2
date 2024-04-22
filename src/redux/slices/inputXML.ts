@@ -9,13 +9,13 @@ export type InputXMLData = {
   status: {
     fetch: AsyncCallStatus;
   };
-
   error: {
     fetch: Error | string | null;
   };
   step: number;
-
   XML: GameData | null;
+  fileName: string;
+  fileSelected: boolean;
 };
 
 type InputXMLDataState = {
@@ -32,6 +32,8 @@ export const initialState: InputXMLDataState = {
     },
     step: 0,
     XML: null,
+    fileName: "",
+    fileSelected: false,
   },
 };
 
@@ -53,11 +55,17 @@ const slice = createSlice({
     setStepper(state, action: PayloadAction<number>) {
       state.list.step += action.payload;
     },
+    setFileName(state, action: PayloadAction<string>) {
+      state.list.fileName = action.payload;
+    },
+    setFileSelected(state, action: PayloadAction<boolean>) {
+      state.list.fileSelected = action.payload;
+    }
   },
 });
 
 export default slice.reducer;
-export const { setStepper } = slice.actions;
+export const { setStepper, setFileName, setFileSelected, } = slice.actions;
 
 export const uploadInputXML = (input: GameData): AppThunk => {
   return async (dispatch) => {

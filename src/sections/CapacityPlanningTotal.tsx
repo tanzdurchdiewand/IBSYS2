@@ -4,15 +4,27 @@ import { useContext } from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { SelectInputXML } from "../pages/StartPage";
+import { useNavigate } from "react-router-dom";
 
 export default function CapacityPlanningTotal() {
   const { handleNextStep, handleBack } = useContext(SelectInputXML);
+  const navigate = useNavigate();
+
+  const handleOnKlickNextStep = () => {
+    handleNextStep();
+    navigate("/start/order");
+  };
+
+  const handleOnKlickBack = () => {
+    handleBack();
+    navigate("/start/capacity-overview");
+  };
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <Button
         variant="contained"
-        onClick={handleBack}
+        onClick={handleOnKlickBack}
         sx={{
           position: "absolute",
           left: 0,
@@ -39,7 +51,7 @@ export default function CapacityPlanningTotal() {
 
       <Button
         variant="contained"
-        onClick={handleNextStep}
+        onClick={handleOnKlickNextStep}
         sx={{
           position: "absolute",
           right: 0,

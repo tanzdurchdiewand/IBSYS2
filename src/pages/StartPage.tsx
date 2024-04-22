@@ -37,6 +37,7 @@ export default function StartPage() {
   const [selectedInputXML, setSelectedInputXML] = useState<
     GameData | undefined
   >(undefined);
+  
   const handleNextStep = () => {
     dispatch(setStepper(1));
   };
@@ -55,41 +56,7 @@ export default function StartPage() {
   const handleCloseNav = useCallback(() => {
     setOpenNav(false);
   }, []);
-
-  useEffect(() => {
-    switch (step) {
-      case 0:
-        navigate("/start/upload");
-        break;
-      case 1:
-        // navigate("/start/produktion");
-        break;
-      case 2:
-        navigate("/start/material1");
-        break;
-      case 3:
-        navigate("/start/material2");
-        break;
-      case 4:
-        navigate("/start/material3");
-        break;
-      case 5:
-        navigate("/start/capacity-overview");
-        break;
-      case 6:
-        navigate("/start/capacity-total");
-        break;
-      case 7:
-        navigate("/start/order");
-        break;
-      case 8:
-        navigate("/start/result");
-        break;
-      default:
-        break;
-    }
-  }, [step, navigate]);
-
+  
   useEffect(() => {
     selectedInputXML !== undefined &&
       dispatch(uploadInputXML(selectedInputXML));

@@ -1,16 +1,21 @@
 import { StyledCard } from "../components/styledComponets/styledCard";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { SelectInputXML } from "../pages/StartPage";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { GameData } from "../types/types";
 import { Button, Container, Typography } from "@mui/material";
 import { XMLParser } from "fast-xml-parser";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { setFileName, setFileSelected } from "../redux/slices/inputXML";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { validate } from "../schema/xmlSchema";
+import { GameData } from "../types/types";
 
 export default function UploadResultInputXML() {
+  const dispatch = useDispatch();
+  const { fileName, fileSelected } = useSelector((state: RootState) => state.inputXML.list);
   const { handleNextStep, setSelectedInputXML } = useContext(SelectInputXML);
-  const [fileSelected, setFileSelected] = useState(false);
-  const [fileName, setFileName] = useState("");
   const navigate = useNavigate();
 
   const handleOnKlickNextStep = () => {
@@ -18,7 +23,12 @@ export default function UploadResultInputXML() {
     navigate("/start/produktion");
   };
 
-  const options = { ignoreAttributes: false, attributeNamePrefix: "" };
+  const options = {
+    ignoreAttributes: false, // Don't ignore attributes
+    attributeNamePrefix: "", // Use empty string if you don't want prefixes
+    arrayMode: /articles|workplaces|orders|waitinglist/, // Specify which tags should always be treated as arrays
+    textNodeName: "#text" // Use if you want to capture the text of nodes specifically
+  };
 
   const parser = new XMLParser(options);
 
@@ -39,7 +49,9 @@ export default function UploadResultInputXML() {
         }}
       >
         <label htmlFor="upload-button">
-          {fileSelected && <Typography variant="h6">{fileName}</Typography>}
+          {fileSelected && (<Typography variant="h6">
+            <CheckCircleIcon color="success" sx={{ verticalAlign: "middle", mr: 1 }} />{fileName}
+          </Typography>)}
           <input
             style={{ display: "none" }}
             id="upload-button"
@@ -54,10 +66,20 @@ export default function UploadResultInputXML() {
                   if (typeof e.target!.result === "string") {
                     console.log("xml", e.target!.result);
                     let jsonObj = parser.parse(e.target!.result);
-                    console.log("JSON", jsonObj);
-                    setSelectedInputXML(jsonObj);
-                    setFileSelected(true);
-                    setFileName(file.name);
+                    console.log("Parsed JSON:", JSON.stringify(jsonObj, null, 2));
+
+                    // Validate the parsed JSON against the schema
+                    if (validate(jsonObj)) {
+                      console.log("Validation succeeded:", jsonObj);
+
+                      setSelectedInputXML(jsonObj as GameData);
+                      dispatch(setFileSelected(true));
+                      dispatch(setFileName(file.name));
+                    } else {
+                      
+                      console.error("Validation errors:", validate.errors);
+                      // Handle the error scenario, e.g., showing an error message to the user
+                    }
                   }
                 };
                 reader.readAsText(file);

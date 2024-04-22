@@ -12,10 +12,22 @@ import { useContext } from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { SelectInputXML } from "../pages/StartPage";
+import { useNavigate } from "react-router-dom";
 import { RootState, useSelector } from "../redux/store";
 
 export default function ProduktionProgramm() {
   const { handleNextStep, handleBack } = useContext(SelectInputXML);
+  const navigate = useNavigate();
+
+  const handleOnKlickNextStep = () => {
+    handleNextStep();
+    navigate("/start/material1");
+  };
+
+  const handleOnKlickBack = () => {
+    handleBack();
+    navigate("/start/upload");
+  };
   const { XML } = useSelector((state: RootState) => state.inputXML.list);
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -30,7 +42,7 @@ export default function ProduktionProgramm() {
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <Button
         variant="contained"
-        onClick={handleBack}
+        onClick={handleOnKlickBack}
         sx={{
           position: "absolute",
           left: 0,
@@ -225,7 +237,7 @@ export default function ProduktionProgramm() {
 
       <Button
         variant="contained"
-        onClick={handleNextStep}
+        onClick={handleOnKlickNextStep}
         sx={{
           position: "absolute",
           right: 0,
