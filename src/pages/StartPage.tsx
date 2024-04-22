@@ -61,7 +61,7 @@ export default function StartPage() {
         navigate("/start/upload");
         break;
       case 1:
-        navigate("/start/produktion");
+        // navigate("/start/produktion");
         break;
       case 2:
         navigate("/start/material1");

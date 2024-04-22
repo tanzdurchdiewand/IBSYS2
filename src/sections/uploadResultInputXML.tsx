@@ -5,11 +5,18 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { GameData } from "../types/types";
 import { Button, Container, Typography } from "@mui/material";
 import { XMLParser } from "fast-xml-parser";
+import { useNavigate } from "react-router-dom";
 
 export default function UploadResultInputXML() {
   const { handleNextStep, setSelectedInputXML } = useContext(SelectInputXML);
   const [fileSelected, setFileSelected] = useState(false);
   const [fileName, setFileName] = useState("");
+  const navigate = useNavigate();
+
+  const handleOnKlickNextStep = () => {
+    handleNextStep();
+    navigate("/start/produktion");
+  };
 
   const options = { ignoreAttributes: false, attributeNamePrefix: "" };
 
@@ -65,7 +72,7 @@ export default function UploadResultInputXML() {
       {fileSelected && (
         <Button
           variant="contained"
-          onClick={handleNextStep}
+          onClick={handleOnKlickNextStep}
           sx={{
             position: "absolute",
             right: 0,
