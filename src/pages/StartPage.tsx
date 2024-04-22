@@ -21,6 +21,7 @@ type InputNewXMLContext = {
   selectedInputXML: GameData | undefined;
   handleNextStep: () => void;
   handleBack: () => void;
+  handleAbort: () => void;
 };
 
 export const SelectInputXML = createContext<InputNewXMLContext>(
@@ -101,6 +102,7 @@ export default function StartPage() {
       setSelectedInputXML,
       handleNextStep,
       handleBack,
+      handleAbort,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [selectedInputXML]

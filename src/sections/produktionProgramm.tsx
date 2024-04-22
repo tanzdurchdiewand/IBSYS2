@@ -1,12 +1,30 @@
-import { Button, Container } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  TextField,
+  styled,
+} from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import { useContext } from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { SelectInputXML } from "../pages/StartPage";
+import { RootState, useSelector } from "../redux/store";
 
 export default function ProduktionProgramm() {
   const { handleNextStep, handleBack } = useContext(SelectInputXML);
+  const { XML } = useSelector((state: RootState) => state.inputXML.list);
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
@@ -35,7 +53,175 @@ export default function ProduktionProgramm() {
           alignItems: "center",
           justifyContent: "center",
         }}
-      ></StyledCard>
+      >
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid container>
+            <Grid item xs={1}>
+              {" "}
+            </Grid>
+            <Grid item xs={4}>
+              <Item>Sales Order</Item>
+            </Grid>
+            <Grid item xs={6}>
+              <Item>Forcast</Item>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={1}>
+              {" "}
+            </Grid>
+            <Grid item xs={2}>
+              <Item>Product \ Periode</Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>6</Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>7</Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>8</Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>9</Item>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={1}>
+              {" "}
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="P1"
+                    variant="outlined"
+                    value="Cildren´s Bicycle"
+                    disabled={true}
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Sales Wish"
+                    variant="outlined"
+                    value={XML?.results.forecast.p1}
+                    disabled={true}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+          </Grid>
+        </Grid>
+      </StyledCard>
 
       <Button
         variant="contained"

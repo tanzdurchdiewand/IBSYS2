@@ -1,10 +1,13 @@
-import { Box, Drawer, Stack, Typography } from "@mui/material";
+import { Box, Drawer, IconButton, Stack, Typography } from "@mui/material";
 import { NAV } from "./types";
 import useResponsive from "../hooks/useResponsive";
 import Scrollbar from "../scrollbar/Scrollbar";
 import Logo from "../logo/logo";
 import DrawerToggleButton from "../drowerToggleButton/DrowerToggleButton";
 import NavSectionVertical from "./NavSectionVertical";
+import { useContext } from "react";
+import { SelectInputXML } from "../../pages/StartPage";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 // ----------------------------------------------------------------------
 
@@ -13,6 +16,8 @@ type Props = {
 };
 
 export default function NavVertical({ onClose }: Props) {
+  const { handleAbort } = useContext(SelectInputXML);
+
   const isDesktop = useResponsive("up", "lg");
 
   const renderContent = (
@@ -46,6 +51,9 @@ export default function NavVertical({ onClose }: Props) {
             Bike Planner Pro
           </Typography>
         </Stack>
+        <IconButton size="small" onClick={handleAbort}>
+          <RestartAltIcon />
+        </IconButton>
       </Stack>
 
       <NavSectionVertical />

@@ -120,8 +120,7 @@ export type CycleTimes = {
   }[];
 };
 
-// A comprehensive type to encapsulate all data segments
-export type GameData = {
+export type Data = {
   game: number;
   group: number;
   period: number;
@@ -134,4 +133,9 @@ export type GameData = {
   ordersInWork: OrdersInWork[];
   completedOrders: CompletedOrder[];
   cycleTimes: CycleTimes;
+};
+
+// A comprehensive type to encapsulate all data segments
+export type GameData = {
+  results: Data;
 };

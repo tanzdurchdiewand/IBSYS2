@@ -55,7 +55,7 @@ export default function UploadResultInputXML() {
                     console.log("xml", e.target!.result);
                     let jsonObj = parser.parse(e.target!.result);
                     console.log("JSON", jsonObj);
-                    setSelectedInputXML(jsonObj as GameData);
+                    setSelectedInputXML(jsonObj);
                     setFileSelected(true);
                     setFileName(file.name);
                   }
