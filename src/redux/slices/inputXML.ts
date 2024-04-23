@@ -1,6 +1,6 @@
 // Import the necessary functions and types from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GameData } from "../../types/types";
+import { GameData } from "../../types/inputXMLTypes";
 import { AppThunk } from "../store";
 
 export type AsyncCallStatus = "idle" | "loading" | "succeeded" | "failed";

@@ -10,7 +10,7 @@ import {
 } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { PATH_PAGE } from "../routes/paths";
-import { GameData } from "../types/types";
+import { GameData } from "../types/inputXMLTypes";
 import NavBar from "../components/navBar/NavBar";
 import { resetStepper, setStepper, uploadInputXML } from "../redux/slices/inputXML";
 import { useDispatch } from "../redux/store";
