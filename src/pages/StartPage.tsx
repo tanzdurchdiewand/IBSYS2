@@ -8,13 +8,12 @@ import {
   useMemo,
   useState,
 } from "react";
-import { RootState, useDispatch } from "../redux/store";
 import { Outlet, useNavigate } from "react-router-dom";
 import { PATH_PAGE } from "../routes/paths";
 import { GameData } from "../types/types";
 import NavBar from "../components/navBar/NavBar";
 import { setStepper, uploadInputXML } from "../redux/slices/inputXML";
-import { useSelector } from "react-redux";
+import { useDispatch } from "../redux/store";
 
 type InputNewXMLContext = {
   setSelectedInputXML: Dispatch<SetStateAction<GameData | undefined>>;
@@ -33,7 +32,6 @@ export default function StartPage() {
   const navigate = useNavigate();
 
   const [openNav, setOpenNav] = useState(true);
-  const { step } = useSelector((state: RootState) => state.inputXML.list);
   const [selectedInputXML, setSelectedInputXML] = useState<
     GameData | undefined
   >(undefined);
