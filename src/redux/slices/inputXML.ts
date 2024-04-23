@@ -55,6 +55,9 @@ const slice = createSlice({
     setStepper(state, action: PayloadAction<number>) {
       state.list.step += action.payload;
     },
+    resetStepper(state) {
+      state.list.step = 0;
+    },
     setFileName(state, action: PayloadAction<string>) {
       state.list.fileName = action.payload;
     },
@@ -65,7 +68,7 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { setStepper, setFileName, setFileSelected, } = slice.actions;
+export const { setStepper, setFileName, setFileSelected, resetStepper } = slice.actions;
 
 export const uploadInputXML = (input: GameData): AppThunk => {
   return async (dispatch) => {

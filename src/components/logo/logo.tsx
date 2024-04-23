@@ -1,18 +1,13 @@
-import { Box, BoxProps, Link } from "@mui/material";
-import { forwardRef } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, BoxProps } from "@mui/material";
+import { useContext } from "react";
+import { SelectInputXML } from "../../pages/StartPage";
 
 // ----------------------------------------------------------------------
 
-export interface LogoProps extends BoxProps {
-  disabledLink?: boolean;
-}
-
-const Logo = forwardRef<HTMLDivElement, LogoProps>(
-  ({ disabledLink = false, sx, ...other }, ref) => {
-    const logo = (
+export default function Logo({sx}: BoxProps) {
+    const { handleAbort } = useContext(SelectInputXML);
+    return (
       <Box
-        ref={ref}
         component="div"
         sx={{
           width: 40,
@@ -20,7 +15,7 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
           display: "inline-flex",
           ...sx,
         }}
-        {...other}
+        onClick={handleAbort}
       >
         <img
           style={{ width: "100%", height: "100%" }}
@@ -29,18 +24,4 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
         />
       </Box>
     );
-
-    if (disabledLink) {
-      return logo;
-    }
-
-    return (
-      <Link component={RouterLink} to="/" sx={{ display: "contents" }}>
-        {logo}
-      </Link>
-    );
-  }
-);
-Logo.displayName = "Logo";
-
-export default Logo;
+  };
