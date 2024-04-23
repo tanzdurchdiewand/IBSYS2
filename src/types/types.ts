@@ -138,4 +138,8 @@ export type Data = {
 // A comprehensive type to encapsulate all data segments
 export type GameData = {
   results: Data;
-};
+}
+
+export interface ValidationError {
+  message: string;
+}

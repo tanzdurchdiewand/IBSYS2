@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Container,
   Grid,
   Paper,
@@ -9,26 +8,15 @@ import {
   styled,
 } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
-import { useContext } from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { SelectInputXML } from "../pages/StartPage";
-import { useNavigate } from "react-router-dom";
 import { RootState, useSelector } from "../redux/store";
+import { StyledButton } from "../components/styledComponets/styledButton";
+import { Direction, useNavigationHandler } from "../hooks/useNavigationHandlers";
 
 export default function ProduktionProgramm() {
-  const { handleNextStep, handleBack } = useContext(SelectInputXML);
-  const navigate = useNavigate();
+  const { goTo } = useNavigationHandler();
 
-  const handleOnKlickNextStep = () => {
-    handleNextStep();
-    navigate("/start/material1");
-  };
-
-  const handleOnKlickBack = () => {
-    handleBack();
-    navigate("/start/upload");
-  };
   const { XML } = useSelector((state: RootState) => state.inputXML.list);
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -41,32 +29,10 @@ export default function ProduktionProgramm() {
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
-      <Button
-        variant="contained"
-        onClick={handleOnKlickBack}
-        sx={{
-          position: "absolute",
-          left: 0,
-          top: "50%",
-          transform: "translateY(-50%)",
-        }}
-      >
+      <StyledButton onClick={() => goTo("/start/upload", Direction.Back)} sx={{ left: 0 }}>
         <ArrowBackIosIcon />
-      </Button>
-      <StyledCard
-        sx={{
-          width: { xs: "100%", md: "90%" },
-          height: { xs: "100%", md: "90%" },
-          minWidth: { xs: "100%", md: "300px" },
-          minHeight: { xs: "100%", md: "700px" },
-          mx: "auto",
-          borderRadius: "16px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      </StyledButton>
+      <StyledCard>
         <Grid
           container
           direction="column"
@@ -347,18 +313,9 @@ export default function ProduktionProgramm() {
         </Grid>
       </StyledCard>
 
-      <Button
-        variant="contained"
-        onClick={handleOnKlickNextStep}
-        sx={{
-          position: "absolute",
-          right: 0,
-          top: "50%",
-          transform: "translateY(-50%)",
-        }}
-      >
-        <ArrowForwardIosIcon />
-      </Button>
+      <StyledButton onClick={() => goTo("/start/material1", Direction.Forward)} sx={{ right: 0 }}>
+        <ArrowForwardIosIcon/>
+      </StyledButton>
     </Container>
   );
 }
