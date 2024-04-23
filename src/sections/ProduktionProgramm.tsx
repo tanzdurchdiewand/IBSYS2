@@ -12,7 +12,10 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { RootState, useSelector } from "../redux/store";
 import { StyledButton } from "../components/styledComponets/styledButton";
-import { Direction, useNavigationHandler } from "../hooks/useNavigationHandlers";
+import {
+  Direction,
+  useNavigationHandler,
+} from "../hooks/useNavigationHandlers";
 
 export default function ProduktionProgramm() {
   const { goTo } = useNavigationHandler();
@@ -29,7 +32,10 @@ export default function ProduktionProgramm() {
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
-      <StyledButton onClick={() => goTo("/start/upload", Direction.Back)} sx={{ left: 0 }}>
+      <StyledButton
+        onClick={() => goTo("/start/upload", Direction.Back)}
+        sx={{ left: 0 }}
+      >
         <ArrowBackIosIcon />
       </StyledButton>
       <StyledCard>
@@ -116,24 +122,6 @@ export default function ProduktionProgramm() {
                   justifyContent="center"
                   autoComplete="off"
                 >
-                  <Typography variant="h6">{XML?.results.period}</Typography>
-                </Box>
-              </Item>
-            </Grid>
-            <Grid item xs={2}>
-              <Item>
-                <Box
-                  component="form"
-                  sx={{
-                    "& > :not(style)": { m: 1, width: "25ch" },
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                  noValidate
-                  alignItems="center"
-                  justifyContent="center"
-                  autoComplete="off"
-                >
                   <Typography variant="h6">
                     {(Number(XML?.results.period) || 0) + 1}
                   </Typography>
@@ -176,6 +164,26 @@ export default function ProduktionProgramm() {
                 >
                   <Typography variant="h6">
                     {(Number(XML?.results.period) || 0) + 3}
+                  </Typography>
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  alignItems="center"
+                  justifyContent="center"
+                  autoComplete="off"
+                >
+                  <Typography variant="h6">
+                    {(Number(XML?.results.period) || 0) + 4}
                   </Typography>
                 </Box>
               </Item>
@@ -310,11 +318,272 @@ export default function ProduktionProgramm() {
               </Item>
             </Grid>
           </Grid>
+          <Grid container>
+            <Grid item xs={1}>
+              {" "}
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="P2"
+                    variant="outlined"
+                    value="Wommen´s Bicycle"
+                    disabled={true}
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Sales Wish"
+                    variant="outlined"
+                    value={XML?.results.forecast.p2}
+                    disabled={true}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Production Wish"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={1}>
+              {" "}
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="P3"
+                    variant="outlined"
+                    value="Man´s Bicycle"
+                    disabled={true}
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Sales Wish"
+                    variant="outlined"
+                    value={XML?.results.forecast.p3}
+                    disabled={true}
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Production Wish"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid item xs={2}>
+              <Item>
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                  <TextField
+                    id="outlined-basic"
+                    label="Outlined"
+                    variant="outlined"
+                  />
+                </Box>
+              </Item>
+            </Grid>
+          </Grid>
         </Grid>
       </StyledCard>
 
-      <StyledButton onClick={() => goTo("/start/material1", Direction.Forward)} sx={{ right: 0 }}>
-        <ArrowForwardIosIcon/>
+      <StyledButton
+        onClick={() => goTo("/start/material1", Direction.Forward)}
+        sx={{ right: 0 }}
+      >
+        <ArrowForwardIosIcon />
       </StyledButton>
     </Container>
   );
