@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setFileName, setFileSelected } from '../redux/slices/inputXML';
 import { XMLParser } from 'fast-xml-parser';
 import { validate } from '../schema/xmlSchema';
-import { GameData, ValidationError } from '../types/types';
+import { GameData, ValidationError } from '../types/inputXMLTypes';
 
 const options = {
   ignoreAttributes: false,
