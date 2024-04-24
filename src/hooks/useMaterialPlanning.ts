@@ -6,7 +6,7 @@ import {
   P3Planning,
 } from "../types/materialPlanningTypes";
 import { RootState } from "../redux/store";
-import { GameData } from "../types/inputXMLTypes";
+import { GameData, WaitingWorkplace, WorkplaceOrdersInWork } from "../types/inputXMLTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
 
 export enum PlanningType {
@@ -16,9 +16,48 @@ export enum PlanningType {
 }
 
 const planningConfig: Record<PlanningType, string[]> = {
-  p1: ["P1", "E26", "E51", "E16", "E17", "E50", "E4", "E10", "E49", "E7", "E13", "E18"],
-  p2: ["P2", "E26", "E56", "E16", "E17", "E55", "E5", "E11", "E54", "E8", "E14", "E19"],
-  p3: ["P3", "E26", "E31", "E16", "E17", "E30", "E6", "E12", "E29", "E9", "E15", "E20"],
+  p1: [
+    "P1",
+    "E26",
+    "E51",
+    "E16",
+    "E17",
+    "E50",
+    "E4",
+    "E10",
+    "E49",
+    "E7",
+    "E13",
+    "E18",
+  ],
+  p2: [
+    "P2",
+    "E26",
+    "E56",
+    "E16",
+    "E17",
+    "E55",
+    "E5",
+    "E11",
+    "E54",
+    "E8",
+    "E14",
+    "E19",
+  ],
+  p3: [
+    "P3",
+    "E26",
+    "E31",
+    "E16",
+    "E17",
+    "E30",
+    "E6",
+    "E12",
+    "E29",
+    "E9",
+    "E15",
+    "E20",
+  ],
 };
 
 export function useMaterialPlanning(
@@ -109,6 +148,7 @@ export function useMaterialPlanning(
   return createPlanning(type, gameData, productionProgramm);
 }
 
+// TODO put in helper file
 function createPlanning(
   type: PlanningType,
   gameData: GameData,
@@ -120,7 +160,7 @@ function createPlanning(
   console.log("ElementIds", elementIds);
 
   elementIds.forEach((elementId) => {
-    const numericId = parseInt(elementId.replace(/\D/g, ''), 10);
+    const numericId = parseInt(elementId.replace(/\D/g, ""), 10);
     planning[elementId] = createMaterialPlanningRow(
       numericId,
       gameData,
@@ -131,6 +171,37 @@ function createPlanning(
   return planning;
 }
 
+function generateWaitingQueueMap(gameData: GameData) {
+  return gameData.results.waitinglistworkstations.workplace.reduce(
+    (map, workplace) => {
+      const normalizedWaitingList = Array.isArray(workplace.waitinglist)
+        ? workplace.waitinglist
+        : workplace.waitinglist
+        ? [workplace.waitinglist]
+        : [];
+
+      normalizedWaitingList.forEach(({ item, amount }) => {
+        map.set(item.toString(), amount.toString());
+      });
+      return map;
+    },
+    new Map<string, string>()
+  );
+}
+
+function generateWorkInProgressMap(gameData: GameData): Map<string, string> {
+  return gameData.results.ordersinwork.workplace.reduce(
+    (map: Map<string, string>, workplace: WorkplaceOrdersInWork) => {
+      const key = workplace.item.toString();
+      const existingAmount = map.get(key);
+      const newAmount = existingAmount ? parseInt(existingAmount) + workplace.amount : workplace.amount;
+      map.set(key, newAmount.toString());
+      return map;
+    },
+    new Map<string, string>()
+  );
+}
+
 function createMaterialPlanningRow(
   id: number,
   gameData: GameData,
@@ -138,22 +209,10 @@ function createMaterialPlanningRow(
 ): MaterialPlanningRow {
   const products = gameData.results.warehousestock.article;
   const salesOrders = productionProgramm;
-  const waitingQueueMap =
-    gameData.results.waitinglistworkstations.workplace.reduce(
-      (map, workplace) => {
-        const normalizedWaitingList = Array.isArray(workplace.waitinglist)
-          ? workplace.waitinglist
-          : workplace.waitinglist
-          ? [workplace.waitinglist]
-          : [];
+  const waitingQueueMap = generateWaitingQueueMap(gameData);
+  const workInProgressMap = generateWorkInProgressMap(gameData);
 
-        normalizedWaitingList.forEach(({ item, amount }) => {
-          map.set(item.toString(), amount.toString());
-        });
-        return map;
-      },
-      new Map<string, string>()
-    );
+  console.log("work in progess:",workInProgressMap);
 
   // TODO Berechnungen
   const salesOrder = 0;
@@ -161,7 +220,7 @@ function createMaterialPlanningRow(
   const stock = 0; //products.find((product) => product.id === id)?.amount ?? 0;
 
   const waitingQueue = Number(waitingQueueMap.get(id.toString()) ?? 0);
-  const workInProgress = 0;
+  const workInProgress = Number(workInProgressMap.get(id.toString()) ?? 0);;
   const calcSafetyStock =
     -previousWaitingQueue + stock + waitingQueue + workInProgress;
   const calcProdOrder =

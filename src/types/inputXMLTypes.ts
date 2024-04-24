@@ -84,6 +84,10 @@ export type WaitingWorkplace = {
 };
 
 export type OrdersInWork = {
+  workplace: WorkplaceOrdersInWork[]
+}
+
+export type WorkplaceOrdersInWork = {
   workplaceId: number;
   period: number;
   order: number;
@@ -134,7 +138,7 @@ export type Data = {
   futureinwardstockmovement: FutureInwardStockMovement;
   idletimeCosts: IdletimeCosts;
   waitinglistworkstations: WaitinglistWorkstations;
-  ordersinwork: OrdersInWork[];
+  ordersinwork: OrdersInWork;
   completedOrders: CompletedOrder[];
   cycleTimes: CycleTimes;
 };
