@@ -1,6 +1,5 @@
 import { Grid, Box, styled, Paper, TextField } from "@mui/material";
 import { Salesorder } from "../../types/productionPlanningTypes";
-import { useForm } from "react-hook-form";
 
 export type BikeType = {
   shortName: string;

@@ -117,6 +117,8 @@ function createPlanning(
   const elementIds = planningConfig[type];
   const planning: any = {};
 
+  console.log("ElementIds", elementIds);
+
   elementIds.forEach((elementId) => {
     const numericId = parseInt(elementId.replace(/\D/g, ''), 10);
     planning[elementId] = createMaterialPlanningRow(
@@ -125,13 +127,6 @@ function createPlanning(
       productionProgramm
     );
   });
-
-  // Ensure the correct 'p' property is also included (p1, p2, p3)
-  planning[type] = createMaterialPlanningRow(
-    parseInt(type[1], 10),
-    gameData,
-    productionProgramm
-  );
 
   return planning;
 }
@@ -160,7 +155,7 @@ function createMaterialPlanningRow(
       new Map<string, string>()
     );
 
-  // TODO
+  // TODO Berechnungen
   const salesOrder = 0;
   const previousWaitingQueue = 0;
   const stock = 0; //products.find((product) => product.id === id)?.amount ?? 0;
