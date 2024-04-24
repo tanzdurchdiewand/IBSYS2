@@ -8,7 +8,7 @@ import { GameData, ValidationError } from '../types/inputXMLTypes';
 const options = {
   ignoreAttributes: false,
   attributeNamePrefix: "",
-  arrayMode: /articles|workplaces|orders|waitinglist/,
+  arrayMode: /waitinglistworkstations|articles|workplace|orders|waitinglist/,
   textNodeName: "#text"
 };
 
