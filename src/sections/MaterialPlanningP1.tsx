@@ -22,30 +22,41 @@ import {
   useMaterialPlanning,
 } from "../hooks/useMaterialPlanning";
 import React from "react";
+import { MaterialPlanningRow } from "../types/materialPlanningTypes";
+import { dispatch } from "../redux/store";
+import { updatePlanningField } from "../redux/slices/inputMaterialPlanning";
 
 export default function MaterialPlanningP1() {
   const { goTo } = useNavigationHandler();
   const p1Planning = useMaterialPlanning(PlanningType.P1);
+
+  const handleFieldChange = (
+    key: string,
+    field: keyof MaterialPlanningRow,
+    value: number
+  ) => {
+    dispatch(updatePlanningField({ key, field, value }));
+  };
 
   const renderSpacer = (index: number) => {
     const gapIndices = [0, 2, 5, 8];
     if (gapIndices.includes(index)) {
       return (
         <TableRow>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
-          <TableCell/>
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
+          <TableCell />
         </TableRow>
       );
     }
@@ -100,8 +111,11 @@ export default function MaterialPlanningP1() {
                           size="small"
                           value={value.salesOrder}
                           onChange={(e) =>
-                            // handleFieldChange(key, "salesOrders", e.target.value)
-                            {}
+                            handleFieldChange(
+                              key,
+                              "salesOrder",
+                              Number(e.target.value)
+                            )
                           }
                         />
                       </TableCell>
@@ -112,8 +126,11 @@ export default function MaterialPlanningP1() {
                           size="small"
                           value={value.previousWaitingQueue}
                           onChange={(e) =>
-                            // handleFieldChange(key,"previousWaitingQueue", e.target.value)
-                            {}
+                            handleFieldChange(
+                              key,
+                              "previousWaitingQueue",
+                              Number(e.target.value)
+                            )
                           }
                         />
                       </TableCell>
@@ -124,8 +141,11 @@ export default function MaterialPlanningP1() {
                           size="small"
                           value={value.safetyStock}
                           onChange={(e) =>
-                            // handleFieldChange(key, "safetyStock", e.target.value)
-                            {}
+                            handleFieldChange(
+                              key,
+                              "safetyStock",
+                              Number(e.target.value)
+                            )
                           }
                         />
                       </TableCell>
@@ -136,8 +156,11 @@ export default function MaterialPlanningP1() {
                           size="small"
                           value={value.stock}
                           onChange={(e) =>
-                            // handleFieldChange(key, "stock", e.target.value)
-                            {}
+                            handleFieldChange(
+                              key,
+                              "stock",
+                              Number(e.target.value)
+                            )
                           }
                         />
                       </TableCell>
@@ -148,8 +171,11 @@ export default function MaterialPlanningP1() {
                           size="small"
                           value={value.waitingQueue}
                           onChange={(e) =>
-                            // handleFieldChange(key, "waitingQueue", e.target.value)
-                            {}
+                            handleFieldChange(
+                              key,
+                              "waitingQueue",
+                              Number(e.target.value)
+                            )
                           }
                         />
                       </TableCell>
@@ -160,8 +186,11 @@ export default function MaterialPlanningP1() {
                           size="small"
                           value={value.workInProgress}
                           onChange={(e) =>
-                            // handleFieldChange(key,"workInProgress", e.target.value)
-                            {}
+                            handleFieldChange(
+                              key,
+                              "workInProgress",
+                              Number(e.target.value)
+                            )
                           }
                         />
                       </TableCell>
@@ -172,8 +201,11 @@ export default function MaterialPlanningP1() {
                           size="small"
                           value={value.productionOrder}
                           onChange={(e) =>
-                            // handleFieldChange(key, "productionOrders", e.target.value)
-                            {}
+                            handleFieldChange(
+                              key,
+                              "productionOrder",
+                              Number(e.target.value)
+                            )
                           }
                         />
                       </TableCell>

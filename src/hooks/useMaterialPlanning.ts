@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   MaterialPlanningRow,
   P1Planning,
@@ -13,6 +13,8 @@ import {
 } from "../types/inputXMLTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
 import { initialState } from "../redux/slices/inputXML";
+import { useEffect } from "react";
+import { setInitialPlanning } from "../redux/slices/inputMaterialPlanning";
 
 export enum PlanningType {
   P1 = "p1",
@@ -79,94 +81,101 @@ const planningConfig: Record<PlanningType, string[]> = {
   ],
 };
 
-  // TODO remove demo data
-  const productionProgramm: ProductionProgramm = {
-    p1: {
-      salesorder: {
-        salesWish: 100,
-        productionWish: 548,
-      },
-      forcast: [
-        {
-          period: 1,
-          salesorder: {
-            salesWish: 80,
-            productionWish: 100,
-          },
-        },
-        {
-          period: 2,
-          salesorder: {
-            salesWish: 90,
-            productionWish: 110,
-          },
-        },
-      ],
+// TODO remove demo data
+const productionProgramm: ProductionProgramm = {
+  p1: {
+    salesorder: {
+      salesWish: 100,
+      productionWish: 548,
     },
-    p2: {
-      salesorder: {
-        salesWish: 150,
-        productionWish: 180,
+    forcast: [
+      {
+        period: 1,
+        salesorder: {
+          salesWish: 80,
+          productionWish: 100,
+        },
       },
-      forcast: [
-        {
-          period: 1,
-          salesorder: {
-            salesWish: 130,
-            productionWish: 160,
-          },
+      {
+        period: 2,
+        salesorder: {
+          salesWish: 90,
+          productionWish: 110,
         },
-        {
-          period: 2,
-          salesorder: {
-            salesWish: 140,
-            productionWish: 170,
-          },
-        },
-      ],
-    },
-    p3: {
-      salesorder: {
-        salesWish: 200,
-        productionWish: 220,
       },
-      forcast: [
-        {
-          period: 1,
-          salesorder: {
-            salesWish: 180,
-            productionWish: 200,
-          },
-        },
-        {
-          period: 2,
-          salesorder: {
-            salesWish: 190,
-            productionWish: 210,
-          },
-        },
-      ],
+    ],
+  },
+  p2: {
+    salesorder: {
+      salesWish: 150,
+      productionWish: 180,
     },
-  };
+    forcast: [
+      {
+        period: 1,
+        salesorder: {
+          salesWish: 130,
+          productionWish: 160,
+        },
+      },
+      {
+        period: 2,
+        salesorder: {
+          salesWish: 140,
+          productionWish: 170,
+        },
+      },
+    ],
+  },
+  p3: {
+    salesorder: {
+      salesWish: 200,
+      productionWish: 220,
+    },
+    forcast: [
+      {
+        period: 1,
+        salesorder: {
+          salesWish: 180,
+          productionWish: 200,
+        },
+      },
+      {
+        period: 2,
+        salesorder: {
+          salesWish: 190,
+          productionWish: 210,
+        },
+      },
+    ],
+  },
+};
 
 export function useMaterialPlanning(
   type: PlanningType
 ): P1Planning | P2Planning | P3Planning | null {
+  const dispatch = useDispatch();
   const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
-
-  /*
+  const initialPlanning = useSelector(
+    (state: RootState) => state.inputMaterialPlanning.initialPlanning
+  );
+   
+  /* Still mocked
   const productionProgramm = useSelector(
     (state: RootState) => state.inputProduction.list.productionProgramm
   );
   */
 
-    // TODO Redux store to safe the initialPlanning values
-
-    // TODO handel change of the initial values and safe it in the store
+  useEffect(() => {
+    if (gameData && productionProgramm) {
+      const planning = initializePlanning(type, gameData, productionProgramm);
+      dispatch(setInitialPlanning(planning));
+    }
+  }, [dispatch, gameData, productionProgramm, type]);
 
   if (!gameData || !productionProgramm) return null;
 
-  return initializePlanning(type, gameData, productionProgramm);
+  return initialPlanning;
 }
 
 function initializePlanning(
