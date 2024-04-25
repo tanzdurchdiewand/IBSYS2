@@ -6,14 +6,33 @@ import {
   P3Planning,
 } from "../types/materialPlanningTypes";
 import { RootState } from "../redux/store";
-import { GameData, WaitingWorkplace, WorkplaceOrdersInWork } from "../types/inputXMLTypes";
+import {
+  Article,
+  GameData,
+  WorkplaceOrdersInWork,
+} from "../types/inputXMLTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
+import { initialState } from "../redux/slices/inputXML";
 
 export enum PlanningType {
   P1 = "p1",
   P2 = "p2",
   P3 = "p3",
 }
+
+type DependencyMapping = {
+  [key: string]: string[];
+};
+
+const dependencyMapping: DependencyMapping = {
+  "1": ["26", "51"],
+  "51": ["16", "17", "50"],
+  "50": ["4", "10", "49"],
+  "49": ["7", "13", "18"],
+};
+
+const salesOrderMap: Map<string, string> = new Map<string, string>();
+const prevWaitingQueueMap: Map<string, string> = new Map<string, string>();
 
 const planningConfig: Record<PlanningType, string[]> = {
   p1: [
@@ -60,21 +79,12 @@ const planningConfig: Record<PlanningType, string[]> = {
   ],
 };
 
-export function useMaterialPlanning(
-  type: PlanningType
-): P1Planning | P2Planning | P3Planning | null {
-  const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
-  // TODO Redux store
-  /*
-  const productionProgramm = useSelector(
-    (state: RootState) => state.inputProduction.list.productionProgramm
-  );
-  */
+  // TODO remove demo data
   const productionProgramm: ProductionProgramm = {
     p1: {
       salesorder: {
         salesWish: 100,
-        productionWish: 120,
+        productionWish: 548,
       },
       forcast: [
         {
@@ -139,17 +149,27 @@ export function useMaterialPlanning(
     },
   };
 
-  console.log("createP1Planning");
-  console.log("GameData: " + JSON.stringify(gameData, null, 2));
-  console.log("Production Programm: " + productionProgramm);
+export function useMaterialPlanning(
+  type: PlanningType
+): P1Planning | P2Planning | P3Planning | null {
+  const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
+
+  /*
+  const productionProgramm = useSelector(
+    (state: RootState) => state.inputProduction.list.productionProgramm
+  );
+  */
+
+    // TODO Redux store to safe the initialPlanning values
+
+    // TODO handel change of the initial values and safe it in the store
 
   if (!gameData || !productionProgramm) return null;
 
-  return createPlanning(type, gameData, productionProgramm);
+  return initializePlanning(type, gameData, productionProgramm);
 }
 
-// TODO put in helper file
-function createPlanning(
+function initializePlanning(
   type: PlanningType,
   gameData: GameData,
   productionProgramm: ProductionProgramm
@@ -157,14 +177,23 @@ function createPlanning(
   const elementIds = planningConfig[type];
   const planning: any = {};
 
-  console.log("ElementIds", elementIds);
+  const salesOrderForPeriod =
+    productionProgramm[type].salesorder.productionWish.toString();
+
+  salesOrderMap.set("1", salesOrderForPeriod);
+  prevWaitingQueueMap.set("1", "0");
+
+  const products = gameData.results.warehousestock.article;
+  const waitingQueueMap = generateWaitingQueueMap(gameData);
+  const workInProgressMap = generateWorkInProgressMap(gameData);
 
   elementIds.forEach((elementId) => {
     const numericId = parseInt(elementId.replace(/\D/g, ""), 10);
     planning[elementId] = createMaterialPlanningRow(
-      numericId,
-      gameData,
-      productionProgramm
+      numericId.toString(),
+      products,
+      waitingQueueMap,
+      workInProgressMap
     );
   });
 
@@ -194,7 +223,9 @@ function generateWorkInProgressMap(gameData: GameData): Map<string, string> {
     (map: Map<string, string>, workplace: WorkplaceOrdersInWork) => {
       const key = workplace.item.toString();
       const existingAmount = map.get(key);
-      const newAmount = existingAmount ? parseInt(existingAmount) + workplace.amount : workplace.amount;
+      const newAmount = existingAmount
+        ? parseInt(existingAmount) + workplace.amount
+        : workplace.amount;
       map.set(key, newAmount.toString());
       return map;
     },
@@ -203,26 +234,29 @@ function generateWorkInProgressMap(gameData: GameData): Map<string, string> {
 }
 
 function createMaterialPlanningRow(
-  id: number,
-  gameData: GameData,
-  productionProgramm: ProductionProgramm
+  id: string,
+  products: Article[],
+  waitingQueueMap: Map<string, string>,
+  workInProgressMap: Map<string, string>
 ): MaterialPlanningRow {
-  const products = gameData.results.warehousestock.article;
-  const salesOrders = productionProgramm;
-  const waitingQueueMap = generateWaitingQueueMap(gameData);
-  const workInProgressMap = generateWorkInProgressMap(gameData);
+  const salesOrder = Number(salesOrderMap.get(id));
+  console.log(
+    "salesOrder:",
+    salesOrder,
+    "id",
+    id,
+    "salesOrderMap:",
+    salesOrderMap
+  );
+  const previousWaitingQueue = Number(prevWaitingQueueMap.get(id));
+  const stock = Math.trunc(
+    products.find((product) => product.id.toString() === id)?.pct ?? 0
+  );
+  const waitingQueue = Number(waitingQueueMap.get(id) ?? 0);
+  const workInProgress = Number(workInProgressMap.get(id) ?? 0);
 
-  console.log("work in progess:",workInProgressMap);
+  const calcSafetyStock = stock; //-previousWaitingQueue + stock + waitingQueue + workInProgress; // TODO ?
 
-  // TODO Berechnungen
-  const salesOrder = 0;
-  const previousWaitingQueue = 0;
-  const stock = 0; //products.find((product) => product.id === id)?.amount ?? 0;
-
-  const waitingQueue = Number(waitingQueueMap.get(id.toString()) ?? 0);
-  const workInProgress = Number(workInProgressMap.get(id.toString()) ?? 0);;
-  const calcSafetyStock =
-    -previousWaitingQueue + stock + waitingQueue + workInProgress;
   const calcProdOrder =
     salesOrder +
     previousWaitingQueue +
@@ -231,14 +265,22 @@ function createMaterialPlanningRow(
     waitingQueue -
     workInProgress;
 
+  const baseId = dependencyMapping[id];
+  if (baseId) {
+    baseId.forEach((dependentId) => {
+      salesOrderMap.set(dependentId, calcProdOrder.toString());
+      prevWaitingQueueMap.set(dependentId, waitingQueue.toString());
+    });
+  }
+
   return {
-    productName: id,
+    productName: Number(id),
     salesOrder: salesOrder,
     previousWaitingQueue: previousWaitingQueue,
     safetyStock: calcSafetyStock,
     stock: stock,
     waitingQueue: waitingQueue,
     workInProgress: workInProgress,
-    productionOrder: calcProdOrder,
+    productionOrder: calcProdOrder < 0 ? 0 : calcProdOrder,
   };
 }
