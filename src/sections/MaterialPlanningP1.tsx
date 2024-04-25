@@ -37,6 +37,21 @@ export default function MaterialPlanningP1() {
   ) => {
     dispatch(updatePlanningField({ key, field, value }));
   };
+  
+  const renderInput = (
+    key: string,
+    field: keyof MaterialPlanningRow,
+    value: number
+  ) => {
+    return (
+      <TextField
+        variant="outlined"
+        size="small"
+        value={value}
+        onChange={(e) => handleFieldChange(key, field, Number(e.target.value))}
+      />
+    );
+  };
 
   const renderSpacer = (index: number) => {
     const gapIndices = [0, 2, 5, 8];
@@ -105,110 +120,19 @@ export default function MaterialPlanningP1() {
                   <React.Fragment key={key}>
                     <TableRow key={key}>
                       <TableCell>{key}</TableCell>
-                      <TableCell>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={value.salesOrder}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              key,
-                              "salesOrder",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </TableCell>
+                      <TableCell>{renderInput(key, "salesOrder", value.salesOrder)}</TableCell>
                       <TableCell>+</TableCell>
-                      <TableCell>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={value.previousWaitingQueue}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              key,
-                              "previousWaitingQueue",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </TableCell>
+                      <TableCell>{renderInput(key, "previousWaitingQueue", value.previousWaitingQueue)}</TableCell>
                       <TableCell>+</TableCell>
-                      <TableCell>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={value.safetyStock}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              key,
-                              "safetyStock",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </TableCell>
+                      <TableCell>{renderInput(key, "safetyStock", value.safetyStock)}</TableCell>
                       <TableCell>-</TableCell>
-                      <TableCell>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={value.stock}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              key,
-                              "stock",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </TableCell>
+                      <TableCell>{renderInput(key, "stock", value.stock)}</TableCell>
                       <TableCell>-</TableCell>
-                      <TableCell>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={value.waitingQueue}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              key,
-                              "waitingQueue",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </TableCell>
+                      <TableCell>{renderInput(key, "waitingQueue", value.waitingQueue)}</TableCell>
                       <TableCell>-</TableCell>
-                      <TableCell>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={value.workInProgress}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              key,
-                              "workInProgress",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </TableCell>
+                      <TableCell>{renderInput(key, "workInProgress", value.workInProgress)}</TableCell>
                       <TableCell>=</TableCell>
-                      <TableCell>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={value.productionOrder}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              key,
-                              "productionOrder",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </TableCell>
+                      <TableCell>{renderInput(key, "productionOrder", value.productionOrder)}</TableCell>
                     </TableRow>
                     {renderSpacer(index)}
                   </React.Fragment>
