@@ -13,7 +13,11 @@ import {
 } from "../types/inputXMLTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
 import { useEffect } from "react";
-import { setInitialPlanning } from "../redux/slices/inputMaterialPlanning";
+import {
+  setInitialPlanning,
+  updateAndRecalculatePlanning,
+} from "../redux/slices/inputMaterialPlanning";
+import { produce } from "immer";
 
 export enum PlanningType {
   P1 = "p1",
@@ -150,20 +154,18 @@ const productionProgramm: ProductionProgramm = {
   },
 };
 
-export function useMaterialPlanning(
-  type: PlanningType
-): P1Planning | P2Planning | P3Planning | null {
+export function useMaterialPlanning(type: PlanningType) {
   const dispatch = useDispatch();
   const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
+
+  /* TODO still mocked
+  const productionProgramm = useSelector(
+    (state: RootState) => state.inputProduction.list.productionProgramm
+  );*/
+
   const initialPlanning = useSelector(
     (state: RootState) => state.inputMaterialPlanning.initialPlanning
   );
-   
-  /* Still mocked
-  const productionProgramm = useSelector(
-    (state: RootState) => state.inputProduction.list.productionProgramm
-  );
-  */
 
   useEffect(() => {
     if (gameData && productionProgramm) {
@@ -172,9 +174,36 @@ export function useMaterialPlanning(
     }
   }, [dispatch, gameData, productionProgramm, type]);
 
+  const updateAndRecalculate = (
+    key: string,
+    field: keyof MaterialPlanningRow,
+    value: number
+  ) => {
+    if (!initialPlanning) return;
+
+    const recalculatedPlanning = recalculatePlanning(
+      key,
+      field,
+      value,
+      initialPlanning
+    );
+    dispatch(updateAndRecalculatePlanning(recalculatedPlanning));
+  };
+
   if (!gameData || !productionProgramm) return null;
 
-  return initialPlanning;
+  return { initialPlanning, updateAndRecalculate };
+}
+
+function recalculatePlanning(
+  key: string,
+  field: keyof MaterialPlanningRow,
+  value: number,
+  planning: P1Planning | P2Planning | P3Planning
+) {
+  return produce(planning, (draft) => {
+    draft[key][field] = value;
+  });
 }
 
 function initializePlanning(

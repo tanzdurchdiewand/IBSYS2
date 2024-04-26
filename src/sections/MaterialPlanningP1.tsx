@@ -23,19 +23,17 @@ import {
 } from "../hooks/useMaterialPlanning";
 import React from "react";
 import { MaterialPlanningRow } from "../types/materialPlanningTypes";
-import { dispatch } from "../redux/store";
-import { updatePlanningField } from "../redux/slices/inputMaterialPlanning";
 
 export default function MaterialPlanningP1() {
   const { goTo } = useNavigationHandler();
-  const p1Planning = useMaterialPlanning(PlanningType.P1);
+  const planning = useMaterialPlanning(PlanningType.P1);
 
-  const handleFieldChange = (
+  const handleUpdate = (
     key: string,
     field: keyof MaterialPlanningRow,
     value: number
   ) => {
-    dispatch(updatePlanningField({ key, field, value }));
+    planning?.updateAndRecalculate(key, field, value);
   };
 
   const renderInput = (value: number) => {
@@ -102,45 +100,49 @@ export default function MaterialPlanningP1() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {p1Planning &&
-                Object.entries(p1Planning).map(([key, value], index) => (
-                  <React.Fragment key={key}>
-                    <TableRow key={key}>
-                      <TableCell>{key}</TableCell>
-                      <TableCell>{renderInput(value.salesOrder)}</TableCell>
-                      <TableCell>+</TableCell>
-                      <TableCell>
-                        {renderInput(value.previousWaitingQueue)}
-                      </TableCell>
-                      <TableCell>+</TableCell>
-                      <TableCell>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={value.safetyStock}
-                          onChange={(e) =>
-                            handleFieldChange(
-                              key,
-                              "safetyStock",
-                              Number(e.target.value)
-                            )
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>-</TableCell>
-                      <TableCell>{renderInput(value.stock)}</TableCell>
-                      <TableCell>-</TableCell>
-                      <TableCell>{renderInput(value.waitingQueue)}</TableCell>
-                      <TableCell>-</TableCell>
-                      <TableCell>{renderInput(value.workInProgress)}</TableCell>
-                      <TableCell>=</TableCell>
-                      <TableCell>
-                        {renderInput(value.productionOrder)}
-                      </TableCell>
-                    </TableRow>
-                    {renderSpacer(index)}
-                  </React.Fragment>
-                ))}
+              {planning?.initialPlanning &&
+                Object.entries(planning.initialPlanning).map(
+                  ([key, value], index) => (
+                    <React.Fragment key={key}>
+                      <TableRow key={key}>
+                        <TableCell>{key}</TableCell>
+                        <TableCell>{renderInput(value.salesOrder)}</TableCell>
+                        <TableCell>+</TableCell>
+                        <TableCell>
+                          {renderInput(value.previousWaitingQueue)}
+                        </TableCell>
+                        <TableCell>+</TableCell>
+                        <TableCell>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            value={value.safetyStock}
+                            onChange={(e) =>
+                              handleUpdate(
+                                key,
+                                "safetyStock",
+                                Number(e.target.value)
+                              )
+                            }
+                          />
+                        </TableCell>
+                        <TableCell>-</TableCell>
+                        <TableCell>{renderInput(value.stock)}</TableCell>
+                        <TableCell>-</TableCell>
+                        <TableCell>{renderInput(value.waitingQueue)}</TableCell>
+                        <TableCell>-</TableCell>
+                        <TableCell>
+                          {renderInput(value.workInProgress)}
+                        </TableCell>
+                        <TableCell>=</TableCell>
+                        <TableCell>
+                          {renderInput(value.productionOrder)}
+                        </TableCell>
+                      </TableRow>
+                      {renderSpacer(index)}
+                    </React.Fragment>
+                  )
+                )}
             </TableBody>
           </Table>
         </TableContainer>

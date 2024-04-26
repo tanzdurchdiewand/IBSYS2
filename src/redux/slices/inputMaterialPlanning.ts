@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  MaterialPlanningRow,
   P1Planning,
   P2Planning,
   P3Planning,
@@ -8,12 +7,6 @@ import {
 
 type PlanningState = {
   initialPlanning: P1Planning | P2Planning | P3Planning | null;
-};
-
-type UpdateFieldPayload = {
-  key: string;
-  field: keyof MaterialPlanningRow;
-  value: number;
 };
 
 const initialState: PlanningState = {
@@ -30,14 +23,15 @@ const planningSlice = createSlice({
     ) {
       state.initialPlanning = action.payload;
     },
-    updatePlanningField(state, action: PayloadAction<UpdateFieldPayload>) {
-      const { key, field, value } = action.payload;
-      if (state.initialPlanning && key in state.initialPlanning) {
-        state.initialPlanning[key][field] = value;
-      }
+    updateAndRecalculatePlanning(
+      state,
+      action: PayloadAction<P1Planning | P2Planning | P3Planning>
+    ) {
+      state.initialPlanning = action.payload;
     },
   },
 });
 
-export const { setInitialPlanning, updatePlanningField } = planningSlice.actions;
+export const { setInitialPlanning, updateAndRecalculatePlanning } =
+  planningSlice.actions;
 export default planningSlice.reducer;
