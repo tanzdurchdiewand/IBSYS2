@@ -1,95 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   MaterialPlanningRow,
-  P1Planning,
-  P2Planning,
-  P3Planning,
+  PlanningType,
 } from "../types/materialPlanningTypes";
 import { RootState } from "../redux/store";
-import {
-  Article,
-  GameData,
-  WorkplaceOrdersInWork,
-} from "../types/inputXMLTypes";
+import {} from "../types/inputXMLTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
 import { useEffect } from "react";
 import {
   setInitialPlanning,
   updateAndRecalculatePlanning,
 } from "../redux/slices/inputMaterialPlanning";
-import { produce } from "immer";
-
-export enum PlanningType {
-  P1 = "p1",
-  P2 = "p2",
-  P3 = "p3",
-}
-
-type DependencyMapping = {
-  [key: string]: string[];
-};
-
-const dependencyMapping: DependencyMapping = {
-  "1": ["26", "51"],
-  "51": ["16", "17", "50"],
-  "50": ["4", "10", "49"],
-  "49": ["7", "13", "18"],
-};
-const updateOrdersMapping: DependencyMapping = {
-  "1": ["26", "51", "16", "17", "50", "4", "10", "49", "7", "13", "18"],
-  "51": ["16", "17", "50", "4", "10", "49", "7", "13", "18"],
-  "50": ["4", "10", "49", "7", "13", "18"],
-  "49": ["7", "13", "18"],
-};
-
-const salesOrderMap: Map<string, string> = new Map<string, string>();
-const productionOrderMap: Map<string, string> = new Map<string, string>();
-const prevWaitingQueueMap: Map<string, string> = new Map<string, string>();
-
-const planningConfig: Record<PlanningType, string[]> = {
-  p1: [
-    "P1",
-    "E26",
-    "E51",
-    "E16",
-    "E17",
-    "E50",
-    "E4",
-    "E10",
-    "E49",
-    "E7",
-    "E13",
-    "E18",
-  ],
-  p2: [
-    "P2",
-    "E26",
-    "E56",
-    "E16",
-    "E17",
-    "E55",
-    "E5",
-    "E11",
-    "E54",
-    "E8",
-    "E14",
-    "E19",
-  ],
-  p3: [
-    "P3",
-    "E26",
-    "E31",
-    "E16",
-    "E17",
-    "E30",
-    "E6",
-    "E12",
-    "E29",
-    "E9",
-    "E15",
-    "E20",
-  ],
-};
+import {
+  initializePlanning,
+  recalculatePlanning,
+} from "../businessLogic/materialPlanning";
 
 // TODO remove demo data
 const productionProgramm: ProductionProgramm = {
@@ -200,151 +125,4 @@ export function useMaterialPlanning(type: PlanningType) {
   if (!gameData || !productionProgramm) return null;
 
   return { initialPlanning, updateAndRecalculate };
-}
-
-function recalculatePlanning(
-  key: string,
-  field: keyof MaterialPlanningRow,
-  value: number,
-  planning: P1Planning | P2Planning | P3Planning
-) {
-  return produce(planning, (draft) => {
-    draft[key][field] = value;
-    const id = key.replace(/\D/g, "");
-
-    const difference = -planning[key][field] + value;
-    const newProductionOrder: number =
-      Number(productionOrderMap.get(id)!) + difference;
-
-    productionOrderMap.set(id, newProductionOrder.toString());
-    draft[key].productionOrder = Number(productionOrderMap.get(id));
-
-    const baseId = updateOrdersMapping[id];
-    if (baseId) {
-      baseId.forEach((dependentId) => {
-        const newValSalesOrder: number =
-          Number(salesOrderMap.get(dependentId)!) + difference;
-        salesOrderMap.set(dependentId, newValSalesOrder.toString());
-
-        const newValProdOrder: number =
-          Number(productionOrderMap.get(dependentId)!) + difference;
-        productionOrderMap.set(dependentId, newValProdOrder.toString());
-
-        const dId = "E" + dependentId;
-
-        draft[dId].salesOrder = newValSalesOrder;
-        draft[dId].productionOrder = newValProdOrder;
-      });
-    }
-  });
-}
-
-function initializePlanning(
-  type: PlanningType,
-  gameData: GameData,
-  productionProgramm: ProductionProgramm
-): P1Planning | P2Planning | P3Planning {
-  const elementIds = planningConfig[type];
-  const planning: any = {};
-
-  const salesOrderForPeriod =
-    productionProgramm[type].salesorder.productionWish.toString();
-
-  salesOrderMap.set("1", salesOrderForPeriod);
-  prevWaitingQueueMap.set("1", "0");
-
-  const products = gameData.results.warehousestock.article;
-  const waitingQueueMap = generateWaitingQueueMap(gameData);
-  const workInProgressMap = generateWorkInProgressMap(gameData);
-
-  elementIds.forEach((elementId) => {
-    const numericId = parseInt(elementId.replace(/\D/g, ""), 10);
-    planning[elementId] = createMaterialPlanningRow(
-      numericId.toString(),
-      products,
-      waitingQueueMap,
-      workInProgressMap
-    );
-  });
-
-  return planning;
-}
-
-function generateWaitingQueueMap(gameData: GameData) {
-  return gameData.results.waitinglistworkstations.workplace.reduce(
-    (map, workplace) => {
-      const normalizedWaitingList = Array.isArray(workplace.waitinglist)
-        ? workplace.waitinglist
-        : workplace.waitinglist
-        ? [workplace.waitinglist]
-        : [];
-
-      normalizedWaitingList.forEach(({ item, amount }) => {
-        map.set(item.toString(), amount.toString());
-      });
-      return map;
-    },
-    new Map<string, string>()
-  );
-}
-
-function generateWorkInProgressMap(gameData: GameData): Map<string, string> {
-  return gameData.results.ordersinwork.workplace.reduce(
-    (map: Map<string, string>, workplace: WorkplaceOrdersInWork) => {
-      const key = workplace.item.toString();
-      const existingAmount = map.get(key);
-      const newAmount = existingAmount
-        ? parseInt(existingAmount) + workplace.amount
-        : workplace.amount;
-      map.set(key, newAmount.toString());
-      return map;
-    },
-    new Map<string, string>()
-  );
-}
-
-function createMaterialPlanningRow(
-  id: string,
-  products: Article[],
-  waitingQueueMap: Map<string, string>,
-  workInProgressMap: Map<string, string>
-): MaterialPlanningRow {
-  const salesOrder = Number(salesOrderMap.get(id));
-  const previousWaitingQueue = Number(prevWaitingQueueMap.get(id));
-  const stock = Math.trunc(
-    products.find((product) => product.id.toString() === id)?.pct ?? 0
-  );
-  const waitingQueue = Number(waitingQueueMap.get(id) ?? 0);
-  const workInProgress = Number(workInProgressMap.get(id) ?? 0);
-
-  const calcSafetyStock = stock; //-previousWaitingQueue + stock + waitingQueue + workInProgress; // TODO ?
-
-  const calcProdOrder =
-    salesOrder +
-    previousWaitingQueue +
-    calcSafetyStock -
-    stock -
-    waitingQueue -
-    workInProgress;
-
-  productionOrderMap.set(id, calcProdOrder.toString());
-
-  const baseId = dependencyMapping[id];
-  if (baseId) {
-    baseId.forEach((dependentId) => {
-      salesOrderMap.set(dependentId, calcProdOrder.toString());
-      prevWaitingQueueMap.set(dependentId, waitingQueue.toString());
-    });
-  }
-
-  return {
-    productName: Number(id),
-    salesOrder: salesOrder,
-    previousWaitingQueue: previousWaitingQueue,
-    safetyStock: calcSafetyStock,
-    stock: stock,
-    waitingQueue: waitingQueue,
-    workInProgress: workInProgress,
-    productionOrder: calcProdOrder < 0 ? 0 : calcProdOrder,
-  };
 }

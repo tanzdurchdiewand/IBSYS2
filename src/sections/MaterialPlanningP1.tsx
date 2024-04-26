@@ -17,12 +17,12 @@ import {
   Direction,
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
-import {
-  PlanningType,
-  useMaterialPlanning,
-} from "../hooks/useMaterialPlanning";
+import { useMaterialPlanning } from "../hooks/useMaterialPlanning";
 import React from "react";
-import { MaterialPlanningRow } from "../types/materialPlanningTypes";
+import {
+  MaterialPlanningRow,
+  PlanningType,
+} from "../types/materialPlanningTypes";
 
 export default function MaterialPlanningP1() {
   const { goTo } = useNavigationHandler();
@@ -114,6 +114,7 @@ export default function MaterialPlanningP1() {
                         <TableCell>+</TableCell>
                         <TableCell>
                           <TextField
+                            type="number"
                             variant="outlined"
                             size="small"
                             value={value.safetyStock}
