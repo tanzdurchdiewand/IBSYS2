@@ -35,8 +35,15 @@ const dependencyMapping: DependencyMapping = {
   "50": ["4", "10", "49"],
   "49": ["7", "13", "18"],
 };
+const updateOrdersMapping: DependencyMapping = {
+  "1": ["26", "51", "16", "17", "50", "4", "10", "49", "7", "13", "18"],
+  "51": ["16", "17", "50", "4", "10", "49", "7", "13", "18"],
+  "50": ["4", "10", "49", "7", "13", "18"],
+  "49": ["7", "13", "18"],
+};
 
 const salesOrderMap: Map<string, string> = new Map<string, string>();
+const productionOrderMap: Map<string, string> = new Map<string, string>();
 const prevWaitingQueueMap: Map<string, string> = new Map<string, string>();
 
 const planningConfig: Record<PlanningType, string[]> = {
@@ -203,6 +210,32 @@ function recalculatePlanning(
 ) {
   return produce(planning, (draft) => {
     draft[key][field] = value;
+    const id = key.replace(/\D/g, "");
+
+    const difference = -planning[key][field] + value;
+    const newProductionOrder: number =
+      Number(productionOrderMap.get(id)!) + difference;
+
+    productionOrderMap.set(id, newProductionOrder.toString());
+    draft[key].productionOrder = Number(productionOrderMap.get(id));
+
+    const baseId = updateOrdersMapping[id];
+    if (baseId) {
+      baseId.forEach((dependentId) => {
+        const newValSalesOrder: number =
+          Number(salesOrderMap.get(dependentId)!) + difference;
+        salesOrderMap.set(dependentId, newValSalesOrder.toString());
+
+        const newValProdOrder: number =
+          Number(productionOrderMap.get(dependentId)!) + difference;
+        productionOrderMap.set(dependentId, newValProdOrder.toString());
+
+        const dId = "E" + dependentId;
+
+        draft[dId].salesOrder = newValSalesOrder;
+        draft[dId].productionOrder = newValProdOrder;
+      });
+    }
   });
 }
 
@@ -277,14 +310,6 @@ function createMaterialPlanningRow(
   workInProgressMap: Map<string, string>
 ): MaterialPlanningRow {
   const salesOrder = Number(salesOrderMap.get(id));
-  console.log(
-    "salesOrder:",
-    salesOrder,
-    "id",
-    id,
-    "salesOrderMap:",
-    salesOrderMap
-  );
   const previousWaitingQueue = Number(prevWaitingQueueMap.get(id));
   const stock = Math.trunc(
     products.find((product) => product.id.toString() === id)?.pct ?? 0
@@ -301,6 +326,8 @@ function createMaterialPlanningRow(
     stock -
     waitingQueue -
     workInProgress;
+
+  productionOrderMap.set(id, calcProdOrder.toString());
 
   const baseId = dependencyMapping[id];
   if (baseId) {
