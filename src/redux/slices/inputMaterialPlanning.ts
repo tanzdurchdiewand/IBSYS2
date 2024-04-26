@@ -30,12 +30,6 @@ const planningSlice = createSlice({
     ) {
       state.initialPlanning = action.payload;
     },
-    updatePlanning(
-      state,
-      action: PayloadAction<P1Planning | P2Planning | P3Planning>
-    ) {
-      state.initialPlanning = action.payload;
-    },
     updatePlanningField(state, action: PayloadAction<UpdateFieldPayload>) {
       const { key, field, value } = action.payload;
       if (state.initialPlanning && key in state.initialPlanning) {
@@ -45,5 +39,5 @@ const planningSlice = createSlice({
   },
 });
 
-export const { setInitialPlanning, updatePlanning, updatePlanningField } = planningSlice.actions;
+export const { setInitialPlanning, updatePlanningField } = planningSlice.actions;
 export default planningSlice.reducer;

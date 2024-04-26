@@ -12,7 +12,6 @@ import {
   WorkplaceOrdersInWork,
 } from "../types/inputXMLTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
-import { initialState } from "../redux/slices/inputXML";
 import { useEffect } from "react";
 import { setInitialPlanning } from "../redux/slices/inputMaterialPlanning";
 
