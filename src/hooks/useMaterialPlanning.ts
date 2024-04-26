@@ -100,7 +100,7 @@ export function useMaterialPlanning(type: PlanningType) {
   );
 
   useEffect(() => {
-    if (gameData && productionProgramm) {
+    if (gameData && productionProgramm && !initialPlanning) {
       const planning = initializePlanning(type, gameData, productionProgramm);
       dispatch(setInitialPlanning(planning));
     }
@@ -121,8 +121,6 @@ export function useMaterialPlanning(type: PlanningType) {
     );
     dispatch(updateAndRecalculatePlanning(recalculatedPlanning));
   };
-
-  if (!gameData || !productionProgramm) return null;
 
   return { initialPlanning, updateAndRecalculate };
 }
