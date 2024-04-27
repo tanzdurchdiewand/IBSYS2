@@ -66,14 +66,11 @@ export function initializePlanning(
   gameData: GameData,
   productionProgramm: ProductionProgramm
 ): Planning {
-  console.log("start: initialPlanninga");
   const planning: any = { p1: {}, p2: {}, p3: {} };
   const products = gameData.results.warehousestock.article;
   const waitingQueueMap = generateWaitingQueueMap(gameData);
   const workInProgressMap = generateWorkInProgressMap(gameData);
   const types = [PlanningType.P1, PlanningType.P2, PlanningType.P3];
-
-  console.log("start: initialPlanningb");
 
   types.forEach((type) => {
     const elementIds = planningConfig[type];
@@ -96,8 +93,6 @@ export function initializePlanning(
       );
     });
   });
-
-  console.log("Planning", planning);
 
   return planning;
 }

@@ -72,8 +72,6 @@ export const MaterialPlanningComponent = (
       return null;
     };
 
-    console.log("PlanningType Componenet:", planningType);
-
     return (
       <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
         <StyledButton
