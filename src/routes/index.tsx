@@ -62,6 +62,11 @@ const routes = [
           { path: "result", element: <Result /> },
         ],
       },
+      // Add a catch-all child route under the root
+      {
+        path: "*",
+        element: <Navigate to="/" replace />,
+      },
     ],
   },
 ];
