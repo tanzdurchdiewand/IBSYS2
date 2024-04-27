@@ -5,9 +5,7 @@ import {
 } from "../types/inputXMLTypes";
 import {
   MaterialPlanningRow,
-  P1Planning,
-  P2Planning,
-  P3Planning,
+  Planning,
   PlanningType,
   dependencyMapping,
   planningConfig,
@@ -30,18 +28,19 @@ export function recalculatePlanning(
   key: string,
   field: keyof MaterialPlanningRow,
   value: number,
-  planning: P1Planning | P2Planning | P3Planning
-) {
+  planning: Planning,
+  type: PlanningType
+): Planning {
   return produce(planning, (draft) => {
-    draft[key][field] = value;
+    draft[type][key][field] = value;
     const id = key.replace(/\D/g, "");
 
-    const difference = -planning[key][field] + value;
+    const difference = -planning[type][key][field] + value;
     const newProductionOrder: number =
       Number(productionOrderMap.get(id)!) + difference;
 
     productionOrderMap.set(id, newProductionOrder.toString());
-    draft[key].productionOrder = Number(productionOrderMap.get(id));
+    draft[type][key].productionOrder = Number(productionOrderMap.get(id));
 
     const baseId = updateOrdersMapping[id];
     if (baseId) {
@@ -56,40 +55,49 @@ export function recalculatePlanning(
 
         const dId = "E" + dependentId;
 
-        draft[dId].salesOrder = newValSalesOrder;
-        draft[dId].productionOrder = newValProdOrder;
+        draft[type][dId].salesOrder = newValSalesOrder;
+        draft[type][dId].productionOrder = newValProdOrder;
       });
     }
   });
 }
 
 export function initializePlanning(
-  type: PlanningType,
   gameData: GameData,
   productionProgramm: ProductionProgramm
-): P1Planning | P2Planning | P3Planning {
-  const elementIds = planningConfig[type];
-  const planning: any = {};
-
-  const salesOrderForPeriod =
-    productionProgramm[type].salesorder.productionWish.toString();
-
-  salesOrderMap.set("1", salesOrderForPeriod);
-  prevWaitingQueueMap.set("1", "0");
-
+): Planning {
+  console.log("start: initialPlanninga");
+  const planning: any = { p1: {}, p2: {}, p3: {} };
   const products = gameData.results.warehousestock.article;
   const waitingQueueMap = generateWaitingQueueMap(gameData);
   const workInProgressMap = generateWorkInProgressMap(gameData);
+  const types = [PlanningType.P1, PlanningType.P2, PlanningType.P3];
 
-  elementIds.forEach((elementId) => {
-    const numericId = parseInt(elementId.replace(/\D/g, ""), 10);
-    planning[elementId] = createMaterialPlanningRow(
-      numericId.toString(),
-      products,
-      waitingQueueMap,
-      workInProgressMap
-    );
+  console.log("start: initialPlanningb");
+
+  types.forEach((type) => {
+    const elementIds = planningConfig[type];
+
+    const salesOrderForPeriod =
+      productionProgramm[type].salesorder.productionWish.toString();
+
+    var idType = type.replace(/\D/g, "");
+
+    salesOrderMap.set(idType, salesOrderForPeriod);
+    prevWaitingQueueMap.set(idType, "0");
+
+    elementIds.forEach((elementId) => {
+      const numericId = parseInt(elementId.replace(/\D/g, ""), 10);
+      planning[type][elementId] = createMaterialPlanningRow(
+        numericId.toString(),
+        products,
+        waitingQueueMap,
+        workInProgressMap
+      );
+    });
   });
+
+  console.log("Planning", planning);
 
   return planning;
 }

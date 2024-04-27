@@ -86,7 +86,7 @@ const productionProgramm: ProductionProgramm = {
   },
 };
 
-export function useMaterialPlanning(type: PlanningType) {
+export function useMaterialPlanning() {
   const dispatch = useDispatch();
   const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
 
@@ -99,17 +99,22 @@ export function useMaterialPlanning(type: PlanningType) {
     (state: RootState) => state.inputMaterialPlanning.initialPlanning
   );
 
+  console.log("initialPlanning: a", initialPlanning);
+
   useEffect(() => {
+
     if (gameData && productionProgramm && !initialPlanning) {
-      const planning = initializePlanning(type, gameData, productionProgramm);
+      console.log("abbbbbbbbbbbbbbbbb", initialPlanning);
+      const planning = initializePlanning(gameData, productionProgramm);
       dispatch(setInitialPlanning(planning));
     }
-  }, [dispatch, gameData, productionProgramm, type]);
+  }, [dispatch, gameData, productionProgramm, initialPlanning]);
 
   const updateAndRecalculate = (
     key: string,
     field: keyof MaterialPlanningRow,
-    value: number
+    value: number,
+    type: PlanningType
   ) => {
     if (!initialPlanning) return;
 
@@ -117,10 +122,13 @@ export function useMaterialPlanning(type: PlanningType) {
       key,
       field,
       value,
-      initialPlanning
+      initialPlanning,
+      type
     );
     dispatch(updateAndRecalculatePlanning(recalculatedPlanning));
   };
+
+  console.log("initialPlanning", initialPlanning);
 
   return { initialPlanning, updateAndRecalculate };
 }
