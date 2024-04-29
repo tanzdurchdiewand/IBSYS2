@@ -29,7 +29,7 @@ export default function ProduktionProgramm() {
   } = methods;
 
   const handleNextPage = () => {
-    goTo("/start/material1", Direction.Forward);
+    goTo("/start/material", Direction.Forward);
     handleSubmit(handleSetProductionProgramm)();
   };
   const handleSetProductionProgramm = (data: ProductionProgramm) => {

@@ -22,14 +22,8 @@ const UploadResultInputXML = Loadable(
 const ProduktionProgramm = Loadable(
   lazy(() => import("../sections/ProduktionProgramm"))
 );
-const MaterialPlanningP1 = Loadable(
-  lazy(() => import("../sections/MaterialPlanningP1"))
-);
-const MaterialPlanningP2 = Loadable(
-  lazy(() => import("../sections/MaterialPlanningP2"))
-);
-const MaterialPlanningP3 = Loadable(
-  lazy(() => import("../sections/MaterialPlanningP3"))
+const MaterialPlanning = Loadable(
+  lazy(() => import("../sections/MaterialPlanning"))
 );
 const CapacityPlanningOverview = Loadable(
   lazy(() => import("../sections/CapacityPlanningOverview"))
@@ -53,9 +47,7 @@ const routes = [
         children: [
           { path: "upload", element: <UploadResultInputXML /> },
           { path: "produktion", element: <ProduktionProgramm /> },
-          { path: "material1", element: <MaterialPlanningP1 /> },
-          { path: "material2", element: <MaterialPlanningP2 /> },
-          { path: "material3", element: <MaterialPlanningP3 /> },
+          { path: "material", element: <MaterialPlanning /> },
           { path: "capacity-overview", element: <CapacityPlanningOverview /> },
           { path: "capacity-total", element: <CapacityPlanningTotal /> },
           { path: "order", element: <OrderPlanning /> },

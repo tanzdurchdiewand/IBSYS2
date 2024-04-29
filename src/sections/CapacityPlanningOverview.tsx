@@ -9,7 +9,7 @@ export default function CapacityPlanningOverview() {
   const { goTo } = useNavigationHandler();
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
-      <StyledButton onClick={() => goTo("/start/material3", Direction.Back)} sx={{ left: 0 }}>
+      <StyledButton onClick={() => goTo("/start/material", Direction.Back)} sx={{ left: 0 }}>
         <ArrowBackIosIcon />
       </StyledButton>
       <StyledCard />
