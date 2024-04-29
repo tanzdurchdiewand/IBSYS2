@@ -23,11 +23,18 @@ export type ProductionForcast = {
 export type PlanningTimeslot = {
     id: number,
     productionOrder: number
+    start: number,
+    end: number
 }
 
 export type PlanningWorkstation = {
     id: number,
-    timeslots: PlanningTimeslot
+    timeslots: PlanningTimeslot[]
+}
+
+export type PlanningWarehouseStock = {
+    id: string,
+    amount: number
 }
 
 //Constraints for Produktion Order
