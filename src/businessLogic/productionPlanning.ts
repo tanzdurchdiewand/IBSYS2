@@ -18,6 +18,9 @@ import {
 
 //__Produktion Planning
 
+//Missing previous Waitinglist 
+//Missung mutiused Halbfabrikate und Kaufteile
+
 //Define starting Point
 //-start with most used workstations
 //-start with most avaliabel material
@@ -31,7 +34,6 @@ import {
 
 //Check - Material availabe
 //Check - next free Timeslot
-
 
 //Change - PlanningWarehouseStock
 //Change - Change Timeslot - Umrüstzeit
@@ -47,4 +49,4 @@ import {
 
 //__Result
 //Production Order
-//Time needed for Machienes
+//Time needed for Machines/Workstations
