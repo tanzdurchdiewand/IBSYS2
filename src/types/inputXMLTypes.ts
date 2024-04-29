@@ -15,22 +15,22 @@ export type Article = {
 };
 
 export type WarehouseStock = {
-  articles: Article[];
-  totalStockValue: number;
+  article: Article[];
+  totalstockvalue: number;
 };
 
 // Types for the order sections
 export type Order = {
-  orderPeriod: number;
+  orderperiod: number;
   id: number;
   mode: number;
   article?: number;
   amount?: number;
   time?: number;
-  materialCosts?: number;
-  orderCosts?: number;
-  entireCosts?: number;
-  pieceCosts?: number;
+  materialcosts?: number;
+  ordercosts?: number;
+  entirecosts?: number;
+  piececosts?: number;
 };
 
 export type InwardStockMovement = {
@@ -74,12 +74,20 @@ export type Waitinglist = {
 };
 
 export type WaitinglistWorkstations = {
-  workplaceId: number;
-  timeNeed: number;
-  waitingLists: Waitinglist[];
+  workplace: WaitingWorkplace[];
+};
+
+export type WaitingWorkplace = {
+  id: number;
+  timeneed: number;
+  waitinglist?: Waitinglist[];
 };
 
 export type OrdersInWork = {
+  workplace: WorkplaceOrdersInWork[]
+}
+
+export type WorkplaceOrdersInWork = {
   workplaceId: number;
   period: number;
   order: number;
@@ -103,7 +111,7 @@ export type CompletedOrder = {
   item: number;
   quantity: number;
   cost: number;
-  averageUnitCosts: number;
+  averageunitcosts: number;
   batches: Batch[];
 };
 
@@ -125,12 +133,12 @@ export type Data = {
   group: number;
   period: number;
   forecast: Forecast;
-  warehouseStock: WarehouseStock;
-  inwardStockMovement: InwardStockMovement;
-  futureInwardStockMovement: FutureInwardStockMovement;
+  warehousestock: WarehouseStock;
+  inwardstockmovement: InwardStockMovement;
+  futureinwardstockmovement: FutureInwardStockMovement;
   idletimeCosts: IdletimeCosts;
-  waitinglistWorkstations: WaitinglistWorkstations[];
-  ordersInWork: OrdersInWork[];
+  waitinglistworkstations: WaitinglistWorkstations;
+  ordersinwork: OrdersInWork;
   completedOrders: CompletedOrder[];
   cycleTimes: CycleTimes;
 };
@@ -138,7 +146,7 @@ export type Data = {
 // A comprehensive type to encapsulate all data segments
 export type GameData = {
   results: Data;
-}
+};
 
 export interface ValidationError {
   message: string;

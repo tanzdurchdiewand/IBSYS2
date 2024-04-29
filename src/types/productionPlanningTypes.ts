@@ -18,3 +18,16 @@ export type ProductionForcast = {
     period: number,
     salesorder: Salesorder
 }
+
+//Types for weekly planning of workstations
+export type PlanningTimeslot = {
+    id: number,
+    productionOrder: number
+}
+
+export type PlanningWorkstation = {
+    id: number,
+    timeslots: PlanningTimeslot
+}
+
+//Constraints for Produktion Order
