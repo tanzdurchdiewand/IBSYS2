@@ -49,23 +49,13 @@ export const MaterialPlanningComponent = (
 
     const renderSpacer = (index: number) => {
       const gapIndices = [0, 2, 5, 8];
+      const numberOfCells = 14;
       if (gapIndices.includes(index)) {
         return (
           <TableRow>
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
-            <TableCell />
+            {Array.from({ length: numberOfCells }, (_, i) => (
+              <TableCell key={i} />
+            ))}
           </TableRow>
         );
       }
