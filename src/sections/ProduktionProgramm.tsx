@@ -50,25 +50,25 @@ export default function ProduktionProgramm() {
     productionWish: XML?.results.forecast.p1 || 0,
   };
 
-  // const WommenBike: BikeType = {
-  //   shortName: "P2",
-  //   longName: "Wommen's Bicycle",
-  // };
+  const WommenBike: BikeType = {
+    shortName: "P2",
+    longName: "Wommen's Bicycle",
+  };
 
-  // const WommenSalesOrder: Salesorder = {
-  //   salesWish: XML?.results.forecast.p2 || 0,
-  //   productionWish: XML?.results.forecast.p2 || 0,
-  // };
+  const WommenSalesOrder: Salesorder = {
+    salesWish: XML?.results.forecast.p2 || 0,
+    productionWish: XML?.results.forecast.p2 || 0,
+  };
 
-  // const ManBike: BikeType = {
-  //   shortName: "P3",
-  //   longName: "Man's Bicycle",
-  // };
+  const ManBike: BikeType = {
+    shortName: "P3",
+    longName: "Man's Bicycle",
+  };
 
-  // const ManSalesOrder: Salesorder = {
-  //   salesWish: XML?.results.forecast.p3 || 0,
-  //   productionWish: XML?.results.forecast.p3 || 0,
-  // };
+  const ManSalesOrder: Salesorder = {
+    salesWish: XML?.results.forecast.p3 || 0,
+    productionWish: XML?.results.forecast.p3 || 0,
+  };
 
   return (
     <FormProvider {...methods}>
@@ -92,8 +92,11 @@ export default function ProduktionProgramm() {
               bikeType={ChildrenBike}
               salesOrder={ChildrenSalesOrder}
             />
-            {/* <CustomGridBody bikeType={WommenBike} salesOrder={WommenSalesOrder} />
-          <CustomGridBody bikeType={ManBike} salesOrder={ManSalesOrder} /> */}
+            <CustomGridBody
+              bikeType={WommenBike}
+              salesOrder={WommenSalesOrder}
+            />
+            <CustomGridBody bikeType={ManBike} salesOrder={ManSalesOrder} />
           </Grid>
         </StyledCard>
 
