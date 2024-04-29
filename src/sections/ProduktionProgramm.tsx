@@ -2,7 +2,7 @@ import { Container, Grid } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { RootState, useSelector } from "../redux/store";
+import { RootState, useDispatch, useSelector } from "../redux/store";
 import { StyledButton } from "../components/styledComponets/styledButton";
 import {
   Direction,
@@ -13,9 +13,29 @@ import CustomGridProductPeriod from "../components/customGrid/customGridProductP
 import CustomGridBody, {
   BikeType,
 } from "../components/customGrid/customGridBody";
-import { Salesorder } from "../types/productionPlanningTypes";
+import {
+  ProductionProgramm,
+  Salesorder,
+} from "../types/productionPlanningTypes";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { setProductionProgramm } from "../redux/slices/inputProduction";
 
 export default function ProduktionProgramm() {
+  const methods = useForm<ProductionProgramm>();
+  const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    formState: { isSubmitting, isDirty },
+  } = methods;
+
+  const handleNextPage = () => {
+    goTo("/start/material1", Direction.Forward);
+    handleSubmit(handleSetProductionProgramm)();
+  };
+  const handleSetProductionProgramm = (data: ProductionProgramm) => {
+    dispatch(setProductionProgramm(data));
+  };
+
   const { goTo } = useNavigationHandler();
 
   const { XML } = useSelector((state: RootState) => state.inputXML.list);
@@ -30,58 +50,57 @@ export default function ProduktionProgramm() {
     productionWish: XML?.results.forecast.p1 || 0,
   };
 
-  const WommenBike: BikeType = {
-    shortName: "P2",
-    longName: "Wommen's Bicycle",
-  };
+  // const WommenBike: BikeType = {
+  //   shortName: "P2",
+  //   longName: "Wommen's Bicycle",
+  // };
 
-  const WommenSalesOrder: Salesorder = {
-    salesWish: XML?.results.forecast.p2 || 0,
-    productionWish: XML?.results.forecast.p2 || 0,
-  };
+  // const WommenSalesOrder: Salesorder = {
+  //   salesWish: XML?.results.forecast.p2 || 0,
+  //   productionWish: XML?.results.forecast.p2 || 0,
+  // };
 
-  const ManBike: BikeType = {
-    shortName: "P3",
-    longName: "Man's Bicycle",
-  };
+  // const ManBike: BikeType = {
+  //   shortName: "P3",
+  //   longName: "Man's Bicycle",
+  // };
 
-  const ManSalesOrder: Salesorder = {
-    salesWish: XML?.results.forecast.p3 || 0,
-    productionWish: XML?.results.forecast.p3 || 0,
-  };
+  // const ManSalesOrder: Salesorder = {
+  //   salesWish: XML?.results.forecast.p3 || 0,
+  //   productionWish: XML?.results.forecast.p3 || 0,
+  // };
 
   return (
-    <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
-      <StyledButton
-        onClick={() => goTo("/start/upload", Direction.Back)}
-        sx={{ left: 0 }}
-      >
-        <ArrowBackIosIcon />
-      </StyledButton>
-      <StyledCard>
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
+    <FormProvider {...methods}>
+      <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
+        <StyledButton
+          onClick={() => goTo("/start/upload", Direction.Back)}
+          sx={{ left: 0 }}
         >
-          <CustomGridHeader />
-          <CustomGridProductPeriod period={XML?.results.period} />
-          <CustomGridBody
-            bikeType={ChildrenBike}
-            salesOrder={ChildrenSalesOrder}
-          />
-          <CustomGridBody bikeType={WommenBike} salesOrder={WommenSalesOrder} />
-          <CustomGridBody bikeType={ManBike} salesOrder={ManSalesOrder} />
-        </Grid>
-      </StyledCard>
+          <ArrowBackIosIcon />
+        </StyledButton>
+        <StyledCard>
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <CustomGridHeader />
+            <CustomGridProductPeriod period={XML?.results.period} />
+            <CustomGridBody
+              bikeType={ChildrenBike}
+              salesOrder={ChildrenSalesOrder}
+            />
+            {/* <CustomGridBody bikeType={WommenBike} salesOrder={WommenSalesOrder} />
+          <CustomGridBody bikeType={ManBike} salesOrder={ManSalesOrder} /> */}
+          </Grid>
+        </StyledCard>
 
-      <StyledButton
-        onClick={() => goTo("/start/material1", Direction.Forward)}
-        sx={{ right: 0 }}
-      >
-        <ArrowForwardIosIcon />
-      </StyledButton>
-    </Container>
+        <StyledButton onClick={() => handleNextPage()} sx={{ right: 0 }}>
+          <ArrowForwardIosIcon />
+        </StyledButton>
+      </Container>
+    </FormProvider>
   );
 }
