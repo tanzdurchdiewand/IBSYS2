@@ -4,12 +4,6 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import {
   Container,
-  Paper,
-  Table,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@mui/material";
 import { StyledButton } from "../components/styledComponets/styledButton";
 import { StyledCard } from "../components/styledComponets/styledCard";
@@ -88,9 +82,9 @@ export default function BasicTabs() {
             aria-label="basic tabs example"
             variant="fullWidth"
           >
-            <Tab label="Item One" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
+            <Tab label="P1" {...a11yProps(0)} />
+            <Tab label="P2" {...a11yProps(1)} />
+            <Tab label="P3" {...a11yProps(2)} />
           </Tabs>
           <CustomTabPanel value={value} index={0}>
             <MaterialPlanningComponent planningType={PlanningType.P1} />
