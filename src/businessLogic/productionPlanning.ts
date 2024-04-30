@@ -2,7 +2,7 @@
 import {
   ProductionProgramm,
   ProductProduction,
-  Salesorder,
+  SalesOrder,
   ProductionForcast,
   PlanningTimeslot,
   PlanningWorkstation,
@@ -11,7 +11,7 @@ import {
 
 //__Helping Objects
 
-//_Simulated PlanningWarehouseStock 
+//_Simulated PlanningWarehouseStock
 //Function fill PlanningWarehouseStock with current values
 
 //Funktion replicate PlanningWarehouseStock for use in Production Planning
@@ -31,7 +31,6 @@ import {
 
 //Check - Material availabe
 //Check - next free Timeslot
-
 
 //Change - PlanningWarehouseStock
 //Change - Change Timeslot - Umrüstzeit

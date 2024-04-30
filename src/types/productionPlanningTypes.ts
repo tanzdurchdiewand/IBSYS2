@@ -1,40 +1,38 @@
 export type ProductionProgramm = {
-    p1: ProductProduction,
-    p2: ProductProduction,
-    p3: ProductProduction
-}
+  P1: ProductProduction;
+  P2: ProductProduction;
+  P3: ProductProduction;
+};
 
 export type ProductProduction = {
-    salesorder: Salesorder,
-    forcast: ProductionForcast[]
-}
+  salesOrder: SalesOrder;
+  forcast: ProductionForcast[];
+};
 
-export type Salesorder = {
-    salesWish: number,
-    productionWish: number
-}
+export type SalesOrder = {
+  salesWish: number;
+  productionWish: number;
+};
 
 export type ProductionForcast = {
-    period: number,
-    salesorder: Salesorder
-}
+  period: number;
+  salesOrder: SalesOrder;
+};
 
 //Types for weekly planning of workstations
 export type PlanningTimeslot = {
-    id: number,
-    productionOrder: number
-    start: number,
-    end: number
-}
+  id: number;
+  productionOrder: number;
+  start: number;
+  end: number;
+};
 
 export type PlanningWorkstation = {
-    id: number,
-    timeslots: PlanningTimeslot[]
-}
+  id: number;
+  timeslots: PlanningTimeslot[];
+};
 
 export type PlanningWarehouseStock = {
-    id: string,
-    amount: number
-}
-
-//Constraints for Produktion Order
+  id: string;
+  amount: number;
+};

@@ -1,11 +1,11 @@
-import { Grid, Box, styled, Paper, TextField } from "@mui/material";
+import { Grid, Box, styled, Paper } from "@mui/material";
 import {
   ProductionProgramm,
-  Salesorder,
+  SalesOrder,
 } from "../../types/productionPlanningTypes";
 import { useFormContext } from "react-hook-form";
 import RHFTextField from "../hookform/RHFTextFlied";
-import { RootState, useSelector } from "../../redux/store";
+import { useEffect } from "react";
 
 export type BikeType = {
   shortName: string;
@@ -14,7 +14,8 @@ export type BikeType = {
 
 type Props = {
   bikeType: BikeType;
-  salesOrder: Salesorder;
+  salesOrder: SalesOrder;
+  period?: number;
 };
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -25,13 +26,25 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function CustomGridBody({ bikeType, salesOrder }: Props) {
-  const { XML } = useSelector((state: RootState) => state.inputXML.list);
-
+export default function CustomGridBody({
+  bikeType,
+  salesOrder,
+  period,
+}: Readonly<Props>) {
   const { watch, setValue } = useFormContext<ProductionProgramm>();
 
   const productionProgramm = watch();
-  console.log(productionProgramm);
+
+  useEffect(() => {
+    setValue(
+      `${bikeType.shortName}.salesOrder.salesWish` as any,
+      salesOrder.salesWish
+    );
+    setValue(`${bikeType.shortName}.forecast[0].period` as any, period! + 2);
+    setValue(`${bikeType.shortName}.forecast[1].period` as any, period! + 3);
+    setValue(`${bikeType.shortName}.forecast[2].period` as any, period! + 4);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Grid container>
@@ -74,7 +87,7 @@ export default function CustomGridBody({ bikeType, salesOrder }: Props) {
             autoComplete="off"
           >
             <RHFTextField
-              name={`productionProgramm.${bikeType.shortName}.salesWish`}
+              name={`${bikeType.shortName}.salesOrder.salesWish`}
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
@@ -82,7 +95,7 @@ export default function CustomGridBody({ bikeType, salesOrder }: Props) {
               disabled={true}
             />
             <RHFTextField
-              name={`productionProgramm.${bikeType.shortName}.productionWish`}
+              name={`${bikeType.shortName}.salesOrder.productionWish`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
@@ -103,40 +116,15 @@ export default function CustomGridBody({ bikeType, salesOrder }: Props) {
             autoComplete="off"
           >
             <RHFTextField
-              name={`productionProgramm.${bikeType.shortName}.forecast.salesOrder.`}
+              name={`${bikeType.shortName}.forecast[0].salesOrder.salesWish.`}
               id="outlined-basic"
-              label="Outlined"
+              label="Sales Wish"
               variant="outlined"
             />
-            <TextField
-              name={`productionProgramm.${bikeType.shortName}.forecast.productionWish.`}
+            <RHFTextField
+              name={`${bikeType.shortName}.forecast[0].salesOrder.productionWish.`}
               id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-            />
-          </Box>
-        </Item>
-      </Grid>
-      <Grid item xs={2}>
-        <Item>
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
-              display: "flex",
-              flexDirection: "row",
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-            />
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
+              label="Production Wish"
               variant="outlined"
             />
           </Box>
@@ -154,14 +142,43 @@ export default function CustomGridBody({ bikeType, salesOrder }: Props) {
             noValidate
             autoComplete="off"
           >
-            <TextField
+            <RHFTextField
+              name={`${bikeType.shortName}.forecast[1].salesOrder.salesWish.`}
               id="outlined-basic"
-              label="Outlined"
+              label="Sales Wish"
               variant="outlined"
             />
-            <TextField
+            <RHFTextField
+              name={`${bikeType.shortName}.forecast[1].salesOrder.productionWish.`}
               id="outlined-basic"
-              label="Outlined"
+              label="Production Wish"
+              variant="outlined"
+            />
+          </Box>
+        </Item>
+      </Grid>
+      <Grid item xs={2}>
+        <Item>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "25ch" },
+              display: "flex",
+              flexDirection: "row",
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <RHFTextField
+              name={`${bikeType.shortName}.forecast[2].salesOrder.salesWish.`}
+              id="outlined-basic"
+              label="Sales Wish"
+              variant="outlined"
+            />
+            <RHFTextField
+              name={`${bikeType.shortName}.forecast[2].salesOrder.productionWish.`}
+              id="outlined-basic"
+              label="Production Wish"
               variant="outlined"
             />
           </Box>

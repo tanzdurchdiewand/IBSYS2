@@ -66,7 +66,7 @@ export function initializePlanning(
   gameData: GameData,
   productionProgramm: ProductionProgramm
 ): Planning {
-  const planning: any = { p1: {}, p2: {}, p3: {} };
+  const planning: any = { P1: {}, P2: {}, P3: {} };
   const products = gameData.results.warehousestock.article;
   const waitingQueueMap = generateWaitingQueueMap(gameData);
   const workInProgressMap = generateWorkInProgressMap(gameData);
@@ -74,9 +74,8 @@ export function initializePlanning(
 
   types.forEach((type) => {
     const elementIds = planningConfig[type];
-
     const salesOrderForPeriod =
-      productionProgramm[type].salesorder.productionWish.toString();
+      productionProgramm[type].salesOrder.productionWish.toString();
 
     var idType = type.replace(/\D/g, "");
 

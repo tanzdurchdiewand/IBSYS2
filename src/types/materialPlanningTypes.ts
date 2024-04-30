@@ -47,9 +47,9 @@ export interface P3Planning {
 }
 
 export interface Planning {
-  p1: P1Planning;
-  p2: P2Planning;
-  p3: P3Planning;
+  P1: P1Planning;
+  P2: P2Planning;
+  P3: P3Planning;
 }
 
 export interface MaterialPlanningRow {
@@ -107,13 +107,13 @@ export const updateOrdersMapping: DependencyMapping = {
 };
 
 export enum PlanningType {
-  P1 = "p1",
-  P2 = "p2",
-  P3 = "p3",
+  P1 = "P1",
+  P2 = "P2",
+  P3 = "P3",
 }
 
 export const planningConfig: Record<PlanningType, string[]> = {
-  p1: [
+  P1: [
     "P1",
     "E26",
     "E51",
@@ -127,7 +127,7 @@ export const planningConfig: Record<PlanningType, string[]> = {
     "E13",
     "E18",
   ],
-  p2: [
+  P2: [
     "P2",
     "E26",
     "E56",
@@ -141,7 +141,7 @@ export const planningConfig: Record<PlanningType, string[]> = {
     "E14",
     "E19",
   ],
-  p3: [
+  P3: [
     "P3",
     "E26",
     "E31",

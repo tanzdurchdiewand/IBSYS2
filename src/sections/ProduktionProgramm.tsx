@@ -15,13 +15,38 @@ import CustomGridBody, {
 } from "../components/customGrid/customGridBody";
 import {
   ProductionProgramm,
-  Salesorder,
+  SalesOrder,
 } from "../types/productionPlanningTypes";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { setProductionProgramm } from "../redux/slices/inputProduction";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const salesOrderSchema = yup.object().shape({
+  salesWish: yup.number().required(),
+  productionWish: yup.number().required(),
+});
+
+const productionForcastSchema = yup.object().shape({
+  period: yup.number().required(),
+  salesOrder: salesOrderSchema.required(),
+});
+
+const productProductionSchema = yup.object().shape({
+  salesOrder: salesOrderSchema.required(),
+  forcast: yup.array().of(productionForcastSchema).required(),
+});
+
+const productionProgrammSchema = yup.object().shape({
+  p1: productProductionSchema.required(),
+  p2: productProductionSchema.required(),
+  p3: productProductionSchema.required(),
+});
 
 export default function ProduktionProgramm() {
-  const methods = useForm<ProductionProgramm>();
+  const methods = useForm<ProductionProgramm>({
+    // resolver: yupResolver(productionProgrammSchema),
+  });
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -45,9 +70,9 @@ export default function ProduktionProgramm() {
     longName: "Children's Bicycle",
   };
 
-  const ChildrenSalesOrder: Salesorder = {
-    salesWish: XML?.results.forecast.p1 || 0,
-    productionWish: XML?.results.forecast.p1 || 0,
+  const ChildrenSalesOrder: SalesOrder = {
+    salesWish: XML?.results.forecast.p1 ?? 0,
+    productionWish: XML?.results.forecast.p1 ?? 0,
   };
 
   const WommenBike: BikeType = {
@@ -55,9 +80,9 @@ export default function ProduktionProgramm() {
     longName: "Wommen's Bicycle",
   };
 
-  const WommenSalesOrder: Salesorder = {
-    salesWish: XML?.results.forecast.p2 || 0,
-    productionWish: XML?.results.forecast.p2 || 0,
+  const WommenSalesOrder: SalesOrder = {
+    salesWish: XML?.results.forecast.p2 ?? 0,
+    productionWish: XML?.results.forecast.p2 ?? 0,
   };
 
   const ManBike: BikeType = {
@@ -65,9 +90,9 @@ export default function ProduktionProgramm() {
     longName: "Man's Bicycle",
   };
 
-  const ManSalesOrder: Salesorder = {
-    salesWish: XML?.results.forecast.p3 || 0,
-    productionWish: XML?.results.forecast.p3 || 0,
+  const ManSalesOrder: SalesOrder = {
+    salesWish: XML?.results.forecast.p3 ?? 0,
+    productionWish: XML?.results.forecast.p3 ?? 0,
   };
 
   return (
@@ -91,12 +116,18 @@ export default function ProduktionProgramm() {
             <CustomGridBody
               bikeType={ChildrenBike}
               salesOrder={ChildrenSalesOrder}
+              period={XML?.results.period}
             />
             <CustomGridBody
               bikeType={WommenBike}
               salesOrder={WommenSalesOrder}
+              period={XML?.results.period}
             />
-            <CustomGridBody bikeType={ManBike} salesOrder={ManSalesOrder} />
+            <CustomGridBody
+              bikeType={ManBike}
+              salesOrder={ManSalesOrder}
+              period={XML?.results.period}
+            />
           </Grid>
         </StyledCard>
 

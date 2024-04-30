@@ -35,7 +35,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     setProductionProgramm(state, action: PayloadAction<ProductionProgramm>) {
-        state.list.productionProgramm = action.payload
+      state.list.productionProgramm = action.payload;
     },
   },
 });
