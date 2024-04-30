@@ -1,10 +1,7 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {
-  Container,
-} from "@mui/material";
+import { Container } from "@mui/material";
 import { StyledButton } from "../components/styledComponets/styledButton";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import {
@@ -13,9 +10,9 @@ import {
 } from "../hooks/useNavigationHandlers";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import React from "react";
+import React, { useState } from "react";
 import { PlanningType } from "../types/materialPlanningTypes";
-import { MaterialPlanningComponent } from "../components/materialPlanningComponents/MaterialPlanningComponent";
+import MaterialPlanningComponent from "../components/materialPlanningComponents/MaterialPlanningComponent";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -27,19 +24,20 @@ function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Container
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </Container>
   );
 }
 
@@ -51,7 +49,7 @@ function a11yProps(index: number) {
 }
 
 export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const { goTo } = useNavigationHandler();
 
   const backPath = "/start/produktion";

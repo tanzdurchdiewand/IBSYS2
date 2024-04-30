@@ -31,9 +31,7 @@ export default function CustomGridBody({
   salesOrder,
   period,
 }: Readonly<Props>) {
-  const { watch, setValue } = useFormContext<ProductionProgramm>();
-
-  const productionProgramm = watch();
+  const { setValue } = useFormContext<ProductionProgramm>();
 
   useEffect(() => {
     setValue(

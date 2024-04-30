@@ -16,9 +16,13 @@ import {
 } from "../../types/materialPlanningTypes";
 import React from "react";
 
-export const MaterialPlanningComponent = (props: {
+type Props = {
   planningType: PlanningType;
-}) => {
+};
+
+export default function MaterialPlanningComponent({
+  planningType,
+}: Readonly<Props>) {
   const planning = useMaterialPlanning();
 
   const handleUpdate = (
@@ -26,7 +30,7 @@ export const MaterialPlanningComponent = (props: {
     field: keyof MaterialPlanningRow,
     value: number
   ) => {
-    planning?.updateAndRecalculate(key, field, value, props.planningType);
+    planning?.updateAndRecalculate(key, field, value, planningType);
   };
 
   const renderInput = (value: number) => {
@@ -49,7 +53,14 @@ export const MaterialPlanningComponent = (props: {
   };
 
   return (
-    <TableContainer component={Paper} sx={{ width: "90%" }}>
+    <TableContainer
+      component={Paper}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Table
         sx={{ minWidth: 650 }}
         aria-label="material planning table"
@@ -76,7 +87,7 @@ export const MaterialPlanningComponent = (props: {
         </TableHead>
         <TableBody>
           {planning?.initialPlanning &&
-            Object.entries(planning.initialPlanning[props.planningType]).map(
+            Object.entries(planning.initialPlanning[planningType]).map(
               ([key, value], index) => (
                 <React.Fragment key={key}>
                   <TableRow key={key}>
@@ -119,4 +130,4 @@ export const MaterialPlanningComponent = (props: {
       </Table>
     </TableContainer>
   );
-};
+}
