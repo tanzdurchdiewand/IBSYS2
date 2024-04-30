@@ -46,27 +46,7 @@ export default function NavSectionVertical() {
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>Material Planning P1</StepLabel>
-          <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
-          </StepContent>
-        </Step>
-        <Step>
-          <StepLabel>Material Planning P2</StepLabel>
-          <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
-          </StepContent>
-        </Step>
-        <Step>
-          <StepLabel>Material Planning P3</StepLabel>
+          <StepLabel>Material Planning</StepLabel>
           <StepContent>
             <Typography>
               For each ad campaign that you create, you can control how much

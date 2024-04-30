@@ -27,6 +27,8 @@ export function useMaterialPlanning() {
     (state: RootState) => state.inputMaterialPlanning.initialPlanning
   );
 
+  console.log(productionProgramm);
+
   useEffect(() => {
     if (gameData && productionProgramm && !initialPlanning) {
       const planning = initializePlanning(gameData, productionProgramm);
