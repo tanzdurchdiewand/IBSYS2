@@ -38,20 +38,23 @@ const productProductionSchema = yup.object().shape({
 });
 
 const productionProgrammSchema = yup.object().shape({
-  p1: productProductionSchema.required(),
-  p2: productProductionSchema.required(),
-  p3: productProductionSchema.required(),
+  P1: productProductionSchema.required(),
+  P2: productProductionSchema.required(),
+  P3: productProductionSchema.required(),
 });
 
 export default function ProduktionProgramm() {
   const methods = useForm<ProductionProgramm>({
     // resolver: yupResolver(productionProgrammSchema),
+    mode: "onChange",
   });
   const dispatch = useDispatch();
   const {
     handleSubmit,
-    formState: { isSubmitting, isDirty },
+    formState: { isSubmitting, isDirty, isValid },
   } = methods;
+
+  console.log(isValid);
 
   const handleNextPage = () => {
     goTo("/start/material", Direction.Forward);
