@@ -1,4 +1,6 @@
 //TODO: Implement the production planning logic here
+import { setProductionPlan } from "../redux/slices/productionPlanning";
+import { RootState, useDispatch, useSelector } from "../redux/store";
 import {
   ProductionProgramm,
   ProductProduction,
@@ -7,7 +9,30 @@ import {
   PlanningTimeslot,
   PlanningWorkstation,
   PlanningWarehouseStock,
+  ProductionPlan,
 } from "../types/productionPlanningTypes";
+
+export default function ProductionPlanning() {
+  const { productionProgramm } = useSelector(
+    (state: RootState) => state.inputProduction.list
+  );
+  const { XML } = useSelector((state: RootState) => state.inputXML.list);
+
+  console.log(productionProgramm, XML?.results.forecast.p1);
+  const dispatch = useDispatch();
+
+  const data: ProductionPlan = {
+    productionPlan: [],
+  };
+
+  dispatch(setProductionPlan(data));
+
+  return (
+    <div>
+      <h1>Production Planning</h1>
+    </div>
+  );
+}
 
 //__Helping Objects
 

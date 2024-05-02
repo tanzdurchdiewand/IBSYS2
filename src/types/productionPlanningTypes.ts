@@ -36,3 +36,7 @@ export type PlanningWarehouseStock = {
   id: string;
   amount: number;
 };
+
+export type ProductionPlan = {
+  productionPlan: PlanningWarehouseStock[]
+}
