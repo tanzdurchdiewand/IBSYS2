@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import {} from "../types/inputXMLTypes";
+import { } from "../types/inputXMLTypes";
 import { useEffect } from "react";
 import {
   setOrderPlanning,
@@ -21,14 +21,14 @@ export function useOrderPlanning() {
     (state: RootState) => state.inputProduction.list.productionProgramm
   );
   const initialOrderPlanning = useSelector(
-    (state: RootState) => state.inputOrderPlanning
+    (state: RootState) => state.inputOrderPlanning.orderPlanning
   );
 
   console.log(
     "Initial data:",
     gameData,
-    productionProgramm,
-    initialOrderPlanning
+    "prodProgramm", productionProgramm,
+    "order", initialOrderPlanning
   );
 
   useEffect(() => {

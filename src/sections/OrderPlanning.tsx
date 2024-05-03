@@ -18,7 +18,6 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import { useOrderPlanning } from "../hooks/useOrderPlanning";
-import React from "react";
 
 export default function OrderPlanning() {
   const { goTo } = useNavigationHandler();
@@ -77,28 +76,28 @@ export default function OrderPlanning() {
                     <TableRow key={key}>
                       <TableCell>{key}</TableCell>
                       <TableCell>
-                        {renderInput(value![key].deliveryTime)}
+                        {renderInput(value.deliveryTime)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].deviation)}
+                        {renderInput(value.deviation)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].quantityP1)}
+                        {renderInput(value.quantityP1)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].quantityP2)}
+                        {renderInput(value.quantityP2)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].quantityP3)}
+                        {renderInput(value.quantityP3)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].discountQuantity)}
+                        {renderInput(value.discountQuantity)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].warehouseStock)}
+                        {renderInput(value.warehouseStock)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].demandForPeriod[0])}
+                        {renderInput(value.demandForPeriod[0])}
                       </TableCell>
                       {/* <TableCell>
                         {renderInput(value![key].demandForPeriod[1] || 0)}
@@ -110,9 +109,9 @@ export default function OrderPlanning() {
                         {renderInput(value![key].demandForPeriod[3] || 0)}
                       </TableCell> */}
                       <TableCell>
-                        {renderInput(value![key].orderQuantity)}
+                        {renderInput(value.orderQuantity)}
                       </TableCell>
-                      <TableCell>{value![key].orderType}</TableCell>
+                      <TableCell>{value.orderType}</TableCell>
                     </TableRow>
                   )
                 )}

@@ -10,7 +10,7 @@ export const initialState: InputOrderDataState = {
   orderPlanning: null,
 };
 
-const slice = createSlice({
+const orderSlice = createSlice({
   name: "inputOrder",
   initialState,
   reducers: {
@@ -23,5 +23,5 @@ const slice = createSlice({
   },
 });
 
-export default slice.reducer;
-export const { setOrderPlanning, updateOrderPlanning } = slice.actions;
+export default orderSlice.reducer;
+export const { setOrderPlanning, updateOrderPlanning } = orderSlice.actions;
