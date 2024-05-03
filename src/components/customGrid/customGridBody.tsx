@@ -1,5 +1,6 @@
 import { Grid, Box, styled, Paper } from "@mui/material";
 import {
+  ProductProduction,
   ProductionProgramm,
   SalesOrder,
 } from "../../types/productionPlanningTypes";
@@ -16,6 +17,7 @@ type Props = {
   bikeType: BikeType;
   salesOrder: SalesOrder;
   period?: number;
+  productProduction: ProductProduction | undefined;
 };
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -30,10 +32,9 @@ export default function CustomGridBody({
   bikeType,
   salesOrder,
   period,
+  productProduction,
 }: Readonly<Props>) {
-  const { watch, setValue } = useFormContext<ProductionProgramm>();
-
-  const productionProgramm = watch()
+  const { setValue } = useFormContext<ProductionProgramm>();
 
   useEffect(() => {
     setValue(
@@ -64,7 +65,7 @@ export default function CustomGridBody({
             autoComplete="off"
           >
             <RHFTextField
-              name={`productionProgramm.${bikeType.shortName}`}
+              name={`${bikeType.shortName}`}
               id="outlined-basic"
               label={bikeType.shortName}
               variant="outlined"
@@ -93,12 +94,15 @@ export default function CustomGridBody({
               variant="outlined"
               value={salesOrder.salesWish}
               disabled={true}
+              type="number"
             />
             <RHFTextField
               name={`${bikeType.shortName}.salesOrder.productionWish`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
+              value={productProduction?.salesOrder.productionWish}
+              type="number"
             />
           </Box>
         </Item>
@@ -120,12 +124,16 @@ export default function CustomGridBody({
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
+              value={productProduction?.forecast[0].salesOrder.salesWish}
+              type="number"
             />
             <RHFTextField
               name={`${bikeType.shortName}.forecast[0].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
+              value={productProduction?.forecast[0].salesOrder.productionWish}
+              type="number"
             />
           </Box>
         </Item>
@@ -147,12 +155,16 @@ export default function CustomGridBody({
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
+              value={productProduction?.forecast[1].salesOrder.salesWish}
+              type="number"
             />
             <RHFTextField
               name={`${bikeType.shortName}.forecast[1].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
+              value={productProduction?.forecast[1].salesOrder.productionWish}
+              type="number"
             />
           </Box>
         </Item>
@@ -174,12 +186,16 @@ export default function CustomGridBody({
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
+              value={productProduction?.forecast[2].salesOrder.salesWish}
+              type="number"
             />
             <RHFTextField
               name={`${bikeType.shortName}.forecast[2].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
+              value={productProduction?.forecast[2].salesOrder.productionWish}
+              type="number"
             />
           </Box>
         </Item>

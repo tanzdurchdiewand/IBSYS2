@@ -5,7 +5,7 @@ import {
   ProductionProgramm,
   ProductProduction,
   SalesOrder,
-  ProductionForcast,
+  ProductionForecast,
   PlanningTimeslot,
   PlanningWorkstation,
   PlanningWarehouseStock,
@@ -18,7 +18,7 @@ export default function ProductionPlanning() {
   );
   const { XML } = useSelector((state: RootState) => state.inputXML.list);
 
-  console.log(productionProgramm, XML?.results.forecast.p1);
+  // console.log(productionProgramm, XML?.results.forecast.p1);
   const dispatch = useDispatch();
 
   const data: ProductionPlan = {

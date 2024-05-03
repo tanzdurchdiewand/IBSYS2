@@ -6,7 +6,7 @@ export type ProductionProgramm = {
 
 export type ProductProduction = {
   salesOrder: SalesOrder;
-  forcast: ProductionForcast[];
+  forecast: ProductionForecast[];
 };
 
 export type SalesOrder = {
@@ -14,7 +14,7 @@ export type SalesOrder = {
   productionWish: number;
 };
 
-export type ProductionForcast = {
+export type ProductionForecast = {
   period: number;
   salesOrder: SalesOrder;
 };
@@ -38,5 +38,5 @@ export type PlanningWarehouseStock = {
 };
 
 export type ProductionPlan = {
-  productionPlan: PlanningWarehouseStock[]
-}
+  productionPlan: PlanningWarehouseStock[];
+};
