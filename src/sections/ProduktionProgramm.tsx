@@ -20,7 +20,6 @@ import {
 import { FormProvider, useForm } from "react-hook-form";
 import { setProductionProgramm } from "../redux/slices/inputProduction";
 import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const salesOrderSchema = yup.object().shape({
   salesWish: yup.number().required(),
