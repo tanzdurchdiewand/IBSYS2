@@ -13,7 +13,6 @@ import {
 import { OrderPlanningRow } from "../types/orderPlanningTypes";
 
 export function useOrderPlanning() {
-  console.log("Hook called"); // Check if the hook itself is being executed
   const dispatch = useDispatch();
 
   const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
@@ -24,13 +23,6 @@ export function useOrderPlanning() {
     (state: RootState) => state.inputOrderPlanning.orderPlanning
   );
 
-  console.log(
-    "Initial data:",
-    gameData,
-    "prodProgramm", productionProgramm,
-    "order", initialOrderPlanning
-  );
-
   useEffect(() => {
     console.log("useEffect called");
     if (gameData && productionProgramm && !initialOrderPlanning) {
@@ -38,13 +30,9 @@ export function useOrderPlanning() {
         gameData,
         productionProgramm
       );
-      console.log("Order planning initialized:", orderPlanning);
       dispatch(setOrderPlanning(orderPlanning));
     }
   }, [dispatch, gameData, productionProgramm]);
-
-  // TODO warum null?
-  console.log("nach initializhe:", initialOrderPlanning);
 
   const updateOrder = (
     key: string,
@@ -53,9 +41,11 @@ export function useOrderPlanning() {
   ) => {
     if (!initialOrderPlanning) return;
 
+    console.log("updateOrder called");
+
     const update = updateOrderRow(key, field, value);
     dispatch(updateOrderPlanning(update));
   };
 
-  return { initialOrderPlanning, updateOrderPlanning };
+  return { initialOrderPlanning, updateOrder };
 }

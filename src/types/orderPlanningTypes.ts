@@ -40,7 +40,7 @@ export interface OrderPlanningRow {
   quantityP3: number;
   discountQuantity: number;
   warehouseStock: number;
-  demandForPeriod: [number];
+  demandForPeriod: [number, number, number, number];
   orderQuantity: number;
   orderType: OrderType;
 }

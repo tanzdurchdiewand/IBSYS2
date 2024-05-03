@@ -18,11 +18,21 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import { useOrderPlanning } from "../hooks/useOrderPlanning";
+import { OrderPlanningRow } from "../types/orderPlanningTypes";
 
+// TODO dauert zu lange
 export default function OrderPlanning() {
   const { goTo } = useNavigationHandler();
   console.log("OrderPlanning rendering");
   const orderPlanning = useOrderPlanning();
+
+  const handleUpdate = (
+    key: string,
+    field: keyof OrderPlanningRow,
+    value: number
+  ) => {
+    orderPlanning.updateOrder(key, field, value);
+  };
 
   const renderInput = (value: number) => {
     return <TextField variant="outlined" size="small" value={value} disabled />;
@@ -99,17 +109,29 @@ export default function OrderPlanning() {
                       <TableCell>
                         {renderInput(value.demandForPeriod[0])}
                       </TableCell>
-                      {/* <TableCell>
-                        {renderInput(value![key].demandForPeriod[1] || 0)}
+                      <TableCell>
+                        {renderInput(value.demandForPeriod[1] || 0)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].demandForPeriod[2] || 0)}
+                        {renderInput(value.demandForPeriod[2] || 0)}
                       </TableCell>
                       <TableCell>
-                        {renderInput(value![key].demandForPeriod[3] || 0)}
-                      </TableCell> */}
+                        {renderInput(value.demandForPeriod[3] || 0)}
+                      </TableCell>
                       <TableCell>
-                        {renderInput(value.orderQuantity)}
+                        <TextField
+                          type="number"
+                          variant="outlined"
+                          size="small"
+                          value={value.orderQuantity}
+                          onChange={(e) =>
+                            handleUpdate(
+                              key,
+                              "orderQuantity",
+                              Number(e.target.value)
+                            )
+                          }
+                        />
                       </TableCell>
                       <TableCell>{value.orderType}</TableCell>
                     </TableRow>
