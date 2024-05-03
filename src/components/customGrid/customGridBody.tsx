@@ -65,7 +65,7 @@ export default function CustomGridBody({
             autoComplete="off"
           >
             <RHFTextField
-              name={`productionProgramm.${bikeType.shortName}`}
+              name={`${bikeType.shortName}`}
               id="outlined-basic"
               label={bikeType.shortName}
               variant="outlined"
