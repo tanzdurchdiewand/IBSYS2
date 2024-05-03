@@ -8,6 +8,7 @@ import {
 
 import { StyledBox } from "../styledComponets/styledBox";
 import { RootState, useSelector } from "../../redux/store";
+import { i18n } from "../../locals";
 
 // ----------------------------------------------------------------------
 
@@ -26,83 +27,65 @@ export default function NavSectionVertical() {
         activeStep={step}
       >
         <Step>
-          <StepLabel>XML Upload</StepLabel>
+          <StepLabel>{`${i18n.t("navBar.xmlUpload")}`}</StepLabel>
           <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
+            <Typography>{`${i18n.t("navBarText.xmlUploadText")}`}</Typography>
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>Produktions Programm</StepLabel>
+          <StepLabel>{`${i18n.t("navBar.productionProgramm")}`}</StepLabel>
           <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
+            <Typography>{`${i18n.t(
+              "navBarText.productionProgrammText"
+            )}`}</Typography>
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>Material Planning</StepLabel>
+          <StepLabel>{`${i18n.t("navBar.materialPlanning")}`}</StepLabel>
           <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
+            <Typography>{`${i18n.t(
+              "navBarText.materialPlanningText"
+            )}`}</Typography>
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>Order Planning</StepLabel>
+          <StepLabel>{`${i18n.t("navBar.orderPlanning")}`}</StepLabel>
           <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
+            <Typography>{`${i18n.t(
+              "navBarText.orderPlanningText"
+            )}`}</Typography>
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>Production Planning</StepLabel>
+          <StepLabel>{`${i18n.t("navBar.productionPlanning")}`}</StepLabel>
           <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
+            <Typography>{`${i18n.t(
+              "navBarText.productionPlanningText"
+            )}`}</Typography>
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>Capacity Planning Overview</StepLabel>
+          <StepLabel>{`${i18n.t(
+            "navBar.capacityPlanningOverview"
+          )}`}</StepLabel>
           <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
+            <Typography>{`${i18n.t(
+              "navBarText.capacityPlanningOverviewText"
+            )}`}</Typography>
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>Capacity Planning Total</StepLabel>
+          <StepLabel>{`${i18n.t("navBar.capacityPlanningTotal")}`}</StepLabel>
           <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
+            <Typography>{`${i18n.t(
+              "navBarText.capacityPlanningTotalText"
+            )}`}</Typography>
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>Result</StepLabel>
+          <StepLabel>{`${i18n.t("navBar.result")}`}</StepLabel>
           <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
+            <Typography>{`${i18n.t("navBarText.resultText")}`}</Typography>
           </StepContent>
         </Step>
       </Stepper>
