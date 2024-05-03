@@ -48,7 +48,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function BasicTabs() {
+export default function MaterialPlanning() {
   const [value, setValue] = useState(0);
   const { goTo } = useNavigationHandler();
 

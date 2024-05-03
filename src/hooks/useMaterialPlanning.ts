@@ -27,14 +27,12 @@ export function useMaterialPlanning() {
     (state: RootState) => state.inputMaterialPlanning.initialPlanning
   );
 
-  console.log(productionProgramm);
-
   useEffect(() => {
     if (gameData && productionProgramm && !initialPlanning) {
       const planning = initializePlanning(gameData, productionProgramm);
       dispatch(setInitialPlanning(planning));
     }
-  }, [dispatch, gameData, productionProgramm, initialPlanning]);
+  }, [dispatch, gameData, productionProgramm]);
 
   const updateAndRecalculate = (
     key: string,

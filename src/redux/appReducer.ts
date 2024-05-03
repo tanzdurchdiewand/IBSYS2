@@ -3,6 +3,7 @@ import global from "./slices/global";
 import inputXML from "./slices/inputXML";
 import inputProduction from "./slices/inputProduction";
 import inputMaterialPlanning from "./slices/inputMaterialPlanning";
+import inputOrderPlanning from "./slices/inputOrderPlanning";
 import productionPlanning from "./slices/productionPlanning";
 
 const appReducer = combineReducers({
@@ -11,6 +12,7 @@ const appReducer = combineReducers({
   inputProduction,
   inputMaterialPlanning,
   productionPlanning,
+  inputOrderPlanning,
 });
 
 export { appReducer };
