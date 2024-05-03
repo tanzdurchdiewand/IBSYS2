@@ -53,7 +53,7 @@ export default function BasicTabs() {
   const { goTo } = useNavigationHandler();
 
   const backPath = "/start/produktion";
-  const forwardPath = "/start/capacity-overview";
+  const forwardPath = "/start/order";
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

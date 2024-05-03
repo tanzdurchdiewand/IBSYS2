@@ -56,6 +56,26 @@ export default function NavSectionVertical() {
           </StepContent>
         </Step>
         <Step>
+          <StepLabel>Order Planning</StepLabel>
+          <StepContent>
+            <Typography>
+              For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.
+            </Typography>
+          </StepContent>
+        </Step>
+        <Step>
+          <StepLabel>Production Planning</StepLabel>
+          <StepContent>
+            <Typography>
+              For each ad campaign that you create, you can control how much
+              you're willing to spend on clicks and conversions, which networks
+              and geographical locations you want your ads to show on, and more.
+            </Typography>
+          </StepContent>
+        </Step>
+        <Step>
           <StepLabel>Capacity Planning Overview</StepLabel>
           <StepContent>
             <Typography>
@@ -67,16 +87,6 @@ export default function NavSectionVertical() {
         </Step>
         <Step>
           <StepLabel>Capacity Planning Total</StepLabel>
-          <StepContent>
-            <Typography>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-            </Typography>
-          </StepContent>
-        </Step>
-        <Step>
-          <StepLabel>Order Planning</StepLabel>
           <StepContent>
             <Typography>
               For each ad campaign that you create, you can control how much

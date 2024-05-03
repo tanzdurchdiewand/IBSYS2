@@ -14,7 +14,7 @@ export default function OrderPlanning() {
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
-        onClick={() => goTo("/start/capacity-total", Direction.Back)}
+        onClick={() => goTo("/start/material", Direction.Back)}
         sx={{ left: 0 }}
       >
         <ArrowBackIosIcon />
@@ -23,7 +23,7 @@ export default function OrderPlanning() {
         <ProductionPlanning />
       </StyledCard>
       <StyledButton
-        onClick={() => goTo("/start/result", Direction.Forward)}
+        onClick={() => goTo("/start/production", Direction.Forward)}
         sx={{ right: 0 }}
       >
         <ArrowForwardIosIcon />
