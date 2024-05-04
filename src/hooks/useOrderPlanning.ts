@@ -1,51 +1,23 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { } from "../types/inputXMLTypes";
-import { useEffect } from "react";
-import {
-  setOrderPlanning,
-  updateOrderPlanning,
-} from "../redux/slices/inputOrderPlanning";
-import {
-  initializeOrderPlanning,
-  updateOrderRow,
-} from "../businessLogic/orderPlanning";
-import { OrderPlanningRow } from "../types/orderPlanningTypes";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../redux/store';
+import { updateOrderPlanning } from '../redux/slices/inputOrderPlanning';
+import { OrderPlanningRow } from '../types/orderPlanningTypes';
+import { fetchInitialOrderPlanning } from '../redux/slices/global';
 
 export function useOrderPlanning() {
-  const dispatch = useDispatch();
-
-  const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
-  const productionProgramm = useSelector(
-    (state: RootState) => state.inputProduction.list.productionProgramm
-  );
-  const initialOrderPlanning = useSelector(
-    (state: RootState) => state.inputOrderPlanning.orderPlanning
-  );
-
+  const dispatch: AppDispatch = useDispatch();
+  const orderPlanning = useSelector((state: RootState) => state.inputOrderPlanning.data);
   useEffect(() => {
-    console.log("useEffect called");
-    if (gameData && productionProgramm && !initialOrderPlanning) {
-      const orderPlanning = initializeOrderPlanning(
-        gameData,
-        productionProgramm
-      );
-      dispatch(setOrderPlanning(orderPlanning));
+    console.log("useEffect-useOrderPlanning");
+    if (!orderPlanning) {
+      dispatch(fetchInitialOrderPlanning());
     }
-  }, [dispatch, gameData, productionProgramm]);
+  }, [dispatch, orderPlanning]);
 
-  const updateOrder = (
-    key: string,
-    field: keyof OrderPlanningRow,
-    value: number
-  ) => {
-    if (!initialOrderPlanning) return;
-
-    console.log("updateOrder called");
-
-    const update = updateOrderRow(key, field, value);
-    dispatch(updateOrderPlanning(update));
+  const updateOrder = (key: string, field: keyof OrderPlanningRow, value: number) => {
+    dispatch(updateOrderPlanning({ key, field, value }));
   };
 
-  return { initialOrderPlanning, updateOrder };
+  return { orderPlanning, updateOrder };
 }

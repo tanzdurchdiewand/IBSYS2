@@ -18,21 +18,17 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import { useOrderPlanning } from "../hooks/useOrderPlanning";
-import { OrderPlanningRow } from "../types/orderPlanningTypes";
 
 // TODO dauert zu lange
 export default function OrderPlanning() {
   const { goTo } = useNavigationHandler();
-  console.log("OrderPlanning rendering");
-  const orderPlanning = useOrderPlanning();
+  const { orderPlanning, updateOrder } = useOrderPlanning();
 
-  const handleUpdate = (
-    key: string,
-    field: keyof OrderPlanningRow,
-    value: number
-  ) => {
-    orderPlanning.updateOrder(key, field, value);
+  const handleQuantityChange = (key: string, quantity: number) => {
+    updateOrder(key, 'orderQuantity', quantity);
   };
+
+  console.log("OrderPlanning", orderPlanning);
 
   const renderInput = (value: number) => {
     return <TextField variant="outlined" size="small" value={value} disabled />;
@@ -80,8 +76,8 @@ export default function OrderPlanning() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orderPlanning?.initialOrderPlanning &&
-                Object.entries(orderPlanning.initialOrderPlanning).map(
+              {orderPlanning &&
+                Object.entries(orderPlanning).map(
                   ([key, value]) => (
                     <TableRow key={key}>
                       <TableCell>{key}</TableCell>
@@ -125,9 +121,8 @@ export default function OrderPlanning() {
                           size="small"
                           value={value.orderQuantity}
                           onChange={(e) =>
-                            handleUpdate(
+                            handleQuantityChange(
                               key,
-                              "orderQuantity",
                               Number(e.target.value)
                             )
                           }

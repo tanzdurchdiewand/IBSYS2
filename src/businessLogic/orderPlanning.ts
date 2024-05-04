@@ -20,15 +20,19 @@ export function initializeOrderPlanning(
 }
 
 export function updateOrderRow(
+  currentData: MaterialOrderPlanning,
   key: string,
   field: keyof OrderPlanningRow,
   value: number
 ): MaterialOrderPlanning {
-  const orderPlanning: any = {};
+  const updatedData = { ...currentData };
+  if (key in updatedData) {
+    updatedData[key] = { ...updatedData[key], [field]: value };
+  }
 
-  // TODO
+  console.log("iupdateOrderRow");
 
-  return mockData; //orderPlanning;
+  return updatedData;
 }
 
 const mockData: MaterialOrderPlanning = {

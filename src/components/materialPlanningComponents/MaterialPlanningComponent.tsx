@@ -11,7 +11,6 @@ import {
 import { useMaterialPlanning } from "../../hooks/useMaterialPlanning";
 import { } from "../../hooks/useNavigationHandlers";
 import {
-  MaterialPlanningRow,
   PlanningType,
 } from "../../types/materialPlanningTypes";
 import React from "react";
