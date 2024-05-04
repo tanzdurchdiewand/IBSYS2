@@ -13,6 +13,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import React, { useState } from "react";
 import { PlanningType } from "../types/materialPlanningTypes";
 import MaterialPlanningComponent from "../components/materialPlanningComponents/MaterialPlanningComponent";
+import { useOrderPlanning } from "../hooks/useOrderPlanning";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -48,7 +49,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function BasicTabs() {
+export default function MaterialPlanning() {
   const [value, setValue] = useState(0);
   const { goTo } = useNavigationHandler();
 

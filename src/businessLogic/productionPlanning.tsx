@@ -1,6 +1,7 @@
 //TODO: Implement the production planning logic here
 import { setProductionPlan } from "../redux/slices/productionPlanning";
 import { RootState, useDispatch, useSelector } from "../redux/store";
+import { P1Planning } from "../types/materialPlanningTypes";
 import {
   ProductionProgramm,
   ProductProduction,
@@ -27,6 +28,8 @@ export default function ProductionPlanning() {
 
   dispatch(setProductionPlan(data));
 
+  SetProductionGoals();
+
   return (
     <div>
       <h1>Production Planning</h1>
@@ -34,11 +37,34 @@ export default function ProductionPlanning() {
   );
 }
 
-//__Helping Objects
+//_Helping Objects
+//vorhandene Materialien am Anfang
+let warehousestock: ProductionPlan;
+
+//vorhandene Materialien während des Algorithmus
+let warehousestock_work: ProductionPlan;
+
+//zu produzierende Materialien
+let productionOrder: ProductionPlan;
 
 //_Simulated PlanningWarehouseStock
 //Function fill PlanningWarehouseStock with current values
+export function SetProductionGoals() {
+  const { initialPlanning } = useSelector(
+    (state: RootState) => state.inputMaterialPlanning
+  );
+  console.log(initialPlanning);
 
+  //splitt
+  const p1 = initialPlanning?.P1;
+  const p2 = initialPlanning?.P2;
+  const p3 = initialPlanning?.P3;
+  console.log(p1);
+
+  //if (p1 !== undefined) {
+  //  p1.forEach((p1: P1Planning) => console.log(p1));
+  //}
+}
 //Funktion replicate PlanningWarehouseStock for use in Production Planning
 
 //__Produktion Planning

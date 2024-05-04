@@ -9,9 +9,8 @@ import {
   TextField,
 } from "@mui/material";
 import { useMaterialPlanning } from "../../hooks/useMaterialPlanning";
-import {} from "../../hooks/useNavigationHandlers";
+import { } from "../../hooks/useNavigationHandlers";
 import {
-  MaterialPlanningRow,
   PlanningType,
 } from "../../types/materialPlanningTypes";
 import React from "react";
@@ -24,14 +23,6 @@ export default function MaterialPlanningComponent({
   planningType,
 }: Readonly<Props>) {
   const planning = useMaterialPlanning();
-
-  const handleUpdate = (
-    key: string,
-    field: keyof MaterialPlanningRow,
-    value: number
-  ) => {
-    planning?.updateAndRecalculate(key, field, value, planningType);
-  };
 
   const renderInput = (value: number) => {
     return <TextField variant="outlined" size="small" value={value} disabled />;
@@ -105,10 +96,11 @@ export default function MaterialPlanningComponent({
                         size="small"
                         value={value.safetyStock}
                         onChange={(e) =>
-                          handleUpdate(
+                          planning.updateAndRecalculate(
                             key,
                             "safetyStock",
-                            Number(e.target.value)
+                            Number(e.target.value),
+                            planningType
                           )
                         }
                       />

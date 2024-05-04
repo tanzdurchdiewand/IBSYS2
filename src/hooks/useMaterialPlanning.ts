@@ -4,7 +4,7 @@ import {
   PlanningType,
 } from "../types/materialPlanningTypes";
 import { RootState } from "../redux/store";
-import {} from "../types/inputXMLTypes";
+import { } from "../types/inputXMLTypes";
 import { useEffect } from "react";
 import {
   setInitialPlanning,
@@ -28,11 +28,12 @@ export function useMaterialPlanning() {
   );
 
   useEffect(() => {
+    console.log("useEffect Material Planning called");
     if (gameData && productionProgramm && !initialPlanning) {
       const planning = initializePlanning(gameData, productionProgramm);
       dispatch(setInitialPlanning(planning));
     }
-  }, [dispatch, gameData, productionProgramm, initialPlanning]);
+  }, [dispatch, gameData, productionProgramm]);
 
   const updateAndRecalculate = (
     key: string,
