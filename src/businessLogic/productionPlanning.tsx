@@ -61,9 +61,11 @@ export function SetProductionGoals() {
   const p3 = initialPlanning?.P3;
   console.log(p1);
 
-  //if (p1 !== undefined) {
-  //  p1.forEach((p1: P1Planning) => console.log(p1));
-  //}
+  if (p1 !== undefined) {
+    Object.entries(p1).forEach(([key, value]) => {
+      console.log(`Key: ${key}, Value:`, value);
+    });
+  }
 }
 //Funktion replicate PlanningWarehouseStock for use in Production Planning
 
