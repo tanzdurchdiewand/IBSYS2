@@ -58,6 +58,8 @@ export const fetchInitialOrderPlanning = createAsyncThunk<MaterialOrderPlanning,
     const gameData = inputXML.list.XML;
     const productionProgramm = inputProduction.list.productionProgramm;
 
+    console.log("gamedata", gameData);
+
     if (!gameData || !productionProgramm) {
       throw new Error('Missing required data for initialization');
     }

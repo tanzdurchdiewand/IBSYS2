@@ -3,7 +3,7 @@ const de = {
     xmlUpload: "XML Hochladen",
     productionProgramm: "Produktionsprogramm",
     materialPlanning: "Materialplanung",
-    orderPlanning: "Auftragsplanung",
+    orderPlanning: "Beschaffungsplanung",
     productionPlanning: "Produktionsplanung",
     capacityPlanningOverview: "Kapazitätsplanung Übersicht",
     capacityPlanningTotal: "Kapazitätsplanung Gesamt",
@@ -17,7 +17,7 @@ const de = {
     materialPlanningText:
       "Bitte überprüfen Sie die Materialplannung und geben gewünschte Änderungen ein.",
     orderPlanningText:
-      "Bitte überprüfen Sie die Auftragsplanung und geben gewünschte Änderungen ein.",
+      "Bitte überprüfen Sie die Beschaffungsplanung und geben gewünschte Änderungen ein.",
     productionPlanningText:
       "Bitte überprüfen Sie die Produktionsplanung und geben gewünschte Änderungen ein.",
     capacityPlanningOverviewText:

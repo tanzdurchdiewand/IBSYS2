@@ -1,6 +1,10 @@
 import {
   Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -24,16 +28,13 @@ export default function OrderPlanning() {
   const { goTo } = useNavigationHandler();
   const { orderPlanning, updateOrder } = useOrderPlanning();
 
-  const handleQuantityChange = (key: string, quantity: number) => {
-    updateOrder(key, 'orderQuantity', quantity);
-  };
-
   console.log("OrderPlanning", orderPlanning);
 
   const renderInput = (value: number) => {
     return <TextField variant="outlined" size="small" value={value} disabled />;
   };
 
+  // TODO Tooltip mit infos zur Berechnung Demand, Quantity
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
@@ -121,14 +122,25 @@ export default function OrderPlanning() {
                           size="small"
                           value={value.orderQuantity}
                           onChange={(e) =>
-                            handleQuantityChange(
+                            updateOrder(
                               key,
+                              'orderQuantity',
                               Number(e.target.value)
                             )
                           }
                         />
                       </TableCell>
-                      <TableCell>{value.orderType}</TableCell>
+                      <TableCell>
+                        <FormControl fullWidth>
+                          <InputLabel></InputLabel>
+                          <Select
+                            value={value.orderType}
+                            onChange={(e) => updateOrder(key, 'orderType', Number(e.target.value))}
+                          >
+                            <MenuItem value={0}>Normal</MenuItem>
+                            <MenuItem value={1}>Fast</MenuItem>
+                          </Select>
+                        </FormControl></TableCell>
                     </TableRow>
                   )
                 )}
