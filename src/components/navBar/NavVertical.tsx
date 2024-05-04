@@ -1,4 +1,11 @@
-import { Box, Drawer, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  IconButton,
+  Stack,
+  Typography,
+  Button,
+} from "@mui/material";
 import { NAV } from "./types";
 import useResponsive from "../hooks/useResponsive";
 import Scrollbar from "../scrollbar/Scrollbar";
@@ -8,6 +15,7 @@ import NavSectionVertical from "./NavSectionVertical";
 import { useContext } from "react";
 import { SelectInputXML } from "../../pages/StartPage";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { useLocales } from "../../locals";
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +25,12 @@ type Props = {
 
 export default function NavVertical({ onClose }: Props) {
   const { handleAbort } = useContext(SelectInputXML);
+
+  const { onChangeLang, currentLang, allLangs } = useLocales();
+
+  const handleLanguageChange = (newLang: any) => {
+    onChangeLang(newLang);
+  };
 
   const isDesktop = useResponsive("up", "lg");
 
@@ -51,9 +65,15 @@ export default function NavVertical({ onClose }: Props) {
             Bike Planner Pro
           </Typography>
         </Stack>
-        <IconButton size="small" onClick={handleAbort}>
-          <RestartAltIcon />
-        </IconButton>
+        {allLangs.map((lang) => (
+          <Button
+            key={lang.label}
+            onClick={() => handleLanguageChange(lang.systemValue)}
+            disabled={currentLang === lang.systemValue}
+          >
+            {lang.icon}
+          </Button>
+        ))}
       </Stack>
 
       <NavSectionVertical />
