@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 //TODO: Implement the production planning logic here
+import { arrayBuffer } from "stream/consumers";
 import { setProductionPlan } from "../redux/slices/productionPlanning";
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import { P1Planning } from "../types/materialPlanningTypes";
@@ -12,23 +14,59 @@ import {
   PlanningWarehouseStock,
   ProductionPlan,
 } from "../types/productionPlanningTypes";
+import {
+  Article,
+  GameData,
+  WorkplaceOrdersInWork,
+} from "../types/inputXMLTypes";
 
 export default function ProductionPlanning() {
+  //Redux
   const { productionProgramm } = useSelector(
     (state: RootState) => state.inputProduction.list
   );
-  const { XML } = useSelector((state: RootState) => state.inputXML.list);
-
-  // console.log(productionProgramm, XML?.results.forecast.p1);
   const dispatch = useDispatch();
 
+  //workingarea
   const data: ProductionPlan = {
     productionPlan: [],
   };
 
-  dispatch(setProductionPlan(data));
+  //requiered material for each product
+  let p1: PlanningWarehouseStock[] = [];
+  let p2: PlanningWarehouseStock[] = [];
+  let p3: PlanningWarehouseStock[] = [];
 
-  SetProductionGoals();
+  //get orders
+  let productionOrders: PlanningWarehouseStock[] = SetProductionGoals(
+    p1,
+    p2,
+    p3
+  );
+
+  //get available Materials
+  let availabeMaterials: PlanningWarehouseStock[] = SetAvailableMaterials();
+
+  //_loop
+  //set starting order
+  SetProductionOrder(productionOrders, availabeMaterials, p1, p2, p3);
+
+  //Simulate
+  SimulateProduction();
+
+  //Elaluation of results
+  EvaluateResult();
+
+  //change starting order
+
+  //endloop
+
+  //not optimzed
+  //Missing overtimes
+  data.productionPlan = productionOrders;
+
+  //Redux save
+  dispatch(setProductionPlan(data));
 
   return (
     <div>
@@ -37,53 +75,383 @@ export default function ProductionPlanning() {
   );
 }
 
-//_Helping Objects
-//vorhandene Materialien am Anfang
-let warehousestock: ProductionPlan;
+//set total production orders
+export function SetProductionGoals(
+  pws1: PlanningWarehouseStock[],
+  pws2: PlanningWarehouseStock[],
+  pws3: PlanningWarehouseStock[]
+) {
+  //working structures/tables
+  let productionOrder: PlanningWarehouseStock;
+  let productionOrders: PlanningWarehouseStock[] = [
+    {
+      id: 1,
+      amount: 0,
+    },
+    {
+      id: 2,
+      amount: 0,
+    },
+    {
+      id: 3,
+      amount: 0,
+    },
+    {
+      id: 4,
+      amount: 0,
+    },
+    {
+      id: 5,
+      amount: 0,
+    },
+    {
+      id: 6,
+      amount: 0,
+    },
+    {
+      id: 7,
+      amount: 0,
+    },
+    {
+      id: 8,
+      amount: 0,
+    },
+    {
+      id: 9,
+      amount: 0,
+    },
+    {
+      id: 10,
+      amount: 0,
+    },
+    {
+      id: 11,
+      amount: 0,
+    },
+    {
+      id: 12,
+      amount: 0,
+    },
+    {
+      id: 13,
+      amount: 0,
+    },
+    {
+      id: 14,
+      amount: 0,
+    },
+    {
+      id: 15,
+      amount: 0,
+    },
+    {
+      id: 16,
+      amount: 0,
+    },
+    {
+      id: 17,
+      amount: 0,
+    },
+    {
+      id: 18,
+      amount: 0,
+    },
+    {
+      id: 19,
+      amount: 0,
+    },
+    {
+      id: 20,
+      amount: 0,
+    },
+    {
+      id: 26,
+      amount: 0,
+    },
+    {
+      id: 29,
+      amount: 0,
+    },
+    {
+      id: 30,
+      amount: 0,
+    },
+    {
+      id: 31,
+      amount: 0,
+    },
+    {
+      id: 49,
+      amount: 0,
+    },
+    {
+      id: 50,
+      amount: 0,
+    },
+    {
+      id: 51,
+      amount: 0,
+    },
+    {
+      id: 54,
+      amount: 0,
+    },
+    {
+      id: 55,
+      amount: 0,
+    },
+    {
+      id: 56,
+      amount: 0,
+    },
+  ];
 
-//vorhandene Materialien während des Algorithmus
-let warehousestock_work: ProductionPlan;
-
-//zu produzierende Materialien
-let productionOrder: ProductionPlan;
-
-//_Simulated PlanningWarehouseStock
-//Function fill PlanningWarehouseStock with current values
-export function SetProductionGoals() {
+  //get inputMaterialPlanning
   const { initialPlanning } = useSelector(
     (state: RootState) => state.inputMaterialPlanning
   );
-  console.log(initialPlanning);
 
-  //splitt
+  //splitt inputMaterialPlanning to get requires ammounts for each product
   const p1 = initialPlanning?.P1;
   const p2 = initialPlanning?.P2;
   const p3 = initialPlanning?.P3;
-  console.log(p1);
 
+  //set production orders for P1
   if (p1 !== undefined) {
     Object.entries(p1).forEach(([key, value]) => {
-      console.log(`Key: ${key}, Value:`, value);
+      //add values
+      productionOrders.forEach((element) => {
+        if (element.id === value.productName) {
+          //add to productionOrders
+          element.amount += value.productionOrder;
+          //add to individual product pws1
+          productionOrder = {
+            id: element.id,
+            amount: element.amount,
+          };
+          pws1.push(productionOrder);
+        }
+      });
     });
   }
+
+  //set production orders for P2
+  if (p2 !== undefined) {
+    Object.entries(p2).forEach(([key, value]) => {
+      //add values
+      productionOrders.forEach((element) => {
+        if (element.id === value.productName) {
+          //add to productionOrders
+          element.amount += value.productionOrder;
+          //add to individual product pws2
+          productionOrder = {
+            id: element.id,
+            amount: element.amount,
+          };
+          pws2.push(productionOrder);
+        }
+      });
+    });
+  }
+
+  //set Production orders for P3
+  if (p3 !== undefined) {
+    Object.entries(p3).forEach(([key, value]) => {
+      //add values
+      productionOrders.forEach((element) => {
+        if (element.id === value.productName) {
+          //add to productionOrders
+          element.amount += value.productionOrder;
+          //add to individual product pws1
+          productionOrder = {
+            id: element.id,
+            amount: element.amount,
+          };
+          pws3.push(productionOrder);
+        }
+      });
+    });
+  }
+
+  //return
+  //console.log(productionOrders);
+  return productionOrders;
 }
-//Funktion replicate PlanningWarehouseStock for use in Production Planning
+
+//set total available material
+export function SetAvailableMaterials() {
+  //working structures/tables
+  let articles: Article[] = [];
+  let warehouseStockItem: PlanningWarehouseStock;
+  let warehouseStockItems: PlanningWarehouseStock[] = [];
+
+  //read inputXML
+  const { list } = useSelector((state: RootState) => state.inputXML);
+
+  if (
+    list.XML !== null &&
+    list.XML.results !== null &&
+    list.XML.results.warehousestock !== null &&
+    list.XML.results.warehousestock.article !== null
+  ) {
+    articles = list.XML.results.warehousestock.article;
+  }
+
+  //Move articles to warehouseStockItems
+  articles.forEach((element) => {
+    warehouseStockItem = {
+      id: element.id,
+      amount: element.amount,
+    };
+    warehouseStockItems.push(warehouseStockItem);
+  });
+
+  //return
+  //console.log(warehouseStockItems);
+  return warehouseStockItems;
+}
+
+//set first order
+export function SetProductionOrder(
+  productionOrders: PlanningWarehouseStock[],
+  availabeMaterials: PlanningWarehouseStock[],
+  pws1: PlanningWarehouseStock[],
+  pws2: PlanningWarehouseStock[],
+  pws3: PlanningWarehouseStock[]
+) {
+  //Ideas
+  //-add missing Orders previous Waitinglist
+  //-start with most used workstations
+  //-start with most/least availabel material
+
+  let priorityOrder: number[] = [];
+  let calMaterial: PlanningWarehouseStock;
+  let calMaterials1: PlanningWarehouseStock[] = [];
+  let calMaterials2: PlanningWarehouseStock[] = [];
+  let calMaterials3: PlanningWarehouseStock[] = [];
+  let calMaterialsTotal: PlanningWarehouseStock[] = [];
+  let perMaterials1: number = 0;
+  let perMaterials2: number = 0;
+  let perMaterials3: number = 0;
+  let availabe: number;
+
+  //planning least availabe Product - including Products used for all
+  //set percentage of warehousestock and production order -> production order equals the requiered amount
+  //p1
+  availabeMaterials.forEach((material) => {
+    pws1.forEach((requiered) => {
+      //calculate availabe material
+      if (requiered.id.toString() === material.id.toString()) {
+        if (requiered.amount !== 0) {
+          availabe = material.amount / requiered.amount;
+          //warehouse stock meets requirement fully
+          if (availabe > 1) {
+            availabe = 1;
+            //warehouse stock not fully met
+          }
+          calMaterial = {
+            id: requiered.id,
+            amount: availabe,
+          };
+          //add to specific avalablility
+          calMaterials1.push(calMaterial);
+          //add to overall avalability
+          perMaterials1 += availabe;
+        }
+        //nothing is required
+        else {
+          availabe = 0;
+        }
+      }
+    });
+  });
+
+  //p2
+  availabeMaterials.forEach((material) => {
+    pws2.forEach((requiered) => {
+      //calculate availabe material
+      if (requiered.id.toString() === material.id.toString()) {
+        if (requiered.amount !== 0) {
+          availabe = material.amount / requiered.amount;
+          //warehouse stock meets requirement fully
+          if (availabe > 1) {
+            availabe = 1;
+            //warehouse stock not fully met
+          }
+          calMaterial = {
+            id: requiered.id,
+            amount: availabe,
+          };
+          //add to specific avalablility
+          calMaterials2.push(calMaterial);
+          //add to overall avalability
+          perMaterials2 += availabe;
+        }
+        //nothing is required
+        else {
+          availabe = 0;
+        }
+      }
+    });
+  });
+
+  //p3
+  availabeMaterials.forEach((material) => {
+    pws3.forEach((requiered) => {
+      //calculate availabe material
+      if (requiered.id.toString() === material.id.toString()) {
+        if (requiered.amount !== 0) {
+          availabe = material.amount / requiered.amount;
+          //warehouse stock meets requirement fully
+          if (availabe > 1) {
+            availabe = 1;
+            //warehouse stock not fully met
+          }
+          calMaterial = {
+            id: requiered.id,
+            amount: availabe,
+          };
+          //add to specific avalablility
+          calMaterials3.push(calMaterial);
+          //add to overall avalability
+          perMaterials3 += availabe;
+        }
+        //nothing is required
+        else {
+          availabe = 0;
+        }
+      }
+    });
+  });
+
+  //calculate overall avalability
+  perMaterials1 = perMaterials1 / calMaterials1.length;
+  perMaterials2 = perMaterials2 / calMaterials2.length;
+  perMaterials3 = perMaterials3 / calMaterials3.length;
+  calMaterialsTotal = calMaterials1.concat(calMaterials2).concat(calMaterials3);
+
+  console.log(calMaterialsTotal);
+
+  //set Priority order with
+}
+
+//Simulate
+export function SimulateProduction() {}
+
+//Evaluation
+export function EvaluateResult() {
+  //Count - Umrüstzeiten, Durchlaufzeiten
+}
 
 //__Produktion Planning
 
-//Missing previous Waitinglist
 //Missung mutiused Halbfabrikate und Kaufteile
-
-//Define starting Point
-//-start with most used workstations
-//-start with most avaliabel material
-//-set a Production Order
 
 //Define Contraint with Dependency Mapping or Material Capacity
 //constrain Material
 //set already blocked timeslots from previous Period
 
-//Loop at Orders
+//Loop at orders
 
 //Check - Material availabe
 //Check - next free Timeslot
@@ -95,11 +463,6 @@ export function SetProductionGoals() {
 //Endloop
 
 //Evaluating Solution
-//Count - Umrüstzeiten
 
 //Change Starting Point
 //Splitt Production Order from Item with most Umrüstzeiten
-
-//__Result
-//Production Order
-//Time needed for Machines/Workstations

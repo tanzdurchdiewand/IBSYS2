@@ -33,7 +33,7 @@ export type PlanningWorkstation = {
 };
 
 export type PlanningWarehouseStock = {
-  id: string;
+  id: number;
   amount: number;
 };
 
