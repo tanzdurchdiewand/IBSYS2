@@ -211,7 +211,7 @@ export function SetProductionGoals(
     (state: RootState) => state.inputMaterialPlanning
   );
 
-  //splitt inputMaterialPlanning to get requires ammounts for each product
+  //splitt inputMaterialPlanning to get required amounts for each product
   const p1 = initialPlanning?.P1;
   const p2 = initialPlanning?.P2;
   const p3 = initialPlanning?.P3;
@@ -273,8 +273,6 @@ export function SetProductionGoals(
     });
   }
 
-  //return
-  //console.log(productionOrders);
   return productionOrders;
 }
 
@@ -306,8 +304,6 @@ export function SetAvailableMaterials() {
     warehouseStockItems.push(warehouseStockItem);
   });
 
-  //return
-  //console.log(warehouseStockItems);
   return warehouseStockItems;
 }
 
@@ -324,19 +320,21 @@ export function SetProductionOrder(
   //-start with most used workstations
   //-start with most/least availabel material
 
-  let priorityOrder: number[] = [];
   let calMaterial: PlanningWarehouseStock;
   let calMaterials1: PlanningWarehouseStock[] = [];
   let calMaterials2: PlanningWarehouseStock[] = [];
   let calMaterials3: PlanningWarehouseStock[] = [];
+  let priorityOrder: PlanningWarehouseStock[] = [];
   let calMaterialsTotal: PlanningWarehouseStock[] = [];
+  let finalProductionOrder: PlanningWarehouseStock[] = [];
   let perMaterials1: number = 0;
   let perMaterials2: number = 0;
   let perMaterials3: number = 0;
   let availabe: number;
 
   //planning least availabe Product - including Products used for all
-  //set percentage of warehousestock and production order -> production order equals the requiered amount
+  //set percentage of warehousestock and production order -> Prerequisit: production order equals the requiered amount
+
   //p1
   availabeMaterials.forEach((material) => {
     pws1.forEach((requiered) => {
@@ -360,7 +358,6 @@ export function SetProductionOrder(
         }
         //nothing is required
         else {
-          availabe = 0;
         }
       }
     });
@@ -389,7 +386,6 @@ export function SetProductionOrder(
         }
         //nothing is required
         else {
-          availabe = 0;
         }
       }
     });
@@ -416,9 +412,9 @@ export function SetProductionOrder(
           //add to overall avalability
           perMaterials3 += availabe;
         }
+
         //nothing is required
         else {
-          availabe = 0;
         }
       }
     });
@@ -428,11 +424,53 @@ export function SetProductionOrder(
   perMaterials1 = perMaterials1 / calMaterials1.length;
   perMaterials2 = perMaterials2 / calMaterials2.length;
   perMaterials3 = perMaterials3 / calMaterials3.length;
-  calMaterialsTotal = calMaterials1.concat(calMaterials2).concat(calMaterials3);
 
-  console.log(calMaterialsTotal);
+  //set Order with average missing materials
+  priorityOrder = [
+    { id: 1, amount: perMaterials1 },
+    { id: 2, amount: perMaterials2 },
+    { id: 3, amount: perMaterials3 },
+  ];
 
-  //set Priority order with
+  priorityOrder.sort(function (a, b) {
+    return a.amount - b.amount;
+  });
+
+  //set production order
+  priorityOrder.forEach((element) => {
+    switch (element.id) {
+      case 1:
+        calMaterialsTotal = calMaterialsTotal.concat(calMaterials1);
+        break;
+      case 2:
+        calMaterialsTotal = calMaterialsTotal.concat(calMaterials2);
+        break;
+      case 3:
+        calMaterialsTotal = calMaterialsTotal.concat(calMaterials3);
+        break;
+    }
+  });
+
+  //set new order
+  let alreadySeen: number[] = [];
+  let index;
+  calMaterialsTotal.forEach((order) => {
+    if (alreadySeen.includes(order.id)) {
+      index = finalProductionOrder.findIndex(
+        (element) => element.id === order.id
+      );
+      console.log(alreadySeen, order.id, index);
+      finalProductionOrder[index].amount += order.amount;
+    } else {
+      alreadySeen.push(order.id);
+      finalProductionOrder.push(order);
+    }
+  });
+
+  //set new production
+  productionOrders = [];
+  productionOrders = finalProductionOrder;
+  //console.log(productionOrders);
 }
 
 //Simulate
