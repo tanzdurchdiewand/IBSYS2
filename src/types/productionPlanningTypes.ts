@@ -21,14 +21,21 @@ export type ProductionForecast = {
 
 //Types for weekly planning of workstations
 export type PlanningTimeslot = {
-  id: number;
   productionOrder: number;
+  day: number;
   start: number;
   end: number;
 };
 
+export type WeekTime = {
+  day: number;
+  availableTime: number;
+};
+
 export type PlanningWorkstation = {
-  id: number;
+  workstation: number;
+  maxTime: number;
+  availableTime: WeekTime[];
   timeslots: PlanningTimeslot[];
 };
 

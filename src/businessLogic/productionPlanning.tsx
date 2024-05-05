@@ -13,6 +13,7 @@ import {
   PlanningWorkstation,
   PlanningWarehouseStock,
   ProductionPlan,
+  WeekTime,
 } from "../types/productionPlanningTypes";
 import {
   Article,
@@ -43,18 +44,27 @@ export default function ProductionPlanning() {
     p2,
     p3
   );
+  //console.log(productionOrders);
 
   //get available Materials
   let availabeMaterials: PlanningWarehouseStock[] = SetAvailableMaterials();
+  //console.log(availabeMaterials);
 
   //_loop
   //set starting order
-  SetProductionOrder(productionOrders, availabeMaterials, p1, p2, p3);
+  let finalProductionOrders: PlanningWarehouseStock[] = SetProductionOrder(
+    productionOrders,
+    availabeMaterials,
+    p1,
+    p2,
+    p3
+  );
+  //console.log(productionOrders);
 
   //Simulate
-  SimulateProduction();
+  SimulateProduction(finalProductionOrders);
 
-  //Elaluation of results
+  //Evaluation of results
   EvaluateResult();
 
   //change starting order
@@ -307,7 +317,7 @@ export function SetAvailableMaterials() {
   return warehouseStockItems;
 }
 
-//set first order
+//set production order
 export function SetProductionOrder(
   productionOrders: PlanningWarehouseStock[],
   availabeMaterials: PlanningWarehouseStock[],
@@ -431,7 +441,6 @@ export function SetProductionOrder(
     { id: 2, amount: perMaterials2 },
     { id: 3, amount: perMaterials3 },
   ];
-
   priorityOrder.sort(function (a, b) {
     return a.amount - b.amount;
   });
@@ -451,7 +460,7 @@ export function SetProductionOrder(
     }
   });
 
-  //set new order
+  //Group by id for Material for all Products
   let alreadySeen: number[] = [];
   let index;
   calMaterialsTotal.forEach((order) => {
@@ -459,7 +468,6 @@ export function SetProductionOrder(
       index = finalProductionOrder.findIndex(
         (element) => element.id === order.id
       );
-      console.log(alreadySeen, order.id, index);
       finalProductionOrder[index].amount += order.amount;
     } else {
       alreadySeen.push(order.id);
@@ -467,29 +475,229 @@ export function SetProductionOrder(
     }
   });
 
-  //set new production
-  productionOrders = [];
-  productionOrders = finalProductionOrder;
-  //console.log(productionOrders);
+  //set final production order
+  return finalProductionOrder;
 }
 
-//Simulate
-export function SimulateProduction() {}
+//Simulation
+export function SimulateProduction(
+  finalProductionOrders: PlanningWarehouseStock[]
+) {
+  //worstation
+  let workstation1: PlanningWorkstation = {
+    workstation: 1,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation2: PlanningWorkstation = {
+    workstation: 2,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation3: PlanningWorkstation = {
+    workstation: 3,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation4: PlanningWorkstation = {
+    workstation: 4,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation5: PlanningWorkstation = {
+    workstation: 5,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation6: PlanningWorkstation = {
+    workstation: 6,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation7: PlanningWorkstation = {
+    workstation: 7,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation8: PlanningWorkstation = {
+    workstation: 8,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation9: PlanningWorkstation = {
+    workstation: 9,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation10: PlanningWorkstation = {
+    workstation: 10,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation11: PlanningWorkstation = {
+    workstation: 11,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation12: PlanningWorkstation = {
+    workstation: 12,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation13: PlanningWorkstation = {
+    workstation: 13,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation14: PlanningWorkstation = {
+    workstation: 14,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
+  let workstation15: PlanningWorkstation = {
+    workstation: 15,
+    maxTime: 2400,
+    availableTime: [],
+    timeslots: [],
+  };
 
-//Evaluation
+  console.log(finalProductionOrders);
+
+  finalProductionOrders.forEach((element) => {
+    //needs to have date time
+    let dateTime: number | undefined = undefined;
+
+    //switch depending on material
+    switch (element.id) {
+      //
+      case 1 | 2 | 3:
+        //Workstations wich are used
+        // 4
+        //SimulateProductionWorkstation(workstation4, element);
+        break;
+      case 4 | 5 | 6:
+        // 10, 11
+        dateTime = SimulateProductionWorkstation(
+          workstation10,
+          element,
+          dateTime
+        );
+        SimulateProductionWorkstation(workstation11, element, dateTime);
+        break;
+      case 7 | 8 | 9:
+        // 10, 11
+        break;
+      case 10 | 11 | 12:
+        // 13, 12, 8, 7, 9
+        break;
+      case 13 | 14 | 15:
+        // 13, 12, 8, 7, 9
+        break;
+      case 16:
+        // 6, 14
+        break;
+      case 17:
+        // 15
+        break;
+      case 18 | 19 | 20:
+        // 6, 8, 7, 9
+        break;
+      case 26:
+        // 7, 15
+        break;
+      case 49 | 54 | 29:
+        // 1
+        break;
+      case 50 | 55 | 30:
+        // 2
+        break;
+      case 51 | 56 | 31:
+        // 3
+        break;
+    }
+  });
+  console.log(workstation4);
+  console.log(workstation10);
+  console.log(workstation11);
+}
+
+//add time to workstations
+export function SimulateProductionWorkstation(
+  workStation: PlanningWorkstation,
+  order: PlanningWarehouseStock,
+  dateTime: number | undefined
+) {
+  //list of different mappings for time
+  //get first available timeslot
+  let timeslot: PlanningTimeslot;
+  let timeslotLength = workStation.timeslots.length;
+
+  //calculate time requirement
+  let requiredTime = order.amount * 100;
+
+  //first entry
+  if (timeslotLength === 0) {
+    let weekTime: WeekTime[] = [
+      { day: 1, availableTime: workStation.maxTime },
+      { day: 2, availableTime: workStation.maxTime },
+      { day: 3, availableTime: workStation.maxTime },
+      { day: 4, availableTime: workStation.maxTime },
+      { day: 5, availableTime: workStation.maxTime },
+    ];
+
+    //set empty week
+    workStation.availableTime = weekTime;
+  }
+
+  //next entry with last end as start
+
+  //placeholder for testing
+  let placeholdderTime: number;
+  if (dateTime === undefined) {
+    placeholdderTime = 0;
+  } else {
+    placeholdderTime = dateTime;
+  }
+  timeslot = {
+    productionOrder: order.id,
+    day: 1,
+    start: placeholdderTime,
+    end: placeholdderTime + requiredTime,
+  };
+
+  //reduce available time
+  workStation.availableTime.forEach((element) => {
+    if (timeslot.day === element.day) {
+      element.availableTime -= requiredTime;
+    }
+  });
+
+  //add timeslot
+  workStation.timeslots.push(timeslot);
+
+  return timeslot.end;
+}
+
+//evaluation and variation
 export function EvaluateResult() {
   //Count - Umrüstzeiten, Durchlaufzeiten
+  //Change Starting Point
+  //Splitt Production Order from Item with most Umrüstzeiten
 }
-
-//__Produktion Planning
-
-//Missung mutiused Halbfabrikate und Kaufteile
-
-//Define Contraint with Dependency Mapping or Material Capacity
-//constrain Material
-//set already blocked timeslots from previous Period
-
-//Loop at orders
 
 //Check - Material availabe
 //Check - next free Timeslot
@@ -497,10 +705,3 @@ export function EvaluateResult() {
 //Change - PlanningWarehouseStock
 //Change - Change Timeslot - Umrüstzeit
 //Change - Change Timeslot - Durchlaufzeit
-
-//Endloop
-
-//Evaluating Solution
-
-//Change Starting Point
-//Splitt Production Order from Item with most Umrüstzeiten
