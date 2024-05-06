@@ -5,8 +5,7 @@ const en = {
     materialPlanning: "Material Planning",
     orderPlanning: "Order Planning",
     productionPlanning: "Production Planning",
-    capacityPlanningOverview: "Capacity Planning Overview",
-    capacityPlanningTotal: "Total Capacity Planning",
+    capacityPlanning: "Total Capacity Planning",
     result: "Result",
   },
   navBarText: {
@@ -19,9 +18,8 @@ const en = {
       "Please review the order planning and enter desired changes.",
     productionPlanningText:
       "Please review the production planning and enter desired changes.",
-    capacityPlanningOverviewText:
+    capacityPlanningText:
       "Please review the capacity planning and enter desired changes.",
-    capacityPlanningTotalText: "Please review the total capacity planning.",
     resultText: "Results of the simulation.",
   },
 };

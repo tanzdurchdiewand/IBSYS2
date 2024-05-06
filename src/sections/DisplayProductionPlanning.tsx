@@ -23,7 +23,7 @@ export default function DisplayProductionPlanning() {
         <ProductionPlanning />
       </StyledCard>
       <StyledButton
-        onClick={() => goTo("/start/capacity-overview", Direction.Forward)}
+        onClick={() => goTo("/start/capacity", Direction.Forward)}
         sx={{ right: 0 }}
       >
         <ArrowForwardIosIcon />
@@ -31,3 +31,6 @@ export default function DisplayProductionPlanning() {
     </Container>
   );
 }
+
+// TODO Row Ordering benutzen
+// https://mui.com/x/react-data-grid/row-ordering/

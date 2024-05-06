@@ -8,12 +8,12 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 
-export default function CapacityPlanningTotal() {
+export default function CapacityPlanning() {
   const { goTo } = useNavigationHandler();
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
-        onClick={() => goTo("/start/capacity-overview", Direction.Back)}
+        onClick={() => goTo("/start/production", Direction.Back)}
         sx={{ left: 0 }}
       >
         <ArrowBackIosIcon />

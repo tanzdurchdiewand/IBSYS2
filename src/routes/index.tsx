@@ -29,11 +29,8 @@ const OrderPlanning = Loadable(lazy(() => import("../sections/OrderPlanning")));
 const ProductionPlanning = Loadable(
   lazy(() => import("../sections/DisplayProductionPlanning"))
 );
-const CapacityPlanningOverview = Loadable(
-  lazy(() => import("../sections/CapacityPlanningOverview"))
-);
-const CapacityPlanningTotal = Loadable(
-  lazy(() => import("../sections/CapacityPlanningTotal"))
+const CapacityPlanning = Loadable(
+  lazy(() => import("../sections/CapacityPlanning"))
 );
 const Result = Loadable(lazy(() => import("../sections/Result")));
 
@@ -53,8 +50,7 @@ const routes = [
           { path: "material", element: <MaterialPlanning /> },
           { path: "order", element: <OrderPlanning /> },
           { path: "production", element: <ProductionPlanning /> },
-          { path: "capacity-overview", element: <CapacityPlanningOverview /> },
-          { path: "capacity-total", element: <CapacityPlanningTotal /> },
+          { path: "capacity", element: <CapacityPlanning /> },
           { path: "result", element: <Result /> },
         ],
       },

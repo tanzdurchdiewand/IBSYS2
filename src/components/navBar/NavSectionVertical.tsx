@@ -65,20 +65,10 @@ export default function NavSectionVertical() {
           </StepContent>
         </Step>
         <Step>
-          <StepLabel>{`${i18n.t(
-            "navBar.capacityPlanningOverview"
-          )}`}</StepLabel>
+          <StepLabel>{`${i18n.t("navBar.capacityPlanning")}`}</StepLabel>
           <StepContent>
             <Typography>{`${i18n.t(
-              "navBarText.capacityPlanningOverviewText"
-            )}`}</Typography>
-          </StepContent>
-        </Step>
-        <Step>
-          <StepLabel>{`${i18n.t("navBar.capacityPlanningTotal")}`}</StepLabel>
-          <StepContent>
-            <Typography>{`${i18n.t(
-              "navBarText.capacityPlanningTotalText"
+              "navBarText.capacityPlanningText"
             )}`}</Typography>
           </StepContent>
         </Step>

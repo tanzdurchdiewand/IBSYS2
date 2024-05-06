@@ -36,12 +36,6 @@ function NavSectionMini() {
         <Step>
           <StepLabel></StepLabel>
         </Step>
-        <Step>
-          <StepLabel></StepLabel>
-        </Step>
-        <Step>
-          <StepLabel></StepLabel>
-        </Step>
       </Stepper>
     </StyledBox>
   );

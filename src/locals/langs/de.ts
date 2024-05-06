@@ -5,8 +5,7 @@ const de = {
     materialPlanning: "Materialplanung",
     orderPlanning: "Beschaffungsplanung",
     productionPlanning: "Produktionsplanung",
-    capacityPlanningOverview: "Kapazitätsplanung Übersicht",
-    capacityPlanningTotal: "Kapazitätsplanung Gesamt",
+    capacityPlanning: "Kapazitätsplanung",
     result: "Ergebnis",
   },
   navBarText: {
@@ -20,10 +19,8 @@ const de = {
       "Bitte überprüfen Sie die Beschaffungsplanung und geben gewünschte Änderungen ein.",
     productionPlanningText:
       "Bitte überprüfen Sie die Produktionsplanung und geben gewünschte Änderungen ein.",
-    capacityPlanningOverviewText:
+    capacityPlanningText:
       "Bitte überprüfen Sie die Kapazitätsplanung und geben gewünschte Änderungen ein.",
-    capacityPlanningTotalText:
-      "Bitte überprüfen Sie die Gesamtkapazitätsplanung.",
     resultText: "Ergebnisse der Simulation.",
   },
 };
