@@ -78,7 +78,7 @@ export default function CapacityPlanning() {
                     colSpan={3}
                     style={{ textAlign: "center" }}
                   ></TableCell>
-                  {row.values.map((value, valueIndex) => (
+                  {row.values?.map((value, valueIndex) => (
                     <TableCell key={valueIndex}>
                       {row.editable ? (
                         <TextField

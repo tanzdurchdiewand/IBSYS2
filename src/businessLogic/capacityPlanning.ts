@@ -4,22 +4,19 @@ import {
   SummaryTable,
   capacityPlanningData,
 } from "../types/capacityPlanningTypes";
-import { GameData } from "../types/inputXMLTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
 
 export function initializeCapacityPlanning(
-  gameData: GameData,
   productionProgramm: ProductionProgramm
 ): CapacityPlanningTable {
   const capacityPlanning: CapacityPlanningTable = [];
-  let count = 0;
-  Object.entries(capacityPlanningData).forEach(([key, details]) => {
+  Object.entries(capacityPlanningData).forEach(([key, details], index) => {
     const prodQuantity = getProductProductionQuantity(
       details.type,
       productionProgramm
     );
 
-    capacityPlanning[count] = {
+    capacityPlanning[index] = {
       designation: details.description,
       modelType: details.type,
       id: key,
@@ -28,8 +25,6 @@ export function initializeCapacityPlanning(
         (num) => num * prodQuantity
       ),
     };
-
-    count++;
   });
 
   console.log(capacityPlanning);
@@ -37,12 +32,36 @@ export function initializeCapacityPlanning(
   return capacityPlanning;
 }
 
+// TODO Rüstzeit vorperiode aus gamedata
 export function initializeCapacityPlanningSummary(
   capacityPlanning: CapacityPlanningTable
 ): SummaryTable {
-  //Object.entries(capacityPlanning).forEach(([key, details]) => {});
+  const generateArray = (): number[] => Array.from({ length: 15 }).map(() => 2);
 
-  return generateSummaryRows();
+  const capacityRequirements = generateArray();
+  const setupTimes = generateArray();
+  const setupTimePreviousPeriods = generateArray();
+  const totalCapacityRequirements = generateArray();
+  const shiftsAndOvertimes = generateArray();
+  const shiftsAndOvertimePerDasy = generateArray();
+
+  // TODO Update capacityRequirements based on workstationResults
+  Object.values(capacityPlanning).forEach(({ workstationResults }) => {
+    workstationResults.forEach((value, index) => {
+      capacityRequirements[index] += value;
+    });
+  });
+
+  const capacitySummaryPlanning: SummaryTable = generateSummaryRows(
+    capacityRequirements,
+    setupTimes,
+    setupTimePreviousPeriods,
+    totalCapacityRequirements,
+    shiftsAndOvertimes,
+    shiftsAndOvertimePerDasy
+  );
+
+  return capacitySummaryPlanning;
 }
 
 const getProductProductionQuantity = (
@@ -75,39 +94,43 @@ const getProductProductionQuantity = (
   }
 };
 
-const generateSummaryRows = (): SummaryTable => {
-  const data = [
+const generateSummaryRows = (
+  capacityRequirements: number[],
+  setupTimes: number[],
+  setupTimePreviousPeriods: number[],
+  totalCapacityRequirements: number[],
+  shiftsAndOvertimes: number[],
+  shiftsAndOvertimePerDays: number[]
+): SummaryTable => {
+  const data: SummaryTable = [
     {
-      label: "Kapazitätsbedarf",
-      values: new Array(15)
-        .fill(0)
-        .map(() => Math.floor(Math.random() * 2000 + 1000)),
+      label: "Capacity Requirements",
+      values: capacityRequirements,
       editable: false,
     },
     {
-      label: "Rüstzeit",
-      values: new Array(15)
-        .fill(0)
-        .map(() => Math.floor(Math.random() * 100 + 50)),
+      label: "Setup Times",
+      values: setupTimes,
       editable: false,
     },
     {
-      label: "Gesamt-Kapazitätsbedarf",
-      values: new Array(15)
-        .fill(0)
-        .map(() => Math.floor(Math.random() * 3000 + 1500)),
+      label: "setupTimes Previous Periods",
+      values: setupTimePreviousPeriods,
       editable: false,
     },
     {
-      label: "Schichten und Überstunden",
-      values: new Array(15)
-        .fill(0)
-        .map(() => Math.floor(Math.random() * 10 - 5)),
+      label: "Total Capacity Requirements",
+      values: totalCapacityRequirements,
+      editable: false,
+    },
+    {
+      label: "Shifts And Overtimes",
+      values: shiftsAndOvertimes,
       editable: true,
     },
     {
-      label: "Schichten und Überstunden pro Tag",
-      values: new Array(15).fill(0).map(() => Math.floor(Math.random() * 3)),
+      label: "Shifts And Overtime Per Days",
+      values: shiftsAndOvertimePerDays,
       editable: true,
     },
   ];
