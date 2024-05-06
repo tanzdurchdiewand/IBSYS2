@@ -10,10 +10,12 @@ import {
 } from "../hooks/useNavigationHandlers";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlanningType } from "../types/materialPlanningTypes";
 import MaterialPlanningComponent from "../components/materialPlanningComponents/MaterialPlanningComponent";
 import { useOrderPlanning } from "../hooks/useOrderPlanning";
+import { setStepper } from "../redux/slices/inputXML";
+import { useDispatch } from "../redux/store";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,6 +54,10 @@ function a11yProps(index: number) {
 export default function MaterialPlanning() {
   const [value, setValue] = useState(0);
   const { goTo } = useNavigationHandler();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setStepper(2))
+  }, [dispatch])
 
   const backPath = "/start/produktion";
   const forwardPath = "/start/order";

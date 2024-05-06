@@ -22,11 +22,18 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import { useOrderPlanning } from "../hooks/useOrderPlanning";
+import { useDispatch } from "../redux/store";
+import { useEffect } from "react";
+import { setStepper } from "../redux/slices/inputXML";
 
 // TODO dauert zu lange
 export default function OrderPlanning() {
   const { goTo } = useNavigationHandler();
   const { orderPlanning, updateOrder } = useOrderPlanning();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setStepper(3))
+  }, [dispatch])
 
   console.log("OrderPlanning", orderPlanning);
 

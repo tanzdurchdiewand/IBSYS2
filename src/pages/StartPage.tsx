@@ -18,7 +18,7 @@ import { useDispatch } from "../redux/store";
 type InputNewXMLContext = {
   setSelectedInputXML: Dispatch<SetStateAction<GameData | undefined>>;
   selectedInputXML: GameData | undefined;
-  handleNextStep: () => void;
+  handleNextStep: (step: number) => void;
   handleBack: () => void;
   handleAbort: () => void;
 };
@@ -36,8 +36,8 @@ export default function StartPage() {
     GameData | undefined
   >(undefined);
   
-  const handleNextStep = () => {
-    dispatch(setStepper(1));
+  const handleNextStep = (step: number) => {
+    dispatch(setStepper(step));
   };
 
   const handleBack = () => {
