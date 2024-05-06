@@ -61,13 +61,18 @@ export function initializeOrderPlanning(
   gameData: GameData,
   productionProgramm: ProductionProgramm
 ): MaterialOrderPlanning {
-  const orderPlanning: any = {}
+  const orderPlanning: any = {};
   Object.entries(orderDetail).forEach(([key, details]) => {
     const warehouseStock = returnWarehouseStockForProduct(gameData, key);
 
-    const demands = calculateDemands(productionProgramm, details.requiredQuantityP1, details.requiredQuantityP2, details.requiredQuantityP3);
+    const demands = calculateDemands(
+      productionProgramm,
+      details.requiredQuantityP1,
+      details.requiredQuantityP2,
+      details.requiredQuantityP3
+    );
 
-    // TODO 
+    // TODO
     const orderQuantity = 0;
     const orderType = OrderType.Normal;
 
@@ -105,8 +110,13 @@ export function updateOrderRow(
   return updatedData;
 }
 
-function returnWarehouseStockForProduct(gameData: GameData, productId: string): number {
-  const article = gameData.results.warehousestock.article.find(article => article.id.toString() === productId);
+function returnWarehouseStockForProduct(
+  gameData: GameData,
+  productId: string
+): number {
+  const article = gameData.results.warehousestock.article.find(
+    (article) => article.id.toString() === productId
+  );
 
   if (article) {
     return article.amount;
@@ -115,18 +125,32 @@ function returnWarehouseStockForProduct(gameData: GameData, productId: string): 
   return 0;
 }
 
-function calculateDemands(productionProgram: ProductionProgramm, requiredQuantityP1: number, requiredQuantityP2: number, requiredQuantityP3: number): [number, number, number, number] {
+function calculateDemands(
+  productionProgram: ProductionProgramm,
+  requiredQuantityP1: number,
+  requiredQuantityP2: number,
+  requiredQuantityP3: number
+): [number, number, number, number] {
   const demands: [number, number, number, number] = [0, 0, 0, 0];
 
-  demands[0] = productionProgram.P1.salesOrder.productionWish * requiredQuantityP1 +
+  demands[0] =
+    productionProgram.P1.salesOrder.productionWish * requiredQuantityP1 +
     productionProgram.P2.salesOrder.productionWish * requiredQuantityP2 +
     productionProgram.P3.salesOrder.productionWish * requiredQuantityP3;
 
   for (let i = 0; i < 3; i++) {
-    if (productionProgram.P1.forecast[i] && productionProgram.P2.forecast[i] && productionProgram.P3.forecast[i]) {
-      demands[i + 1] = productionProgram.P1.forecast[i].salesOrder.productionWish * requiredQuantityP1 +
-        productionProgram.P2.forecast[i].salesOrder.productionWish * requiredQuantityP2 +
-        productionProgram.P3.forecast[i].salesOrder.productionWish * requiredQuantityP3;
+    if (
+      productionProgram.P1.forecast[i] &&
+      productionProgram.P2.forecast[i] &&
+      productionProgram.P3.forecast[i]
+    ) {
+      demands[i + 1] =
+        productionProgram.P1.forecast[i].salesOrder.productionWish *
+          requiredQuantityP1 +
+        productionProgram.P2.forecast[i].salesOrder.productionWish *
+          requiredQuantityP2 +
+        productionProgram.P3.forecast[i].salesOrder.productionWish *
+          requiredQuantityP3;
     }
   }
 
