@@ -45,8 +45,8 @@ export default function CapacityPlanning() {
             <TableHead>
               <TableRow>
                 <TableCell>Designation</TableCell>
-                <TableCell>Model Type</TableCell>
-                <TableCell>Sach-Nr</TableCell>
+                <TableCell>Final product</TableCell>
+                <TableCell>Article number</TableCell>
                 <TableCell>Order Quantity</TableCell>
                 {Array.from({ length: 15 }, (_, i) => (
                   <TableCell key={i}>Workstation {i + 1}</TableCell>

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import {
-  generateCapacityPlanningRows,
-  generateSummaryRows,
+  initializeCapacityPlanning,
+  initializeCapacityPlanningSummary,
 } from "../businessLogic/capacityPlanning";
 import {
   setCapacityPlanningData,
@@ -12,6 +12,12 @@ import {
 
 export const useCapacityPlanning = () => {
   const dispatch = useDispatch();
+  const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
+
+  const productionProgramm = useSelector(
+    (state: RootState) => state.inputProduction.list.productionProgramm
+  );
+
   const capacityRows = useSelector(
     (state: RootState) => state.inputCapacityPlanning.capacityRows
   );
@@ -20,9 +26,15 @@ export const useCapacityPlanning = () => {
   );
 
   useEffect(() => {
-    dispatch(setCapacityPlanningData(generateCapacityPlanningRows()));
-    dispatch(setSummaryData(generateSummaryRows()));
-  }, [dispatch]);
+    if (gameData && productionProgramm) {
+      dispatch(
+        setCapacityPlanningData(
+          initializeCapacityPlanning(gameData, productionProgramm)
+        )
+      );
+      dispatch(setSummaryData(initializeCapacityPlanningSummary(capacityRows)));
+    }
+  }, [dispatch, gameData, productionProgramm]);
 
   const handleValueChange = (
     index: number,

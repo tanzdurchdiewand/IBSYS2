@@ -1,27 +1,74 @@
 import {
+  BikePartType,
   CapacityPlanningTable,
   SummaryTable,
+  capacityPlanningData,
 } from "../types/capacityPlanningTypes";
+import { GameData } from "../types/inputXMLTypes";
+import { ProductionProgramm } from "../types/productionPlanningTypes";
 
-export const generateCapacityPlanningRows = (): CapacityPlanningTable => [
-  {
-    designation: "Hinterad",
-    modelType: "K",
-    id: "E4",
-    orderQuantity: 150,
-    workstationResults: new Array(15).fill(150),
-  },
-  {
-    designation: "Vorderrad",
-    modelType: "D",
-    id: "E5",
-    orderQuantity: 100,
-    workstationResults: new Array(15).fill(100),
-  },
-  // Additional rows can be added similarly
-];
+export function initializeCapacityPlanning(
+  gameData: GameData,
+  productionProgramm: ProductionProgramm
+): CapacityPlanningTable {
+  const capacityPlanning: CapacityPlanningTable = [];
+  let count = 0;
+  Object.entries(capacityPlanningData).forEach(([key, details]) => {
+    const prodQuantity = getProductProductionQuantity(
+      details.type,
+      productionProgramm
+    );
 
-export const generateSummaryRows = (): SummaryTable => {
+    capacityPlanning[count] = {
+      designation: details.description,
+      modelType: details.type,
+      id: key,
+      orderQuantity: prodQuantity,
+      workstationResults: details.partsRequired.map(
+        (num) => num * prodQuantity
+      ),
+    };
+
+    count++;
+  });
+
+  console.log(capacityPlanning);
+
+  return capacityPlanning;
+}
+
+export function initializeCapacityPlanningSummary(
+  capacityPlanning: CapacityPlanningTable
+): SummaryTable {
+  //Object.entries(capacityPlanning).forEach(([key, details]) => {});
+
+  return generateSummaryRows();
+}
+
+const getProductProductionQuantity = (
+  type: BikePartType,
+  productionProgramm: ProductionProgramm
+): number => {
+  switch (type) {
+    case BikePartType.P1:
+      return productionProgramm.P1.salesOrder.productionWish ?? 0;
+    case BikePartType.P2:
+      return productionProgramm.P2.salesOrder.productionWish ?? 0;
+    case BikePartType.P3:
+      return productionProgramm.P3.salesOrder.productionWish ?? 0;
+    case BikePartType.P1_P2_P3:
+      return (
+        Number(productionProgramm.P1.salesOrder.productionWish) ??
+        0 + Number(productionProgramm.P2.salesOrder.productionWish) ??
+        0 + Number(productionProgramm.P3.salesOrder.productionWish) ??
+        0
+      );
+    default:
+      return 0;
+  }
+};
+
+const generateSummaryRows = (): SummaryTable => {
   const data = [
     {
       label: "Kapazitätsbedarf",

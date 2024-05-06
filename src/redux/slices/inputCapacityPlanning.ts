@@ -44,6 +44,8 @@ export const {
 } = capacityPlanningSlice.actions;
 export const selectCapacityPlanningData = (state: RootState) =>
   state.inputCapacityPlanning.capacityRows;
+
 export const selectSummaryRows = (state: RootState) =>
   state.inputCapacityPlanning.summaryRows;
+
 export default capacityPlanningSlice.reducer;
