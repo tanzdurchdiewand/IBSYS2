@@ -12,7 +12,7 @@ export default function Result() {
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
-        onClick={() => goTo("/start/capacity-total", Direction.Back)}
+        onClick={() => goTo("/start/capacity", Direction.Back)}
         sx={{ left: 0 }}
       >
         <ArrowBackIosIcon />
@@ -21,6 +21,3 @@ export default function Result() {
     </Container>
   );
 }
-
-// TODO Row Ordering benutzen
-// https://mui.com/x/react-data-grid/row-ordering/
