@@ -53,7 +53,7 @@ const slice = createSlice({
       state.list.XML = action.payload;
     },
     setStepper(state, action: PayloadAction<number>) {
-      state.list.step += action.payload;
+      state.list.step = action.payload;
     },
     resetStepper(state) {
       state.list.step = 0;

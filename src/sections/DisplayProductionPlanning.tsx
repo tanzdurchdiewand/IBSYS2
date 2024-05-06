@@ -8,9 +8,16 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import ProductionPlanning from "../businessLogic/productionPlanning";
+import { useDispatch } from "../redux/store";
+import { useEffect } from "react";
+import { setStepper } from "../redux/slices/inputXML";
 
 export default function DisplayProductionPlanning() {
   const { goTo } = useNavigationHandler();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setStepper(4))
+  }, [dispatch])
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton

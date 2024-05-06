@@ -21,6 +21,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { setProductionProgramm } from "../redux/slices/inputProduction";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
+import { setStepper } from "../redux/slices/inputXML";
 
 const salesOrderSchema = yup.object().shape({
   salesWish: yup.number().required(),
@@ -49,6 +51,9 @@ export default function ProduktionProgramm() {
     mode: "onChange",
   });
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setStepper(1))
+  }, [dispatch])
   const {
     handleSubmit,
     // formState: { isSubmitting, isDirty },

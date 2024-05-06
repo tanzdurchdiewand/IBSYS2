@@ -17,10 +17,17 @@ import {
   Direction,
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
+import { useDispatch } from "../redux/store";
+import { useEffect } from "react";
+import { setStepper } from "../redux/slices/inputXML";
 import { useCapacityPlanning } from "../hooks/useCapacityPlanning";
 
 export default function CapacityPlanning() {
   const { goTo } = useNavigationHandler();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setStepper(5));
+  }, [dispatch]);
   const { capacityRows, summaryRows, handleValueChange } =
     useCapacityPlanning();
 

@@ -6,8 +6,15 @@ import {
   Direction,
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
+import { useDispatch } from "../redux/store";
+import { useEffect } from "react";
+import { setStepper } from "../redux/slices/inputXML";
 
 export default function Result() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setStepper(6))
+  }, [dispatch])
   const { goTo } = useNavigationHandler();
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>

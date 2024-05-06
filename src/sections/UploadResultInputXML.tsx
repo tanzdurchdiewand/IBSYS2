@@ -1,26 +1,32 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Container, Button, Typography } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import { SelectInputXML } from "../pages/StartPage";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
-import { RootState, useSelector } from "../redux/store";
+import { RootState, useDispatch, useSelector } from "../redux/store";
 import { useFileUpload } from "../hooks/useFileUpload";
 import { StyledButton } from "../components/styledComponets/styledButton";
 import {
   Direction,
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
+import { setStepper } from "../redux/slices/inputXML";
 
 export default function UploadResultInputXML() {
   const { setSelectedInputXML } = useContext(SelectInputXML);
+  
   const { fileName, fileSelected } = useSelector(
     (state: RootState) => state.inputXML.list
   );
   const { handleFileChange, validationErrors } =
     useFileUpload(setSelectedInputXML);
   const { goTo } = useNavigationHandler();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setStepper(0))
+  }, [dispatch])
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
