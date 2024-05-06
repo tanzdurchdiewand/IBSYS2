@@ -14,8 +14,7 @@ import DrawerToggleButton from "../drowerToggleButton/DrowerToggleButton";
 import NavSectionVertical from "./NavSectionVertical";
 import { useContext } from "react";
 import { SelectInputXML } from "../../pages/StartPage";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { useLocales } from "../../locals";
+import { i18n, useLocales } from "../../locals";
 
 // ----------------------------------------------------------------------
 
@@ -24,12 +23,10 @@ type Props = {
 };
 
 export default function NavVertical({ onClose }: Props) {
-  const { handleAbort } = useContext(SelectInputXML);
-
   const { onChangeLang, currentLang, allLangs } = useLocales();
 
   const handleLanguageChange = (newLang: any) => {
-    onChangeLang(newLang);
+    i18n.changeLanguage(newLang);
   };
 
   const isDesktop = useResponsive("up", "lg");
@@ -68,10 +65,10 @@ export default function NavVertical({ onClose }: Props) {
         {allLangs.map((lang) => (
           <Button
             key={lang.label}
-            onClick={() => handleLanguageChange(lang.systemValue)}
+            onClick={() => handleLanguageChange(lang.value)}
             disabled={currentLang === lang.systemValue}
           >
-            {lang.icon}
+            {lang.label}
           </Button>
         ))}
       </Stack>

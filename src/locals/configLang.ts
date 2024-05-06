@@ -19,13 +19,13 @@ export const allLangs = [
     dateFns: de,
     icon: "/assets/icons/flags/ic_flag_de.svg",
   },
-  {
-    label: "Vietnamese",
-    value: "vit",
-    systemValue: viVN,
-    dateFns: vi,
-    icon: "/assets/icons/flags/ic_flag_vit.svg",
-  },
+  // {
+  //   label: "Vietnamese",
+  //   value: "vit",
+  //   systemValue: viVN,
+  //   dateFns: vi,
+  //   icon: "/assets/icons/flags/ic_flag_vit.svg",
+  // },
 ];
 
 export const defaultLang = allLangs[1];
