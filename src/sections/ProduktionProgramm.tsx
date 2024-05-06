@@ -1,7 +1,14 @@
-import { Container, Grid } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Container,
+  Grid,
+} from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import { StyledButton } from "../components/styledComponets/styledButton";
 import {
@@ -10,10 +17,11 @@ import {
 } from "../hooks/useNavigationHandlers";
 import CustomGridHeader from "../components/customGrid/customGridHeader";
 import CustomGridProductPeriod from "../components/customGrid/customGridProductPeriod";
-import CustomGridBody, {
+import CustomProductionGridBody, {
   BikeType,
-} from "../components/customGrid/customGridBody";
+} from "../components/customGrid/customProductionGridBody";
 import {
+  DirectSellRow,
   ProductionProgramm,
   SalesOrder,
 } from "../types/productionPlanningTypes";
@@ -23,6 +31,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
+import CustomGridDirectSell from "../components/customGrid/customGridDirectSell";
 
 const salesOrderSchema = yup.object().shape({
   salesWish: yup.number().required(),
@@ -47,13 +56,13 @@ const productionProgrammSchema = yup.object().shape({
 
 export default function ProduktionProgramm() {
   const methods = useForm<ProductionProgramm>({
-    resolver: yupResolver(productionProgrammSchema),
+    // resolver: yupResolver(productionProgrammSchema),
     mode: "onChange",
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setStepper(1))
-  }, [dispatch])
+    dispatch(setStepper(1));
+  }, [dispatch]);
   const {
     handleSubmit,
     // formState: { isSubmitting, isDirty },
@@ -106,6 +115,12 @@ export default function ProduktionProgramm() {
     productionWish: XML?.results.forecast.p3 ?? 0,
   };
 
+  const MockSell: DirectSellRow = {
+    amount: 0,
+    price: 0,
+    penalty: 0,
+  };
+
   return (
     <FormProvider {...methods}>
       <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
@@ -124,24 +139,55 @@ export default function ProduktionProgramm() {
           >
             <CustomGridHeader />
             <CustomGridProductPeriod period={XML?.results.period} />
-            <CustomGridBody
+            <CustomProductionGridBody
               bikeType={ChildrenBike}
               salesOrder={ChildrenSalesOrder}
               period={XML?.results.period}
               productProduction={productionProgramm?.P1}
             />
-            <CustomGridBody
+            <CustomProductionGridBody
               bikeType={WommenBike}
               salesOrder={WommenSalesOrder}
               period={XML?.results.period}
               productProduction={productionProgramm?.P2}
             />
-            <CustomGridBody
+            <CustomProductionGridBody
               bikeType={ManBike}
               salesOrder={ManSalesOrder}
               period={XML?.results.period}
               productProduction={productionProgramm?.P3}
             />
+
+            <Accordion style={{ marginTop: "20px", width: "84%" }}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1-content"
+                id="panel1-header"
+              >
+                Direkt Verkauf
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <CustomGridDirectSell
+                    bikeType={ChildrenBike}
+                    directSell={MockSell}
+                  />
+                  <CustomGridDirectSell
+                    bikeType={WommenBike}
+                    directSell={MockSell}
+                  />
+                  <CustomGridDirectSell
+                    bikeType={ManBike}
+                    directSell={MockSell}
+                  />
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
           </Grid>
         </StyledCard>
 

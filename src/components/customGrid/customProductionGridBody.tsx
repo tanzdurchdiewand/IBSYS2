@@ -28,7 +28,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function CustomGridBody({
+export default function CustomProductionGridBody({
   bikeType,
   salesOrder,
   period,

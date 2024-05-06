@@ -2,6 +2,7 @@ export type ProductionProgramm = {
   P1: ProductProduction;
   P2: ProductProduction;
   P3: ProductProduction;
+  directSell: DirectSell;
 };
 
 export type ProductProduction = {
@@ -46,4 +47,16 @@ export type PlanningWarehouseStock = {
 
 export type ProductionPlan = {
   productionPlan: PlanningWarehouseStock[];
+};
+
+export type DirectSell = {
+  P1: DirectSellRow;
+  P2: DirectSellRow;
+  P3: DirectSellRow;
+};
+
+export type DirectSellRow = {
+  amount: number;
+  price: number;
+  penalty: number;
 };
