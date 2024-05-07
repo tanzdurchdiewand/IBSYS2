@@ -32,14 +32,10 @@ export default function OrderPlanning() {
   const { orderPlanning, updateOrder } = useOrderPlanning();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setStepper(3))
-  }, [dispatch])
+    dispatch(setStepper(3));
+  }, [dispatch]);
 
   console.log("OrderPlanning", orderPlanning);
-
-  const renderInput = (value: number) => {
-    return <TextField variant="outlined" size="small" value={value} disabled />;
-  };
 
   // TODO Tooltip mit infos zur Berechnung Demand, Quantity
   return (
@@ -85,72 +81,277 @@ export default function OrderPlanning() {
             </TableHead>
             <TableBody>
               {orderPlanning &&
-                Object.entries(orderPlanning).map(
-                  ([key, value]) => (
-                    <TableRow key={key}>
-                      <TableCell>{key}</TableCell>
-                      <TableCell>
-                        {renderInput(value.deliveryTime)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.deviation)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.quantityP1)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.quantityP2)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.quantityP3)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.discountQuantity)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.warehouseStock)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.demandForPeriod[0])}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.demandForPeriod[1] || 0)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.demandForPeriod[2] || 0)}
-                      </TableCell>
-                      <TableCell>
-                        {renderInput(value.demandForPeriod[3] || 0)}
-                      </TableCell>
-                      <TableCell>
-                        <TextField
-                          type="number"
-                          variant="outlined"
-                          size="small"
-                          value={value.orderQuantity}
+                Object.entries(orderPlanning).map(([key, value]) => (
+                  <TableRow key={key}>
+                    <TableCell>{key}</TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.deliveryTime}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.deviation}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.quantityP1}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.quantityP2}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.quantityP3}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.discountQuantity}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.warehouseStock}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.demandForPeriod[0]}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.demandForPeriod[1]}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.demandForPeriod[2]}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={value.demandForPeriod[3]}
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    {/* TODO Design anpassen
+                    Mit Textfield dauerts 5 Sekunden länger
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.deliveryTime}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.deviation}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.quantityP1}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.quantityP2}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.quantityP3}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.discountQuantity}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.warehouseStock}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.demandForPeriod[0]}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.demandForPeriod[1]}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.demandForPeriod[2]}
+                        disabled
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={value.demandForPeriod[3]}
+                        disabled
+                      />
+                    </TableCell> */}
+                    <TableCell>
+                      <TextField
+                        type="number"
+                        variant="outlined"
+                        size="small"
+                        value={value.orderQuantity}
+                        onChange={(e) =>
+                          updateOrder(
+                            key,
+                            "orderQuantity",
+                            Number(e.target.value)
+                          )
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <FormControl fullWidth>
+                        <InputLabel></InputLabel>
+                        <Select
+                          value={value.orderType}
                           onChange={(e) =>
                             updateOrder(
                               key,
-                              'orderQuantity',
+                              "orderType",
                               Number(e.target.value)
                             )
                           }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControl fullWidth>
-                          <InputLabel></InputLabel>
-                          <Select
-                            value={value.orderType}
-                            onChange={(e) => updateOrder(key, 'orderType', Number(e.target.value))}
-                          >
-                            <MenuItem value={0}>Normal</MenuItem>
-                            <MenuItem value={1}>Fast</MenuItem>
-                          </Select>
-                        </FormControl></TableCell>
-                    </TableRow>
-                  )
-                )}
+                        >
+                          <MenuItem value={0}>Normal</MenuItem>
+                          <MenuItem value={1}>Fast</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
