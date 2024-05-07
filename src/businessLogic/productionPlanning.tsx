@@ -4,6 +4,7 @@ import { arrayBuffer } from "stream/consumers";
 import { setProductionPlan } from "../redux/slices/productionPlanning";
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import { P1Planning } from "../types/materialPlanningTypes";
+import ProductionPlanningTable from "./productionPlanningTable";
 import {
   ProductionProgramm,
   ProductProduction,
@@ -62,7 +63,9 @@ export default function ProductionPlanning() {
   //console.log(productionOrders);
 
   //Simulate
-  SimulateProduction(finalProductionOrders);
+//  SimulateProduction(finalProductionOrders);
+
+  let workstationData = SimulateProduction(finalProductionOrders);
 
   //Evaluation of results
   EvaluateResult();
@@ -81,6 +84,7 @@ export default function ProductionPlanning() {
   return (
     <div>
       <h1>Production Planning</h1>
+      <ProductionPlanningTable workstations={workstationData}/>
     </div>
   );
 }
@@ -633,6 +637,7 @@ export function SimulateProduction(
   console.log(workstation4);
   console.log(workstation10);
   console.log(workstation11);
+  return [workstation1, workstation2, workstation3, workstation4, workstation5, workstation6, workstation7, workstation8, workstation9, workstation10, workstation11, workstation12, workstation13, workstation14, workstation15]
 }
 
 //add time to workstations
