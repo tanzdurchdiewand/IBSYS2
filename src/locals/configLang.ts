@@ -21,7 +21,7 @@ export const allLangs = [
   },
   // {
   //   label: "Vietnamese",
-  //   value: "vit",
+  //   value: "vi",
   //   systemValue: viVN,
   //   dateFns: vi,
   //   icon: "/assets/icons/flags/ic_flag_vit.svg",

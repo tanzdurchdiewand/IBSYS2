@@ -5,7 +5,7 @@ import { initReactI18next } from "react-i18next";
 import { defaultLang } from "./configLang";
 import enLocales from "./langs/en";
 import deLocales from "./langs/de";
-import vitLocales from "./langs/vit";
+import vitLocales from "./langs/vi";
 
 // ----------------------------------------------------------------------
 
