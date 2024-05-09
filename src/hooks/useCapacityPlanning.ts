@@ -14,7 +14,7 @@ export const useCapacityPlanning = () => {
   const dispatch = useDispatch();
 
   const productionProgramm = useSelector(
-    (state: RootState) => state.inputProduction.list.productionProgramm
+    (state: RootState) => state.inputProductionProgramm.data
   );
 
   const capacityRows = useSelector(
@@ -25,9 +25,9 @@ export const useCapacityPlanning = () => {
   );
 
   useEffect(() => {
-    if (productionProgramm) {
+    if (capacityRows.length === 0 || summaryRows.length === 0) {
       dispatch(
-        setCapacityPlanningData(initializeCapacityPlanning(productionProgramm))
+        setCapacityPlanningData(initializeCapacityPlanning(productionProgramm!))
       );
       dispatch(setSummaryData(initializeCapacityPlanningSummary(capacityRows)));
     }

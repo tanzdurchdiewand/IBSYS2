@@ -26,7 +26,6 @@ import { useDispatch } from "../redux/store";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 
-// TODO dauert zu lange
 export default function OrderPlanning() {
   const { goTo } = useNavigationHandler();
   const { orderPlanning, updateOrder } = useOrderPlanning();
@@ -227,96 +226,6 @@ export default function OrderPlanning() {
                         }}
                       />
                     </TableCell>
-                    {/* TODO Design anpassen
-                    Mit Textfield dauerts 5 Sekunden länger
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.deliveryTime}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.deviation}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.quantityP1}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.quantityP2}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.quantityP3}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.discountQuantity}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.warehouseStock}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.demandForPeriod[0]}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.demandForPeriod[1]}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.demandForPeriod[2]}
-                        disabled
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={value.demandForPeriod[3]}
-                        disabled
-                      />
-                    </TableCell> */}
                     <TableCell>
                       <TextField
                         type="number"

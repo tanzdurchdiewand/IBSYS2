@@ -54,9 +54,9 @@ export const setEntityId = (entityId: string | null): AppThunk => {
 export const fetchInitialOrderPlanning = createAsyncThunk<MaterialOrderPlanning, void, { state: RootState }>(
   'orderPlanning/fetchInitial',
   async (_, { getState, dispatch }) => {
-    const { inputXML, inputProduction } = getState();
+    const { inputXML, inputProductionProgramm } = getState();
     const gameData = inputXML.list.XML;
-    const productionProgramm = inputProduction.list.productionProgramm;
+    const productionProgramm = inputProductionProgramm.data;
 
     console.log("gamedata", gameData);
 

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //TODO: Implement the production planning logic here
 import { arrayBuffer } from "stream/consumers";
-import { setProductionPlan } from "../redux/slices/productionPlanning";
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import { P1Planning } from "../types/materialPlanningTypes";
 import ProductionPlanningTable from "./productionPlanningTable";
@@ -21,11 +20,12 @@ import {
   GameData,
   WorkplaceOrdersInWork,
 } from "../types/inputXMLTypes";
+import { setProductionPlan } from "../redux/slices/productionPlanning";
 
 export default function ProductionPlanning() {
   //Redux
-  const { productionProgramm } = useSelector(
-    (state: RootState) => state.inputProduction.list
+  useSelector(
+    (state: RootState) => state.inputProductionProgramm.data
   );
   const dispatch = useDispatch();
 
@@ -63,7 +63,7 @@ export default function ProductionPlanning() {
   //console.log(productionOrders);
 
   //Simulate
-//  SimulateProduction(finalProductionOrders);
+  //  SimulateProduction(finalProductionOrders);
 
   let workstationData = SimulateProduction(finalProductionOrders);
 
@@ -84,7 +84,7 @@ export default function ProductionPlanning() {
   return (
     <div>
       <h1>Production Planning</h1>
-      <ProductionPlanningTable workstations={workstationData}/>
+      <ProductionPlanningTable workstations={workstationData} />
     </div>
   );
 }

@@ -17,82 +17,42 @@ import {
 } from "../hooks/useNavigationHandlers";
 import CustomGridHeader from "../components/customGrid/customGridHeader";
 import CustomGridProductPeriod from "../components/customGrid/customGridProductPeriod";
-import CustomProductionGridBody, {
-  BikeType,
-} from "../components/customGrid/customProductionGridBody";
 import {
   DirectSellRow,
   ProductionProgramm,
-  SalesOrder,
 } from "../types/productionPlanningTypes";
 import { FormProvider, useForm } from "react-hook-form";
-import { setProductionProgramm } from "../redux/slices/inputProduction";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
-import CustomGridDirectSell from "../components/customGrid/customGridDirectSell";
-
-const salesOrderSchema = yup.object().shape({
-  salesWish: yup.number().required(),
-  productionWish: yup.number().required(),
-});
-
-const productionForecastSchema = yup.object().shape({
-  period: yup.number().required(),
-  salesOrder: salesOrderSchema.required(),
-});
-
-const productProductionSchema = yup.object().shape({
-  salesOrder: salesOrderSchema.required(),
-  forecast: yup.array().of(productionForecastSchema).required(),
-});
-
-const productionProgrammSchema = yup.object().shape({
-  P1: productProductionSchema.required(),
-  P2: productProductionSchema.required(),
-  P3: productProductionSchema.required(),
-});
+import CustomGridDirectSell, { BikeType } from "../components/customGrid/customGridDirectSell";
+import { useProductionProgramm } from "../hooks/useProductionProgramm";
+import CustomProductionGridBody from "../components/customGrid/customProductionGridBody";
 
 export default function ProduktionProgramm() {
   const methods = useForm<ProductionProgramm>({
     // resolver: yupResolver(productionProgrammSchema),
     mode: "onChange",
   });
+
+  const { productionProgramm } =
+    useProductionProgramm();
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setStepper(1));
   }, [dispatch]);
-  const {
-    handleSubmit,
-    // formState: { isSubmitting, isDirty },
-  } = methods;
 
   const handleNextPage = () => {
     goTo("/start/material", Direction.Forward);
-    handleSubmit(handleSetProductionProgramm)();
-  };
-  const handleSetProductionProgramm = (data: ProductionProgramm) => {
-    console.log(data);
-    dispatch(setProductionProgramm(data));
   };
 
   const { goTo } = useNavigationHandler();
 
   const { XML } = useSelector((state: RootState) => state.inputXML.list);
 
-  const { productionProgramm } = useSelector(
-    (state: RootState) => state.inputProduction.list
-  );
-
   const ChildrenBike: BikeType = {
     shortName: "P1",
     longName: "Children's Bicycle",
-  };
-
-  const ChildrenSalesOrder: SalesOrder = {
-    salesWish: XML?.results.forecast.p1 ?? 0,
-    productionWish: XML?.results.forecast.p1 ?? 0,
   };
 
   const WommenBike: BikeType = {
@@ -100,19 +60,9 @@ export default function ProduktionProgramm() {
     longName: "Wommen's Bicycle",
   };
 
-  const WommenSalesOrder: SalesOrder = {
-    salesWish: XML?.results.forecast.p2 ?? 0,
-    productionWish: XML?.results.forecast.p2 ?? 0,
-  };
-
   const ManBike: BikeType = {
     shortName: "P3",
     longName: "Man's Bicycle",
-  };
-
-  const ManSalesOrder: SalesOrder = {
-    salesWish: XML?.results.forecast.p3 ?? 0,
-    productionWish: XML?.results.forecast.p3 ?? 0,
   };
 
   const MockSell: DirectSellRow = {
@@ -120,6 +70,8 @@ export default function ProduktionProgramm() {
     price: 0,
     penalty: 0,
   };
+
+  console.log("asaaaaa");
 
   return (
     <FormProvider {...methods}>
@@ -131,64 +83,63 @@ export default function ProduktionProgramm() {
           <ArrowBackIosIcon />
         </StyledButton>
         <StyledCard>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <CustomGridHeader />
-            <CustomGridProductPeriod period={XML?.results.period} />
-            <CustomProductionGridBody
-              bikeType={ChildrenBike}
-              salesOrder={ChildrenSalesOrder}
-              period={XML?.results.period}
-              productProduction={productionProgramm?.P1}
-            />
-            <CustomProductionGridBody
-              bikeType={WommenBike}
-              salesOrder={WommenSalesOrder}
-              period={XML?.results.period}
-              productProduction={productionProgramm?.P2}
-            />
-            <CustomProductionGridBody
-              bikeType={ManBike}
-              salesOrder={ManSalesOrder}
-              period={XML?.results.period}
-              productProduction={productionProgramm?.P3}
-            />
+          {productionProgramm &&
+            <Grid
+              container
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <CustomGridHeader />
+              <CustomGridProductPeriod period={XML?.results.period} />
+              <CustomProductionGridBody
+                bikeType={ChildrenBike}
+                productionProgramm={productionProgramm!}
+                period={XML?.results.period ?? 0}
+              />
+              <CustomProductionGridBody
+                bikeType={WommenBike}
+                productionProgramm={productionProgramm!}
+                period={XML?.results.period ?? 0}
+              />
+              <CustomProductionGridBody
+                bikeType={ManBike}
+                productionProgramm={productionProgramm!}
+                period={XML?.results.period ?? 0}
+              />
 
-            <Accordion style={{ marginTop: "20px", width: "84%" }}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-              >
-                Direkt Verkauf
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
+              <Accordion style={{ marginTop: "20px", width: "84%" }}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
                 >
-                  <CustomGridDirectSell
-                    bikeType={ChildrenBike}
-                    directSell={MockSell}
-                  />
-                  <CustomGridDirectSell
-                    bikeType={WommenBike}
-                    directSell={MockSell}
-                  />
-                  <CustomGridDirectSell
-                    bikeType={ManBike}
-                    directSell={MockSell}
-                  />
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
+                  Direkt Verkauf
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <CustomGridDirectSell
+                      bikeType={ChildrenBike}
+                      directSell={MockSell}
+                    />
+                    <CustomGridDirectSell
+                      bikeType={WommenBike}
+                      directSell={MockSell}
+                    />
+                    <CustomGridDirectSell
+                      bikeType={ManBike}
+                      directSell={MockSell}
+                    />
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
+            </Grid>
+          }
         </StyledCard>
 
         <StyledButton onClick={() => handleNextPage()} sx={{ right: 0 }}>

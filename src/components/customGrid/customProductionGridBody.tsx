@@ -1,23 +1,14 @@
-import { Grid, Box, styled, Paper } from "@mui/material";
+import { Grid, Box, styled, Paper, TextField } from "@mui/material";
 import {
-  ProductProduction,
   ProductionProgramm,
-  SalesOrder,
 } from "../../types/productionPlanningTypes";
-import { useFormContext } from "react-hook-form";
-import RHFTextField from "../hookform/RHFTextFlied";
-import { useEffect } from "react";
-
-export type BikeType = {
-  shortName: string;
-  longName: string;
-};
+import { BikeType } from "./customGridDirectSell";
+import { useProductionProgramm } from "../../hooks/useProductionProgramm";
 
 type Props = {
   bikeType: BikeType;
-  salesOrder: SalesOrder;
-  period?: number;
-  productProduction: ProductProduction | undefined;
+  productionProgramm: ProductionProgramm;
+  period: number;
 };
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -30,22 +21,14 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function CustomProductionGridBody({
   bikeType,
-  salesOrder,
+  productionProgramm,
   period,
-  productProduction,
 }: Readonly<Props>) {
-  const { setValue } = useFormContext<ProductionProgramm>();
 
-  useEffect(() => {
-    setValue(
-      `${bikeType.shortName}.salesOrder.salesWish` as any,
-      salesOrder.salesWish
-    );
-    setValue(`${bikeType.shortName}.forecast[0].period` as any, period! + 2);
-    setValue(`${bikeType.shortName}.forecast[1].period` as any, period! + 3);
-    setValue(`${bikeType.shortName}.forecast[2].period` as any, period! + 4);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { handleValueChange, handleForecastChange } = useProductionProgramm();
+  const type = bikeType.shortName === "P1" ? "P1" :
+    (bikeType.shortName === "P2" ? "P2" :
+      (bikeType.shortName === "P3" ? "P3" : "P1"));
 
   return (
     <Grid container>
@@ -64,7 +47,7 @@ export default function CustomProductionGridBody({
             noValidate
             autoComplete="off"
           >
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}`}
               id="outlined-basic"
               label={bikeType.shortName}
@@ -87,22 +70,23 @@ export default function CustomProductionGridBody({
             noValidate
             autoComplete="off"
           >
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}.salesOrder.salesWish`}
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
-              value={salesOrder.salesWish}
+              value={productionProgramm[type].salesOrder.salesWish}
               disabled={true}
               type="number"
             />
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}.salesOrder.productionWish`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
-              value={productProduction?.salesOrder.productionWish}
+              value={productionProgramm[type].salesOrder.productionWish}
               type="number"
+              onChange={handleValueChange}
             />
           </Box>
         </Item>
@@ -119,21 +103,23 @@ export default function CustomProductionGridBody({
             noValidate
             autoComplete="off"
           >
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}.forecast[0].salesOrder.salesWish.`}
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
-              value={productProduction?.forecast[0].salesOrder.salesWish}
+              value={productionProgramm[type].forecast[0].salesOrder.salesWish}
               type="number"
+              onChange={(event) => handleForecastChange(event, bikeType.shortName, 0, 'salesWish')}
             />
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}.forecast[0].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
-              value={productProduction?.forecast[0].salesOrder.productionWish}
+              value={productionProgramm[type].forecast[0].salesOrder.productionWish}
               type="number"
+              onChange={(event) => handleForecastChange(event, bikeType.shortName, 0, 'productionWish')}
             />
           </Box>
         </Item>
@@ -150,21 +136,23 @@ export default function CustomProductionGridBody({
             noValidate
             autoComplete="off"
           >
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}.forecast[1].salesOrder.salesWish.`}
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
-              value={productProduction?.forecast[1].salesOrder.salesWish}
+              value={productionProgramm[type].forecast[1].salesOrder.salesWish}
               type="number"
+              onChange={(event) => handleForecastChange(event, bikeType.shortName, 1, 'salesWish')}
             />
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}.forecast[1].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
-              value={productProduction?.forecast[1].salesOrder.productionWish}
+              value={productionProgramm[type].forecast[1].salesOrder.productionWish}
               type="number"
+              onChange={(event) => handleForecastChange(event, bikeType.shortName, 1, 'productionWish')}
             />
           </Box>
         </Item>
@@ -181,21 +169,23 @@ export default function CustomProductionGridBody({
             noValidate
             autoComplete="off"
           >
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}.forecast[2].salesOrder.salesWish.`}
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
-              value={productProduction?.forecast[2].salesOrder.salesWish}
+              value={productionProgramm[type].forecast[2].salesOrder.salesWish}
               type="number"
+              onChange={(event) => handleForecastChange(event, bikeType.shortName, 2, 'salesWish')}
             />
-            <RHFTextField
+            <TextField
               name={`${bikeType.shortName}.forecast[2].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
-              value={productProduction?.forecast[2].salesOrder.productionWish}
+              value={productionProgramm[type].forecast[2].salesOrder.productionWish}
               type="number"
+              onChange={(event) => handleForecastChange(event, bikeType.shortName, 2, 'productionWish')}
             />
           </Box>
         </Item>
@@ -203,3 +193,4 @@ export default function CustomProductionGridBody({
     </Grid>
   );
 }
+
