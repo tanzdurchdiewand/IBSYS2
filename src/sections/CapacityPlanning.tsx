@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -18,9 +19,11 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import { useDispatch } from "../redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import { useCapacityPlanning } from "../hooks/useCapacityPlanning";
+import InfoIcon from '@mui/icons-material/Info';
+import { capacityPlanningData } from "../types/capacityPlanningTypes";
 
 export default function CapacityPlanning() {
   const { goTo } = useNavigationHandler();
@@ -30,6 +33,54 @@ export default function CapacityPlanning() {
   }, [dispatch]);
   const { capacityRows, summaryRows, handleValueChange } =
     useCapacityPlanning();
+
+  const renderInput = (value: string) => {
+    return <input value={value} disabled style={{
+      border: "1px solid #ccc",
+      padding: "8px",
+      borderRadius: "4px",
+      width: "100%",
+    }} />;
+  };
+
+  const renderInputWithTootlip = (value: string, articleId: string, orderQuantity: number) => {
+    const tooltips: string[] = [];
+    capacityPlanningData[articleId].capacityRequired.forEach((parts, index) => {
+      const workspace = index + 1;
+      if (parts !== 0) {
+        const total = parts * orderQuantity;
+        tooltips.push(`Workspace ${workspace}: (capacityRequirement) ${parts} * (orderQuantity)${orderQuantity} = ${total}; `);
+      }
+    });
+
+    const infoText = tooltips.join('\n');
+
+    return (
+      <div style={{ position: 'relative' }}>
+        <input
+          value={value}
+          disabled
+          style={{
+            border: '1px solid #ccc',
+            padding: '8px',
+            borderRadius: '4px',
+            width: '100%',
+          }}
+        />
+        {infoText && (
+          <Tooltip title={infoText}>
+            <InfoIcon style={{
+              position: 'absolute',
+              top: '50%',
+              right: '-12px',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+            }} />
+          </Tooltip>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
@@ -58,11 +109,11 @@ export default function CapacityPlanning() {
               {capacityRows.map((row, index) => (
                 <TableRow key={index}>
                   <TableCell>{row.designation}</TableCell>
-                  <TableCell>{row.modelType}</TableCell>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.orderQuantity}</TableCell>
+                  <TableCell>{renderInput(row.modelType)}</TableCell>
+                  <TableCell>{renderInputWithTootlip(row.id, row.id, row.orderQuantity)}</TableCell>
+                  <TableCell>{renderInput(row.orderQuantity.toString())}</TableCell>
                   {row.workstationResults.map((result, idx) => (
-                    <TableCell key={idx}>{result}</TableCell>
+                    <TableCell key={idx}>{renderInput(result.toString())}</TableCell>
                   ))}
                 </TableRow>
               ))}
@@ -95,7 +146,7 @@ export default function CapacityPlanning() {
                           variant="outlined"
                         />
                       ) : (
-                        <span>{value}</span>
+                        <span>{renderInput(value.toString())}</span>
                       )}
                     </TableCell>
                   ))}

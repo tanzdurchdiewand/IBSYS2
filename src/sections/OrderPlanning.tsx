@@ -37,7 +37,7 @@ export default function OrderPlanning() {
   console.log("OrderPlanning", orderPlanning);
 
   // TODO Tooltip mit infos zur Berechnung Demand, Quantity
-  // TODO Pending Order fehlt
+  // TODO Pending Order fehlt (Fragen ob <inwardstockmovement> schon im Lager ist?)
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton

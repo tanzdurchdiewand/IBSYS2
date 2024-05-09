@@ -21,7 +21,7 @@ export function initializeCapacityPlanning(
       modelType: details.type,
       id: key,
       orderQuantity: prodQuantity,
-      workstationResults: details.partsRequired.map(
+      workstationResults: details.capacityRequired.map(
         (num) => num * prodQuantity
       ),
     };
