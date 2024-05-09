@@ -25,7 +25,12 @@ export default function MaterialPlanningComponent({
   const planning = useMaterialPlanning();
 
   const renderInput = (value: number) => {
-    return <TextField variant="outlined" size="small" value={value} disabled />;
+    return <input value={value} disabled style={{
+      border: "1px solid #ccc",
+      padding: "8px",
+      borderRadius: "4px",
+      width: "100%",
+    }} />;
   };
 
   const renderSpacer = (index: number) => {

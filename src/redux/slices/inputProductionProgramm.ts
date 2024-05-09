@@ -1,6 +1,5 @@
-import { ProductionForecast, ProductionProgramm } from "../../types/productionPlanningTypes";
+import { ProductionProgramm } from "../../types/productionPlanningTypes";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
 
 interface ProductionProgrammState {
   data: ProductionProgramm | null;
@@ -23,7 +22,6 @@ const productionProgrammSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    // TODO
     updateForecastProductionProgramm(state, action: PayloadAction<ProductionProgramm>) {
       state.data = action.payload;
     },
