@@ -25,13 +25,14 @@ export const useCapacityPlanning = () => {
   );
 
   useEffect(() => {
-    if (capacityRows.length === 0 || summaryRows.length === 0) {
-      dispatch(
-        setCapacityPlanningData(initializeCapacityPlanning(productionProgramm!))
-      );
-      dispatch(setSummaryData(initializeCapacityPlanningSummary(capacityRows)));
-    }
+    dispatch(
+      setCapacityPlanningData(initializeCapacityPlanning(productionProgramm!))
+    );
   }, [dispatch, productionProgramm]);
+
+  useEffect(() => {
+    dispatch(setSummaryData(initializeCapacityPlanningSummary(capacityRows, summaryRows)));
+  }, [dispatch, capacityRows]);
 
   const handleValueChange = (
     index: number,

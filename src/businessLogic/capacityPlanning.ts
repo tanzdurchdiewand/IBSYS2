@@ -31,16 +31,22 @@ export function initializeCapacityPlanning(
 
 // TODO Rüstzeit vorperiode aus gamedata
 export function initializeCapacityPlanningSummary(
-  capacityPlanning: CapacityPlanningTable
+  capacityPlanning: CapacityPlanningTable,
+  summaryTable: SummaryTable | null
 ): SummaryTable {
+
   const generateArray = (): number[] => Array.from({ length: 15 }).map(() => 2);
+
+  const shiftsAndOvertimesObj = summaryTable?.find(item => item.label === "Shifts And Overtimes");
+  const shiftsAndOvertimesPerDaysObj = summaryTable?.find(item => item.label === "Shifts And Overtime Per Days");
 
   const capacityRequirements = generateArray();
   const setupTimes = generateArray();
   const setupTimePreviousPeriods = generateArray();
   const totalCapacityRequirements = generateArray();
-  const shiftsAndOvertimes = generateArray();
-  const shiftsAndOvertimePerDasy = generateArray();
+
+  const shiftsAndOvertimes = shiftsAndOvertimesObj ? shiftsAndOvertimesObj.values : generateArray();
+  const shiftsAndOvertimePerDasy = shiftsAndOvertimesPerDaysObj ? shiftsAndOvertimesPerDaysObj.values : generateArray();
 
   // TODO Update capacityRequirements based on workstationResults
   Object.values(capacityPlanning).forEach(({ workstationResults }) => {
