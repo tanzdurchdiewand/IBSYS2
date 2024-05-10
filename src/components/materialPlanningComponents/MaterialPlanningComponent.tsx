@@ -9,10 +9,8 @@ import {
   TextField,
 } from "@mui/material";
 import { useMaterialPlanning } from "../../hooks/useMaterialPlanning";
-import { } from "../../hooks/useNavigationHandlers";
-import {
-  PlanningType,
-} from "../../types/materialPlanningTypes";
+import {} from "../../hooks/useNavigationHandlers";
+import { PlanningType } from "../../types/materialPlanningTypes";
 import React from "react";
 
 type Props = {
@@ -25,12 +23,18 @@ export default function MaterialPlanningComponent({
   const planning = useMaterialPlanning();
 
   const renderInput = (value: number) => {
-    return <input value={value} disabled style={{
-      border: "1px solid #ccc",
-      padding: "8px",
-      borderRadius: "4px",
-      width: "100%",
-    }} />;
+    return (
+      <input
+        value={value}
+        disabled
+        style={{
+          border: "1px solid #ccc",
+          padding: "8px",
+          borderRadius: "4px",
+          width: "100%",
+        }}
+      />
+    );
   };
 
   const renderSpacer = (index: number) => {
@@ -52,9 +56,7 @@ export default function MaterialPlanningComponent({
     <TableContainer
       component={Paper}
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        overflow: "hidden",
       }}
     >
       <Table
