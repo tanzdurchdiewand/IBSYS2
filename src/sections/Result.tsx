@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import MaterialPlanningComponent from "../components/materialPlanningComponents/MaterialPlanningComponent";
 import { PlanningType } from "../types/materialPlanningTypes";
+import DownloadIcon from "@mui/icons-material/Download";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -97,6 +98,9 @@ export default function Result() {
           </CustomTabPanel>
         </Box>
       </StyledCard>
+      <StyledButton onClick={() => console.log("Download")} sx={{ right: 0 }}>
+        <DownloadIcon />
+      </StyledButton>
     </Container>
   );
 }
