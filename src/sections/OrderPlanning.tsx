@@ -37,7 +37,6 @@ export default function OrderPlanning() {
   console.log("OrderPlanning", orderPlanning);
 
   // TODO Tooltip mit infos zur Berechnung Demand, Quantity
-  // TODO Pending Order fehlt (Fragen ob <inwardstockmovement> schon im Lager ist?)
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
@@ -48,20 +47,8 @@ export default function OrderPlanning() {
         <ArrowBackIosIcon />
       </StyledButton>
       <StyledCard>
-        <TableContainer
-          component={Paper}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Table
-            sx={{ minWidth: 650 }}
-            aria-label="material planning table"
-            stickyHeader
-            size="small"
-          >
+        <TableContainer component={Paper}>
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell>Product</TableCell>
@@ -78,6 +65,8 @@ export default function OrderPlanning() {
                 <TableCell>Demand for period x+3</TableCell>
                 <TableCell>Order Quantity</TableCell>
                 <TableCell>Order type</TableCell>
+                <TableCell>Pending Order Period</TableCell>
+                <TableCell>Pending Order Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -260,6 +249,40 @@ export default function OrderPlanning() {
                           <MenuItem value={1}>Fast</MenuItem>
                         </Select>
                       </FormControl>
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={
+                          value.pendingOrderAmount === 0
+                            ? "-"
+                            : value.pendingOrderPeriod
+                        }
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={
+                          value.pendingOrderAmount === 0
+                            ? "-"
+                            : value.pendingOrderAmount
+                        }
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

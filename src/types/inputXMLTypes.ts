@@ -34,11 +34,11 @@ export type Order = {
 };
 
 export type InwardStockMovement = {
-  orders: Order[];
+  order: Order[];
 };
 
 export type FutureInwardStockMovement = {
-  orders: Order[];
+  order: Order[];
 };
 
 // Types for workplace efficiency and idle time costs
@@ -84,8 +84,8 @@ export type WaitingWorkplace = {
 };
 
 export type OrdersInWork = {
-  workplace: WorkplaceOrdersInWork[]
-}
+  workplace: WorkplaceOrdersInWork[];
+};
 
 export type WorkplaceOrdersInWork = {
   workplaceId: number;

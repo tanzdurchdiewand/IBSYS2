@@ -62,6 +62,8 @@ export function initializeOrderPlanning(
   productionProgramm: ProductionProgramm
 ): MaterialOrderPlanning {
   const orderPlanning: any = {};
+  const pendingOrders = gameData.results.futureinwardstockmovement.order;
+
   Object.entries(orderDetail).forEach(([key, details]) => {
     const warehouseStock = returnWarehouseStockForProduct(gameData, key);
 
@@ -72,7 +74,12 @@ export function initializeOrderPlanning(
       details.requiredQuantityP3
     );
 
-    // TODO
+    const filteredOrders =
+      pendingOrders.find((order) => order.article!.toString() === key) ?? null;
+    const pendingOrderPeriod = filteredOrders?.orderperiod ?? 0;
+    const pendingOrderAmount = filteredOrders?.amount ?? 0;
+
+    // TODO calculate orderQuantity and orderType
     const orderQuantity = 0;
     const orderType = OrderType.Normal;
 
@@ -88,6 +95,8 @@ export function initializeOrderPlanning(
       demandForPeriod: demands,
       orderQuantity: orderQuantity,
       orderType: orderType,
+      pendingOrderPeriod: pendingOrderPeriod,
+      pendingOrderAmount: pendingOrderAmount,
     };
   });
 
