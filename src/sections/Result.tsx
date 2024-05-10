@@ -83,11 +83,18 @@ export default function Result() {
             <Tab label="Production" {...a11yProps(2)} />
             <Tab label="Workingtime" {...a11yProps(3)} />
           </Tabs>
-          <CustomTabPanel value={value} index={0}></CustomTabPanel>
-          <MaterialPlanningComponent planningType={PlanningType.P1} />
-          <CustomTabPanel value={value} index={1}></CustomTabPanel>
-          <CustomTabPanel value={value} index={2}></CustomTabPanel>
-          <CustomTabPanel value={value} index={3}></CustomTabPanel>
+          <CustomTabPanel value={value} index={0}>
+            sellwish
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            orders
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={2}>
+            production
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={3}>
+            workingtime
+          </CustomTabPanel>
         </Box>
       </StyledCard>
     </Container>
