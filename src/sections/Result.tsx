@@ -10,6 +10,7 @@ import { useDispatch } from "../redux/store";
 import { useEffect, useState } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import DownloadIcon from "@mui/icons-material/Download";
+import SellResultComponent from "../components/resultComponents/sellResultComponent";
 import OrderResultComponent from "../components/resultComponents/orderResultComponent";
 import ProductionResultComponent from "../components/resultComponents/productionResultComponent";
 import WorkingTimeResultComponent from "../components/resultComponents/workingTimeResultComponent";
@@ -86,7 +87,7 @@ export default function Result() {
             <Tab label="Workingtime" {...a11yProps(3)} />
           </Tabs>
           <CustomTabPanel value={value} index={0}>
-            sellwish
+            <SellResultComponent />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
             <OrderResultComponent />
