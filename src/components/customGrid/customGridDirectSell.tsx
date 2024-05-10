@@ -24,6 +24,7 @@ export default function CustomGridDirectSell({
   bikeType,
   directSell,
 }: Readonly<Props>) {
+  console.log("directSell", directSell);
   return (
     <Grid container>
       <Grid item xs={3}>
@@ -39,7 +40,7 @@ export default function CustomGridDirectSell({
             autoComplete="off"
           >
             <RHFTextField
-              name={`directSell.${bikeType.shortName}`}
+              name={`${bikeType.shortName}`}
               id="outlined-basic"
               label={bikeType.shortName}
               variant="outlined"
@@ -62,7 +63,7 @@ export default function CustomGridDirectSell({
             autoComplete="off"
           >
             <RHFTextField
-              name={`directSell.${bikeType.shortName}.amount.`}
+              name={`${bikeType.shortName}.amount.`}
               id="outlined-basic"
               label="Amount"
               variant="outlined"
@@ -85,7 +86,7 @@ export default function CustomGridDirectSell({
             autoComplete="off"
           >
             <RHFTextField
-              name={`directSell.${bikeType.shortName}.price`}
+              name={`${bikeType.shortName}.price`}
               id="outlined-basic"
               label="Price"
               variant="outlined"
@@ -108,7 +109,7 @@ export default function CustomGridDirectSell({
             autoComplete="off"
           >
             <RHFTextField
-              name={`directSell.${bikeType.shortName}.penalty`}
+              name={`${bikeType.shortName}.penalty`}
               id="outlined-basic"
               label="Penalty"
               variant="outlined"

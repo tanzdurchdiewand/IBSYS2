@@ -17,25 +17,34 @@ import {
 } from "../hooks/useNavigationHandlers";
 import CustomGridHeader from "../components/customGrid/customGridHeader";
 import CustomGridProductPeriod from "../components/customGrid/customGridProductPeriod";
-import {
-  DirectSellRow,
-  ProductionProgramm,
-} from "../types/productionPlanningTypes";
+import { DirectSell } from "../types/productionPlanningTypes";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
-import CustomGridDirectSell, { BikeType } from "../components/customGrid/customGridDirectSell";
+import CustomGridDirectSell, {
+  BikeType,
+} from "../components/customGrid/customGridDirectSell";
 import { useProductionProgramm } from "../hooks/useProductionProgramm";
 import CustomProductionGridBody from "../components/customGrid/customProductionGridBody";
+import { setDirectSell } from "../redux/slices/inputProductionProgramm";
+
+export const directSellStart: DirectSell = {
+  P1: { amount: 0, price: 0, penalty: 0 },
+  P2: { amount: 0, price: 0, penalty: 0 },
+  P3: { amount: 0, price: 0, penalty: 0 },
+};
 
 export default function ProduktionProgramm() {
-  const methods = useForm<ProductionProgramm>({
-    // resolver: yupResolver(productionProgrammSchema),
+  const directSellFromStore = useSelector(
+    (state: RootState) => state.inputProductionProgramm.data?.directSell
+  );
+  const methods = useForm<DirectSell>({
+    defaultValues: directSellFromStore || directSellStart,
     mode: "onChange",
   });
+  const { handleSubmit } = methods;
 
-  const { productionProgramm } =
-    useProductionProgramm();
+  const { productionProgramm } = useProductionProgramm();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -43,7 +52,11 @@ export default function ProduktionProgramm() {
   }, [dispatch]);
 
   const handleNextPage = () => {
+    handleSubmit(onSubmit)();
     goTo("/start/material", Direction.Forward);
+  };
+  const onSubmit = (data: DirectSell) => {
+    dispatch(setDirectSell(data));
   };
 
   const { goTo } = useNavigationHandler();
@@ -65,13 +78,12 @@ export default function ProduktionProgramm() {
     longName: "Man's Bicycle",
   };
 
-  const MockSell: DirectSellRow = {
-    amount: 0,
-    price: 0,
-    penalty: 0,
-  };
+  const sellDirect = methods.watch();
 
-  console.log("asaaaaa");
+  useEffect(() => {
+    console.log("watch", sellDirect);
+    dispatch(setDirectSell(sellDirect));
+  }, [dispatch]);
 
   return (
     <FormProvider {...methods}>
@@ -83,7 +95,7 @@ export default function ProduktionProgramm() {
           <ArrowBackIosIcon />
         </StyledButton>
         <StyledCard>
-          {productionProgramm &&
+          {productionProgramm && (
             <Grid
               container
               direction="column"
@@ -125,21 +137,21 @@ export default function ProduktionProgramm() {
                   >
                     <CustomGridDirectSell
                       bikeType={ChildrenBike}
-                      directSell={MockSell}
+                      directSell={sellDirect.P1}
                     />
                     <CustomGridDirectSell
                       bikeType={WommenBike}
-                      directSell={MockSell}
+                      directSell={sellDirect.P2}
                     />
                     <CustomGridDirectSell
                       bikeType={ManBike}
-                      directSell={MockSell}
+                      directSell={sellDirect.P3}
                     />
                   </Grid>
                 </AccordionDetails>
               </Accordion>
             </Grid>
-          }
+          )}
         </StyledCard>
 
         <StyledButton onClick={() => handleNextPage()} sx={{ right: 0 }}>

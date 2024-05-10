@@ -1,4 +1,7 @@
-import { ProductionProgramm } from "../../types/productionPlanningTypes";
+import {
+  DirectSell,
+  ProductionProgramm,
+} from "../../types/productionPlanningTypes";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface ProductionProgrammState {
@@ -14,7 +17,7 @@ const initialState: ProductionProgrammState = {
 };
 
 const productionProgrammSlice = createSlice({
-  name: 'ProductionProgramm',
+  name: "ProductionProgramm",
   initialState,
   reducers: {
     setProductionProgramm(state, action: PayloadAction<ProductionProgramm>) {
@@ -22,17 +25,42 @@ const productionProgrammSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    updateForecastProductionProgramm(state, action: PayloadAction<ProductionProgramm>) {
+    setDirectSell(state, action: PayloadAction<DirectSell>) {
+      if (state.data) {
+        state.data.directSell = action.payload;
+      }
+    },
+    updateForecastProductionProgramm(
+      state,
+      action: PayloadAction<ProductionProgramm>
+    ) {
       state.data = action.payload;
     },
-    updateProductionProgramm(state, action: PayloadAction<{ part: keyof ProductionProgramm, category: string, key: string, value: number }>) {
+    updateProductionProgramm(
+      state,
+      action: PayloadAction<{
+        part: keyof ProductionProgramm;
+        category: string;
+        key: string;
+        value: number;
+      }>
+    ) {
       if (state.data) {
         const { part, category, key, value } = action.payload;
         const item = state.data[part];
-        if (item && typeof item !== 'string') {
-          const categoryItem = item[category as keyof typeof item];
-          if (categoryItem && typeof categoryItem === 'object' && !(categoryItem as any instanceof Array)) {
-            (categoryItem as any)[key] = value;
+        if (item && typeof item !== "string") {
+          if (category) {
+            const categoryItem = item[category as keyof typeof item];
+            if (
+              categoryItem &&
+              typeof categoryItem === "object" &&
+              !((categoryItem as any) instanceof Array)
+            ) {
+              (categoryItem as any)[key] = value;
+            }
+          } else {
+            // If category is null, we assume that the key is a direct property of the part
+            (item as any)[key] = value;
           }
         }
       }
@@ -47,6 +75,11 @@ const productionProgrammSlice = createSlice({
   },
 });
 
-export const { setProductionProgramm, updateProductionProgramm, updateForecastProductionProgramm } = productionProgrammSlice.actions;
+export const {
+  setProductionProgramm,
+  setDirectSell,
+  updateProductionProgramm,
+  updateForecastProductionProgramm,
+} = productionProgrammSlice.actions;
 
 export default productionProgrammSlice.reducer;
