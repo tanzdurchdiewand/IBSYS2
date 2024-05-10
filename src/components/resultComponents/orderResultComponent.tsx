@@ -5,8 +5,11 @@ import TableCell from "@mui/material/TableCell/TableCell";
 import TableContainer from "@mui/material/TableContainer/TableContainer";
 import TableHead from "@mui/material/TableHead/TableHead";
 import TableRow from "@mui/material/TableRow/TableRow";
+import { useResult } from "../../hooks/useResult";
 
 export default function OrderResultComponent() {
+  const orderResult = useResult().orderlist;
+
   return (
     <TableContainer
       component={Paper}
@@ -29,7 +32,16 @@ export default function OrderResultComponent() {
             <TableCell>Modus</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody></TableBody>
+        <TableBody>
+          {orderResult &&
+            orderResult?.orders.map((order) => (
+              <TableRow key={order.article.toString()}>
+                <TableCell>{order.article.toString()}</TableCell>
+                <TableCell>{order.quantity.toString()}</TableCell>
+                <TableCell>{order.modus.toString()}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
       </Table>
     </TableContainer>
   );

@@ -15,7 +15,7 @@ import {
   initializeWorkingTimeListResult,
 } from "../businessLogic/resultPlanning";
 
-export const useReult = () => {
+export const useResult = () => {
   const dispatch = useDispatch();
 
   // TODO benötigten daten für die initialisierung an business layer
@@ -45,6 +45,7 @@ export const useReult = () => {
   );
 
   useEffect(() => {
+    console.log("useEffext Result");
     dispatch(setSellwishData(initializeSellWishResult()));
     dispatch(setSelldirectData(initializeSellDirectResult()));
     dispatch(setOrderlistData(initializeOrderListResult()));
