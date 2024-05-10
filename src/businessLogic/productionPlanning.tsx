@@ -14,6 +14,8 @@ import {
   PlanningWarehouseStock,
   ProductionPlan,
   WeekTime,
+  WORKSTATION_SETUP_TIMES,
+  PRODUCTION_SETUP_TIMES,
 } from "../types/productionPlanningTypes";
 import {
   Article,
@@ -487,97 +489,28 @@ export function SetProductionOrder(
 export function SimulateProduction(
   finalProductionOrders: PlanningWarehouseStock[]
 ) {
-  //worstation
-  let workstation1: PlanningWorkstation = {
-    workstation: 1,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation2: PlanningWorkstation = {
-    workstation: 2,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation3: PlanningWorkstation = {
-    workstation: 3,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation4: PlanningWorkstation = {
-    workstation: 4,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation5: PlanningWorkstation = {
-    workstation: 5,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation6: PlanningWorkstation = {
-    workstation: 6,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation7: PlanningWorkstation = {
-    workstation: 7,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation8: PlanningWorkstation = {
-    workstation: 8,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation9: PlanningWorkstation = {
-    workstation: 9,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation10: PlanningWorkstation = {
-    workstation: 10,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation11: PlanningWorkstation = {
-    workstation: 11,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation12: PlanningWorkstation = {
-    workstation: 12,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation13: PlanningWorkstation = {
-    workstation: 13,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation14: PlanningWorkstation = {
-    workstation: 14,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
-  let workstation15: PlanningWorkstation = {
-    workstation: 15,
-    maxTime: 2400,
-    availableTime: [],
-    timeslots: [],
-  };
+  const workstationCount = 15; // Anzahl der Workstations
+
+  // Array zum Speichern aller Workstations
+  const workstations: PlanningWorkstation[] = [];
+
+  // Iteration über alle Workstations
+  for (let i = 1; i <= workstationCount; i++) {
+    const workstation: PlanningWorkstation = {
+      workstation: i,
+      maxTime: 2400, // Beispielwert, bitte anpassen
+      availableTime: [],
+      timeslots: [],
+      productionTimes: Object.keys(PRODUCTION_SETUP_TIMES).map((itemName) => ({
+        itemName,
+        productionTime: PRODUCTION_SETUP_TIMES[itemName],
+      })),
+      productionSetupTime: WORKSTATION_SETUP_TIMES[i], // Setze die Einrichtungszeit für die entsprechende Workstation
+    };
+
+    // Füge die erstellte Workstation dem Array hinzu
+    workstations.push(workstation);
+  }
 
   console.log(finalProductionOrders);
 
@@ -596,11 +529,11 @@ export function SimulateProduction(
       case 4 | 5 | 6:
         // 10, 11
         dateTime = SimulateProductionWorkstation(
-          workstation10,
+          workstations[10],
           element,
           dateTime
         );
-        SimulateProductionWorkstation(workstation11, element, dateTime);
+        SimulateProductionWorkstation(workstations[11], element, dateTime);
         break;
       case 7 | 8 | 9:
         // 10, 11
@@ -634,10 +567,10 @@ export function SimulateProduction(
         break;
     }
   });
-  console.log(workstation4);
-  console.log(workstation10);
-  console.log(workstation11);
-  return [workstation1, workstation2, workstation3, workstation4, workstation5, workstation6, workstation7, workstation8, workstation9, workstation10, workstation11, workstation12, workstation13, workstation14, workstation15]
+  console.log(workstations[4]);
+  console.log(workstations[10]);
+  console.log(workstations[11]);
+  return workstations;
 }
 
 //add time to workstations
@@ -652,7 +585,17 @@ export function SimulateProductionWorkstation(
   let timeslotLength = workStation.timeslots.length;
 
   //calculate time requirement
-  let requiredTime = order.amount * 100;
+  let requiredTime = 0;
+  // Produktionszeit für jeden Artikel in der Bestellung hinzufügen
+  for (const item of workStation.productionTimes) {
+    if (item.itemName === order.id.toString()) {
+      requiredTime += item.productionTime * order.amount;
+      break;
+    }
+  }
+
+  // Setup-Zeit für die Arbeitsstation hinzufügen
+  requiredTime += workStation.productionSetupTime;
 
   //first entry
   if (timeslotLength === 0) {
