@@ -12,6 +12,7 @@ import { setStepper } from "../redux/slices/inputXML";
 import MaterialPlanningComponent from "../components/materialPlanningComponents/MaterialPlanningComponent";
 import { PlanningType } from "../types/materialPlanningTypes";
 import DownloadIcon from "@mui/icons-material/Download";
+import SellResultComponent from "../components/resultComponents/sellResultComponent";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -85,7 +86,7 @@ export default function Result() {
             <Tab label="Workingtime" {...a11yProps(3)} />
           </Tabs>
           <CustomTabPanel value={value} index={0}>
-            sellwish
+            <SellResultComponent />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
             orders
