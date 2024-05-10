@@ -6,6 +6,7 @@ import inputOrderPlanning from "./slices/inputOrderPlanning";
 import productionPlanning from "./slices/productionPlanning";
 import inputCapacityPlanning from "./slices/inputCapacityPlanning";
 import inputProductionProgramm from "./slices/inputProductionProgramm";
+import resultXml from "./slices/resultXml";
 
 const appReducer = combineReducers({
   global,
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
   productionPlanning,
   inputOrderPlanning,
   inputCapacityPlanning,
+  resultXml,
 });
 
 export { appReducer };
