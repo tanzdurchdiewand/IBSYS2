@@ -18,19 +18,20 @@ import {
 export const useResult = () => {
   const dispatch = useDispatch();
 
-  // TODO benötigten daten für die initialisierung an business layer
   const productionProgramm = useSelector(
     (state: RootState) => state.inputProductionProgramm.data
   );
 
-  const capacityRows = useSelector(
-    (state: RootState) => state.inputCapacityPlanning.capacityRows
+  const orderPlanning = useSelector(
+    (state: RootState) => state.inputOrderPlanning.data
   );
-  const summaryRows = useSelector(
+
+  const capacitySummaryRows = useSelector(
     (state: RootState) => state.inputCapacityPlanning.summaryRows
   );
 
   const sellwish = useSelector((state: RootState) => state.resultXml.sellwish);
+
   const selldirect = useSelector(
     (state: RootState) => state.resultXml.selldirect
   );
@@ -45,13 +46,19 @@ export const useResult = () => {
   );
 
   useEffect(() => {
-    console.log("useEffext Result");
-    dispatch(setSellwishData(initializeSellWishResult()));
-    dispatch(setSelldirectData(initializeSellDirectResult()));
-    dispatch(setOrderlistData(initializeOrderListResult()));
+    dispatch(setSellwishData(initializeSellWishResult(productionProgramm!)));
+    dispatch(
+      setSelldirectData(initializeSellDirectResult(productionProgramm!))
+    );
+    dispatch(setOrderlistData(initializeOrderListResult(orderPlanning!)));
+    dispatch(
+      setWorkingtimelistData(
+        initializeWorkingTimeListResult(capacitySummaryRows)
+      )
+    );
+    // TODO Data still Mocked
     dispatch(setProductionlistData(initializeProductionListResult()));
-    dispatch(setWorkingtimelistData(initializeWorkingTimeListResult()));
-  }, [dispatch, productionProgramm]);
+  }, [dispatch, productionProgramm, orderPlanning, capacitySummaryRows]);
 
   return { sellwish, selldirect, orderlist, productionlist, workingtimelist };
 };

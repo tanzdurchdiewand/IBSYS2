@@ -33,14 +33,25 @@ export default function OrderResultComponent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orderResult &&
+          {orderResult && orderResult.orders.length > 0 ? (
             orderResult?.orders.map((order) => (
               <TableRow key={order.article.toString()}>
                 <TableCell>{order.article.toString()}</TableCell>
                 <TableCell>{order.quantity.toString()}</TableCell>
-                <TableCell>{order.modus.toString()}</TableCell>
+                <TableCell>
+                  {order.modus === 4
+                    ? "Normal"
+                    : order.modus === 5
+                    ? "Fast"
+                    : ""}
+                </TableCell>
               </TableRow>
-            ))}
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={3}>Nothing to order</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

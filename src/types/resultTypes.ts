@@ -15,6 +15,7 @@ export type SellDirectItem = {
   article: Number;
   quantity: Number;
   price: Number;
+  penalty: Number;
 };
 
 export type OrderList = {
