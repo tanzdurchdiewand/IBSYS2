@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../store";
 import { MaterialOrderPlanning } from "../../types/orderPlanningTypes";
-import { setOrderPlanning } from "./inputOrderPlanning";
+import inputOrderPlanning, { setOrderPlanning } from "./inputOrderPlanning";
 import { GameData } from "../../types/inputXMLTypes";
 import { ProductionProgramm } from "../../types/productionPlanningTypes";
 import { initializeOrderPlanning } from "../../businessLogic/orderPlanning";
@@ -54,7 +54,7 @@ export const setEntityId = (entityId: string | null): AppThunk => {
 export const fetchInitialOrderPlanning = createAsyncThunk<MaterialOrderPlanning, void, { state: RootState }>(
   'orderPlanning/fetchInitial',
   async (_, { getState, dispatch }) => {
-    const { inputXML, inputProductionProgramm } = getState();
+    const { inputXML, inputProductionProgramm, inputOrderPlanning } = getState();
     const gameData = inputXML.list.XML;
     const productionProgramm = inputProductionProgramm.data;
 
@@ -62,7 +62,10 @@ export const fetchInitialOrderPlanning = createAsyncThunk<MaterialOrderPlanning,
       throw new Error('Missing required data for initialization');
     }
 
-    const orderData = initializeOrderPlanning(gameData, productionProgramm!);
+
+    const orderPlanning = inputOrderPlanning.data;
+
+    const orderData = initializeOrderPlanning(gameData, productionProgramm!, orderPlanning);
     dispatch(setOrderPlanning(orderData));
     return orderData;
   }

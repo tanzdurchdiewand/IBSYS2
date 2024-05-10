@@ -10,11 +10,18 @@ export function useOrderPlanning() {
   const orderPlanning = useSelector(
     (state: RootState) => state.inputOrderPlanning.data
   );
+
+  const gameData = useSelector(
+    (state: RootState) => state.inputXML.list.XML
+  );
+
+  const productionProgramm = useSelector(
+    (state: RootState) => state.inputProductionProgramm.data
+  );
+
   useEffect(() => {
-    if (!orderPlanning) {
-      dispatch(fetchInitialOrderPlanning());
-    }
-  }, [dispatch, orderPlanning]);
+    dispatch(fetchInitialOrderPlanning());
+  }, [dispatch, gameData, productionProgramm]);
 
   const updateOrder = (
     key: string,
