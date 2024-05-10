@@ -81,7 +81,6 @@ export default function ProduktionProgramm() {
   const sellDirect = methods.watch();
 
   useEffect(() => {
-    console.log("watch", sellDirect);
     dispatch(setDirectSell(sellDirect));
   }, [dispatch]);
 

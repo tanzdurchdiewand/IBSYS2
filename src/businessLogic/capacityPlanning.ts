@@ -26,9 +26,6 @@ export function initializeCapacityPlanning(
       ),
     };
   });
-
-  console.log(capacityPlanning);
-
   return capacityPlanning;
 }
 

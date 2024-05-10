@@ -105,8 +105,6 @@ export function updateOrderRow(
   if (key in updatedData) {
     updatedData[key] = { ...updatedData[key], [field]: value };
   }
-  console.log("iupdateOrderRow");
-
   return updatedData;
 }
 

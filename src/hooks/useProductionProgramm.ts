@@ -18,7 +18,6 @@ export const useProductionProgramm = () => {
   );
 
   useEffect(() => {
-    console.log("useeffect", productionProgramm);
     if (!productionProgramm && XML) {
       dispatch(setProductionProgramm(initializeProductionProgramm(XML)));
     }
@@ -45,11 +44,9 @@ export const useProductionProgramm = () => {
   const handleDirectSellChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const parts = name.split(".");
-    console.log("parts", parts);
     if (parts.length === 4) {
       const [part, key] = parts;
       if (part === "directSell") {
-        console.log("directSell", part, key, value);
         dispatch(
           updateProductionProgramm({
             part: part as keyof ProductionProgramm,

@@ -24,7 +24,6 @@ export default function CustomGridDirectSell({
   bikeType,
   directSell,
 }: Readonly<Props>) {
-  console.log("directSell", directSell);
   return (
     <Grid container>
       <Grid item xs={3}>

@@ -13,7 +13,6 @@ export default function SellResultComponent() {
   const { data } = useSelector(
     (state: RootState) => state.inputProductionProgramm
   );
-  console.log(data);
   return (
     <TableContainer
       component={Paper}

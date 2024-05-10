@@ -26,11 +26,7 @@ export function useMaterialPlanning() {
   const initialPlanning = useSelector(
     (state: RootState) => state.inputMaterialPlanning.initialPlanning
   );
-
-  console.log("useMaterialPlanning", productionProgramm);
-
   useEffect(() => {
-    console.log("useEffect Material Planning called");
     if (gameData && productionProgramm && !initialPlanning) {
       const planning = initializePlanning(gameData, productionProgramm);
       dispatch(setInitialPlanning(planning));
