@@ -20,7 +20,7 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import { useDispatch } from "../redux/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import { useCapacityPlanning } from "../hooks/useCapacityPlanning";
 import InfoIcon from "@mui/icons-material/Info";
@@ -69,6 +69,7 @@ export default function CapacityPlanning() {
 
     const infoText = tooltips.join("\n");
 
+    // TODO Shifts in die sumary table hinzufügen (+ berechnen)
     return (
       <div style={{ position: "relative" }}>
         <input
