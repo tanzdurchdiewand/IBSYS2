@@ -64,7 +64,8 @@ export function recalculatePlanning(
 
 export function initializePlanning(
   gameData: GameData,
-  productionProgramm: ProductionProgramm
+  productionProgramm: ProductionProgramm,
+  currentMaterialPlanning: Planning | null
 ): Planning {
   const planning: any = { P1: {}, P2: {}, P3: {} };
   const products = gameData.results.warehousestock.article;
@@ -82,13 +83,16 @@ export function initializePlanning(
     salesOrderMap.set(idType, salesOrderForPeriod);
     prevWaitingQueueMap.set(idType, "0");
 
+
     elementIds.forEach((elementId) => {
+      const currentSafetyStock = currentMaterialPlanning ? currentMaterialPlanning[type][elementId].safetyStock : null;
       const numericId = parseInt(elementId.replace(/\D/g, ""), 10);
       planning[type][elementId] = createMaterialPlanningRow(
         numericId.toString(),
         products,
         waitingQueueMap,
-        workInProgressMap
+        workInProgressMap,
+        currentSafetyStock
       );
     });
   });
@@ -102,8 +106,8 @@ export function generateWaitingQueueMap(gameData: GameData) {
       const normalizedWaitingList = Array.isArray(workplace.waitinglist)
         ? workplace.waitinglist
         : workplace.waitinglist
-        ? [workplace.waitinglist]
-        : [];
+          ? [workplace.waitinglist]
+          : [];
 
       normalizedWaitingList.forEach(({ item, amount }) => {
         map.set(item.toString(), amount.toString());
@@ -133,7 +137,8 @@ export function createMaterialPlanningRow(
   id: string,
   products: Article[],
   waitingQueueMap: Map<string, string>,
-  workInProgressMap: Map<string, string>
+  workInProgressMap: Map<string, string>,
+  currentSafetyStock: number | null
 ): MaterialPlanningRow {
   const salesOrder = Number(salesOrderMap.get(id));
   const previousWaitingQueue = Number(prevWaitingQueueMap.get(id));
@@ -143,7 +148,7 @@ export function createMaterialPlanningRow(
   const waitingQueue = Number(waitingQueueMap.get(id) ?? 0);
   const workInProgress = Number(workInProgressMap.get(id) ?? 0);
 
-  const calcSafetyStock = stock; //-previousWaitingQueue + stock + waitingQueue + workInProgress; // TODO ?
+  const calcSafetyStock = currentSafetyStock ? currentSafetyStock : stock;
 
   const calcProdOrder =
     salesOrder +
