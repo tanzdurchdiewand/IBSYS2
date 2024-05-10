@@ -43,6 +43,7 @@ export default function OrderPlanning() {
       <StyledButton
         onClick={() => goTo("/start/material", Direction.Back)}
         sx={{ left: 0 }}
+        tooltip="Previous Step"
       >
         <ArrowBackIosIcon />
       </StyledButton>
@@ -269,6 +270,7 @@ export default function OrderPlanning() {
       <StyledButton
         onClick={() => goTo("/start/production", Direction.Forward)}
         sx={{ right: 0 }}
+        tooltip="Next Step"
       >
         <ArrowForwardIosIcon />
       </StyledButton>

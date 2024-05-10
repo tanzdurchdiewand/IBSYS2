@@ -9,10 +9,11 @@ import {
 import { useDispatch } from "../redux/store";
 import { useEffect, useState } from "react";
 import { setStepper } from "../redux/slices/inputXML";
-import MaterialPlanningComponent from "../components/materialPlanningComponents/MaterialPlanningComponent";
-import { PlanningType } from "../types/materialPlanningTypes";
 import DownloadIcon from "@mui/icons-material/Download";
 import SellResultComponent from "../components/resultComponents/sellResultComponent";
+import OrderResultComponent from "../components/resultComponents/orderResultComponent";
+import ProductionResultComponent from "../components/resultComponents/productionResultComponent";
+import WorkingTimeResultComponent from "../components/resultComponents/workingTimeResultComponent";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -64,6 +65,7 @@ export default function Result() {
       <StyledButton
         onClick={() => goTo("/start/capacity", Direction.Back)}
         sx={{ left: 0 }}
+        tooltip="Previous Step"
       >
         <ArrowBackIosIcon />
       </StyledButton>
@@ -89,17 +91,21 @@ export default function Result() {
             <SellResultComponent />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            orders
+            <OrderResultComponent />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
-            production
+            <ProductionResultComponent />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={3}>
-            workingtime
+            <WorkingTimeResultComponent />
           </CustomTabPanel>
         </Box>
       </StyledCard>
-      <StyledButton onClick={() => console.log("Download")} sx={{ right: 0 }}>
+      <StyledButton
+        onClick={() => console.log("Download")}
+        sx={{ right: 0 }}
+        tooltip="Download XML Input File"
+      >
         <DownloadIcon />
       </StyledButton>
     </Container>

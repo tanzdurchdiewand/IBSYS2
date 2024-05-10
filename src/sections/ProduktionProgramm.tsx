@@ -91,6 +91,7 @@ export default function ProduktionProgramm() {
         <StyledButton
           onClick={() => goTo("/start/upload", Direction.Back)}
           sx={{ left: 0 }}
+          tooltip="Previous Step"
         >
           <ArrowBackIosIcon />
         </StyledButton>
@@ -154,7 +155,11 @@ export default function ProduktionProgramm() {
           )}
         </StyledCard>
 
-        <StyledButton onClick={() => handleNextPage()} sx={{ right: 0 }}>
+        <StyledButton
+          onClick={() => handleNextPage()}
+          sx={{ right: 0 }}
+          tooltip="Next Step"
+        >
           <ArrowForwardIosIcon />
         </StyledButton>
       </Container>
