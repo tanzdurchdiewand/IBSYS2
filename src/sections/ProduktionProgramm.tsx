@@ -24,7 +24,9 @@ import {
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
-import CustomGridDirectSell, { BikeType } from "../components/customGrid/customGridDirectSell";
+import CustomGridDirectSell, {
+  BikeType,
+} from "../components/customGrid/customGridDirectSell";
 import { useProductionProgramm } from "../hooks/useProductionProgramm";
 import CustomProductionGridBody from "../components/customGrid/customProductionGridBody";
 
@@ -34,8 +36,7 @@ export default function ProduktionProgramm() {
     mode: "onChange",
   });
 
-  const { productionProgramm } =
-    useProductionProgramm();
+  const { productionProgramm } = useProductionProgramm();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -79,11 +80,12 @@ export default function ProduktionProgramm() {
         <StyledButton
           onClick={() => goTo("/start/upload", Direction.Back)}
           sx={{ left: 0 }}
+          tooltip="Previous Step"
         >
           <ArrowBackIosIcon />
         </StyledButton>
         <StyledCard>
-          {productionProgramm &&
+          {productionProgramm && (
             <Grid
               container
               direction="column"
@@ -139,10 +141,14 @@ export default function ProduktionProgramm() {
                 </AccordionDetails>
               </Accordion>
             </Grid>
-          }
+          )}
         </StyledCard>
 
-        <StyledButton onClick={() => handleNextPage()} sx={{ right: 0 }}>
+        <StyledButton
+          onClick={() => handleNextPage()}
+          sx={{ right: 0 }}
+          tooltip="Next Step"
+        >
           <ArrowForwardIosIcon />
         </StyledButton>
       </Container>

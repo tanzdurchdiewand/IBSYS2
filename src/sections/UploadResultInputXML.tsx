@@ -16,7 +16,7 @@ import { setStepper } from "../redux/slices/inputXML";
 
 export default function UploadResultInputXML() {
   const { setSelectedInputXML } = useContext(SelectInputXML);
-  
+
   const { fileName, fileSelected } = useSelector(
     (state: RootState) => state.inputXML.list
   );
@@ -25,8 +25,8 @@ export default function UploadResultInputXML() {
   const { goTo } = useNavigationHandler();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setStepper(0))
-  }, [dispatch])
+    dispatch(setStepper(0));
+  }, [dispatch]);
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
@@ -71,6 +71,7 @@ export default function UploadResultInputXML() {
           <StyledButton
             onClick={() => goTo("/start/produktion", Direction.Forward)}
             sx={{ right: 0 }}
+            tooltip="Next Step"
           >
             <ArrowForwardIosIcon />
           </StyledButton>

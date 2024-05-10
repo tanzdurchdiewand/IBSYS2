@@ -65,6 +65,7 @@ export default function Result() {
       <StyledButton
         onClick={() => goTo("/start/capacity", Direction.Back)}
         sx={{ left: 0 }}
+        tooltip="Previous Step"
       >
         <ArrowBackIosIcon />
       </StyledButton>
@@ -100,7 +101,11 @@ export default function Result() {
           </CustomTabPanel>
         </Box>
       </StyledCard>
-      <StyledButton onClick={() => console.log("Download")} sx={{ right: 0 }}>
+      <StyledButton
+        onClick={() => console.log("Download")}
+        sx={{ right: 0 }}
+        tooltip="Download XML Input File"
+      >
         <DownloadIcon />
       </StyledButton>
     </Container>

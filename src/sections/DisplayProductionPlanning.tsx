@@ -16,13 +16,14 @@ export default function DisplayProductionPlanning() {
   const { goTo } = useNavigationHandler();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setStepper(4))
-  }, [dispatch])
+    dispatch(setStepper(4));
+  }, [dispatch]);
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
         onClick={() => goTo("/start/order", Direction.Back)}
         sx={{ left: 0 }}
+        tooltip="Previous Step"
       >
         <ArrowBackIosIcon />
       </StyledButton>
@@ -32,6 +33,7 @@ export default function DisplayProductionPlanning() {
       <StyledButton
         onClick={() => goTo("/start/capacity", Direction.Forward)}
         sx={{ right: 0 }}
+        tooltip="Next Step"
       >
         <ArrowForwardIosIcon />
       </StyledButton>

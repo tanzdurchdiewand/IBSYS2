@@ -62,7 +62,7 @@ export default function CapacityPlanning() {
       if (parts !== 0) {
         const total = parts * orderQuantity;
         tooltips.push(
-          `Workspace ${workspace}: (capacityRequirement) ${parts} * (orderQuantity)${orderQuantity} = ${total}; `
+          `Workspace ${workspace}: (capacityRequirement) ${parts} * (orderQuantity) ${orderQuantity} = ${total}; `
         );
       }
     });
@@ -104,6 +104,7 @@ export default function CapacityPlanning() {
       <StyledButton
         onClick={() => goTo("/start/production", Direction.Back)}
         sx={{ left: 0 }}
+        tooltip="Previous Step"
       >
         <ArrowBackIosIcon />
       </StyledButton>
@@ -182,6 +183,7 @@ export default function CapacityPlanning() {
       <StyledButton
         onClick={() => goTo("/start/result", Direction.Forward)}
         sx={{ right: 0 }}
+        tooltip="Next Step"
       >
         <ArrowForwardIosIcon />
       </StyledButton>

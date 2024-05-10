@@ -56,8 +56,8 @@ export default function MaterialPlanning() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setStepper(2))
-  }, [dispatch])
+    dispatch(setStepper(2));
+  }, [dispatch]);
 
   const backPath = "/start/produktion";
   const forwardPath = "/start/order";
@@ -71,6 +71,7 @@ export default function MaterialPlanning() {
       <StyledButton
         onClick={() => goTo(backPath, Direction.Back)}
         sx={{ left: 0 }}
+        tooltip="Previous Step"
       >
         <ArrowBackIosIcon />
       </StyledButton>
@@ -105,6 +106,7 @@ export default function MaterialPlanning() {
       <StyledButton
         onClick={() => goTo(forwardPath, Direction.Forward)}
         sx={{ right: 0 }}
+        tooltip="Next Step"
       >
         <ArrowForwardIosIcon />
       </StyledButton>
