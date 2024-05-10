@@ -9,6 +9,7 @@ import {
   TableRow,
   TextField,
   Tooltip,
+  useTheme,
 } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -22,10 +23,11 @@ import { useDispatch } from "../redux/store";
 import { useEffect, useState } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import { useCapacityPlanning } from "../hooks/useCapacityPlanning";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
 import { capacityPlanningData } from "../types/capacityPlanningTypes";
 
 export default function CapacityPlanning() {
+  const theme = useTheme();
   const { goTo } = useNavigationHandler();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,47 +37,62 @@ export default function CapacityPlanning() {
     useCapacityPlanning();
 
   const renderInput = (value: string) => {
-    return <input value={value} disabled style={{
-      border: "1px solid #ccc",
-      padding: "8px",
-      borderRadius: "4px",
-      width: "100%",
-    }} />;
+    return (
+      <input
+        value={value}
+        disabled
+        style={{
+          border: "1px solid #ccc",
+          padding: "8px",
+          borderRadius: "4px",
+          width: "100%",
+        }}
+      />
+    );
   };
 
-  const renderInputWithTootlip = (value: string, articleId: string, orderQuantity: number) => {
+  const renderInputWithTootlip = (
+    value: string,
+    articleId: string,
+    orderQuantity: number
+  ) => {
     const tooltips: string[] = [];
     capacityPlanningData[articleId].capacityRequired.forEach((parts, index) => {
       const workspace = index + 1;
       if (parts !== 0) {
         const total = parts * orderQuantity;
-        tooltips.push(`Workspace ${workspace}: (capacityRequirement) ${parts} * (orderQuantity)${orderQuantity} = ${total}; `);
+        tooltips.push(
+          `Workspace ${workspace}: (capacityRequirement) ${parts} * (orderQuantity)${orderQuantity} = ${total}; `
+        );
       }
     });
 
-    const infoText = tooltips.join('\n');
+    const infoText = tooltips.join("\n");
 
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: "relative" }}>
         <input
           value={value}
           disabled
           style={{
-            border: '1px solid #ccc',
-            padding: '8px',
-            borderRadius: '4px',
-            width: '100%',
+            border: "1px solid #ccc",
+            padding: "8px",
+            borderRadius: "4px",
+            width: "100%",
           }}
         />
         {infoText && (
           <Tooltip title={infoText}>
-            <InfoIcon style={{
-              position: 'absolute',
-              top: '50%',
-              right: '-12px',
-              transform: 'translateY(-50%)',
-              cursor: 'pointer',
-            }} />
+            <InfoIcon
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: "-12px",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: theme.palette.primary.main,
+              }}
+            />
           </Tooltip>
         )}
       </div>
@@ -110,10 +127,16 @@ export default function CapacityPlanning() {
                 <TableRow key={index}>
                   <TableCell>{row.designation}</TableCell>
                   <TableCell>{renderInput(row.modelType)}</TableCell>
-                  <TableCell>{renderInputWithTootlip(row.id, row.id, row.orderQuantity)}</TableCell>
-                  <TableCell>{renderInput(row.orderQuantity.toString())}</TableCell>
+                  <TableCell>
+                    {renderInputWithTootlip(row.id, row.id, row.orderQuantity)}
+                  </TableCell>
+                  <TableCell>
+                    {renderInput(row.orderQuantity.toString())}
+                  </TableCell>
                   {row.workstationResults.map((result, idx) => (
-                    <TableCell key={idx}>{renderInput(result.toString())}</TableCell>
+                    <TableCell key={idx}>
+                      {renderInput(result.toString())}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))}

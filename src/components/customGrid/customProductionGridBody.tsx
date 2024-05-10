@@ -1,7 +1,5 @@
 import { Grid, Box, styled, Paper, TextField } from "@mui/material";
-import {
-  ProductionProgramm,
-} from "../../types/productionPlanningTypes";
+import { ProductionProgramm } from "../../types/productionPlanningTypes";
 import { BikeType } from "./customGridDirectSell";
 import { useProductionProgramm } from "../../hooks/useProductionProgramm";
 
@@ -24,11 +22,15 @@ export default function CustomProductionGridBody({
   productionProgramm,
   period,
 }: Readonly<Props>) {
-
   const { handleValueChange, handleForecastChange } = useProductionProgramm();
-  const type = bikeType.shortName === "P1" ? "P1" :
-    (bikeType.shortName === "P2" ? "P2" :
-      (bikeType.shortName === "P3" ? "P3" : "P1"));
+  const type =
+    bikeType.shortName === "P1"
+      ? "P1"
+      : bikeType.shortName === "P2"
+      ? "P2"
+      : bikeType.shortName === "P3"
+      ? "P3"
+      : "P1";
 
   return (
     <Grid container>
@@ -110,16 +112,27 @@ export default function CustomProductionGridBody({
               variant="outlined"
               value={productionProgramm[type].forecast[0].salesOrder.salesWish}
               type="number"
-              onChange={(event) => handleForecastChange(event, bikeType.shortName, 0, 'salesWish')}
+              onChange={(event) =>
+                handleForecastChange(event, bikeType.shortName, 0, "salesWish")
+              }
             />
             <TextField
               name={`${bikeType.shortName}.forecast[0].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
-              value={productionProgramm[type].forecast[0].salesOrder.productionWish}
+              value={
+                productionProgramm[type].forecast[0].salesOrder.productionWish
+              }
               type="number"
-              onChange={(event) => handleForecastChange(event, bikeType.shortName, 0, 'productionWish')}
+              onChange={(event) =>
+                handleForecastChange(
+                  event,
+                  bikeType.shortName,
+                  0,
+                  "productionWish"
+                )
+              }
             />
           </Box>
         </Item>
@@ -143,16 +156,27 @@ export default function CustomProductionGridBody({
               variant="outlined"
               value={productionProgramm[type].forecast[1].salesOrder.salesWish}
               type="number"
-              onChange={(event) => handleForecastChange(event, bikeType.shortName, 1, 'salesWish')}
+              onChange={(event) =>
+                handleForecastChange(event, bikeType.shortName, 1, "salesWish")
+              }
             />
             <TextField
               name={`${bikeType.shortName}.forecast[1].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
-              value={productionProgramm[type].forecast[1].salesOrder.productionWish}
+              value={
+                productionProgramm[type].forecast[1].salesOrder.productionWish
+              }
               type="number"
-              onChange={(event) => handleForecastChange(event, bikeType.shortName, 1, 'productionWish')}
+              onChange={(event) =>
+                handleForecastChange(
+                  event,
+                  bikeType.shortName,
+                  1,
+                  "productionWish"
+                )
+              }
             />
           </Box>
         </Item>
@@ -176,16 +200,27 @@ export default function CustomProductionGridBody({
               variant="outlined"
               value={productionProgramm[type].forecast[2].salesOrder.salesWish}
               type="number"
-              onChange={(event) => handleForecastChange(event, bikeType.shortName, 2, 'salesWish')}
+              onChange={(event) =>
+                handleForecastChange(event, bikeType.shortName, 2, "salesWish")
+              }
             />
             <TextField
               name={`${bikeType.shortName}.forecast[2].salesOrder.productionWish.`}
               id="outlined-basic"
               label="Production Wish"
               variant="outlined"
-              value={productionProgramm[type].forecast[2].salesOrder.productionWish}
+              value={
+                productionProgramm[type].forecast[2].salesOrder.productionWish
+              }
               type="number"
-              onChange={(event) => handleForecastChange(event, bikeType.shortName, 2, 'productionWish')}
+              onChange={(event) =>
+                handleForecastChange(
+                  event,
+                  bikeType.shortName,
+                  2,
+                  "productionWish"
+                )
+              }
             />
           </Box>
         </Item>
@@ -193,4 +228,3 @@ export default function CustomProductionGridBody({
     </Grid>
   );
 }
-
