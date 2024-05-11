@@ -12,6 +12,8 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
+  useTheme,
 } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -25,18 +27,17 @@ import { useOrderPlanning } from "../hooks/useOrderPlanning";
 import { useDispatch } from "../redux/store";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
+import InfoIcon from "@mui/icons-material/Info";
 
 export default function OrderPlanning() {
   const { goTo } = useNavigationHandler();
   const { orderPlanning, updateOrder } = useOrderPlanning();
   const dispatch = useDispatch();
+  const theme = useTheme();
   useEffect(() => {
     dispatch(setStepper(3));
   }, [dispatch]);
 
-  console.log("OrderPlanning", orderPlanning);
-
-  // TODO Tooltip mit infos zur Berechnung Demand, Quantity
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
@@ -59,7 +60,16 @@ export default function OrderPlanning() {
                 <TableCell>Quantity P3</TableCell>
                 <TableCell>Discount quantity</TableCell>
                 <TableCell>Warehouse Stock</TableCell>
-                <TableCell>Demand for period x</TableCell>
+                <TableCell>Demand for period x
+                  <Tooltip title={"Demand for Period = Production Wish P1 * Quantity P1 + Production Wish P2 * Quantity P2 + Production Wish P3 * Quantity P3"}>
+                    <InfoIcon
+                      style={{
+                        cursor: "pointer",
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                  </Tooltip>
+                </TableCell>
                 <TableCell>Demand for period x+1</TableCell>
                 <TableCell>Demand for period x+2</TableCell>
                 <TableCell>Demand for period x+3</TableCell>

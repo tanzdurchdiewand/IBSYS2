@@ -35,7 +35,7 @@ export function initializeCapacityPlanningSummary(
   summaryTable: SummaryTable | null
 ): SummaryTable {
 
-  const generateArray = (): number[] => Array.from({ length: 15 }).map(() => 2);
+  const generateArray = (): number[] => Array.from({ length: 15 }).map(() => 0);
 
   // Check if the user changed values and use them
   const shiftsAndOvertimesObj = summaryTable?.find(item => item.label === "Shifts And Overtimes");
