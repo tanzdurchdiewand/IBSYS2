@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useMaterialPlanning } from "../../hooks/useMaterialPlanning";
-import {} from "../../hooks/useNavigationHandlers";
+import { } from "../../hooks/useNavigationHandlers";
 import { PlanningType } from "../../types/materialPlanningTypes";
 import React from "react";
 
@@ -76,7 +76,7 @@ export default function MaterialPlanningComponent({
             <TableCell></TableCell>
             <TableCell>Warehouse Stock</TableCell>
             <TableCell></TableCell>
-            <TableCell>Orders in Waiting Queue</TableCell>
+            <TableCell>Material in Waiting Queue</TableCell>
             <TableCell></TableCell>
             <TableCell>Work in Progress</TableCell>
             <TableCell></TableCell>

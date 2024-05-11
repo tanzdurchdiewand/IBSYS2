@@ -37,16 +37,16 @@ export function initializeCapacityPlanningSummary(
 
   const generateArray = (): number[] => Array.from({ length: 15 }).map(() => 2);
 
+  // Check if the user changed values and use them
   const shiftsAndOvertimesObj = summaryTable?.find(item => item.label === "Shifts And Overtimes");
   const shiftsAndOvertimesPerDaysObj = summaryTable?.find(item => item.label === "Shifts And Overtime Per Days");
+  const shiftsAndOvertimes = shiftsAndOvertimesObj ? shiftsAndOvertimesObj.values : generateArray();
+  const shiftsAndOvertimePerDasy = shiftsAndOvertimesPerDaysObj ? shiftsAndOvertimesPerDaysObj.values : generateArray();
 
   const capacityRequirements = generateArray();
   const setupTimes = generateArray();
   const setupTimePreviousPeriods = generateArray();
   const totalCapacityRequirements = generateArray();
-
-  const shiftsAndOvertimes = shiftsAndOvertimesObj ? shiftsAndOvertimesObj.values : generateArray();
-  const shiftsAndOvertimePerDasy = shiftsAndOvertimesPerDaysObj ? shiftsAndOvertimesPerDaysObj.values : generateArray();
 
   // TODO Update capacityRequirements based on workstationResults
   Object.values(capacityPlanning).forEach(({ workstationResults }) => {

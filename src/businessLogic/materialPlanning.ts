@@ -124,7 +124,7 @@ function generateWorkInProgressMap(gameData: GameData): Map<string, string> {
       const key = workplace.item.toString();
       const existingAmount = map.get(key);
       const newAmount = existingAmount
-        ? parseInt(existingAmount) + workplace.amount
+        ? parseInt(existingAmount) + Number(workplace.amount)
         : workplace.amount;
       map.set(key, newAmount.toString());
       return map;
