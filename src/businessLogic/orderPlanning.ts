@@ -56,13 +56,12 @@ export function calculateDynamicOrderQuantity(params: InventoryParameters): numb
   return optimalOrderQuantity;
 }
 */
-
+//
 export function initializeOrderPlanning(
   gameData: GameData,
   productionProgramm: ProductionProgramm,
   currentOrder: MaterialOrderPlanning | null
 ): MaterialOrderPlanning {
-
   const orderPlanning: any = {};
   const pendingOrders = gameData.results.futureinwardstockmovement.order;
 
@@ -80,10 +79,13 @@ export function initializeOrderPlanning(
       pendingOrders.find((order) => order.article!.toString() === key) ?? null;
     const pendingOrderPeriod = filteredOrders?.orderperiod ?? 0;
     const pendingOrderAmount = filteredOrders?.amount ?? 0;
+    const pendingOrderType = filteredOrders?.mode ?? 0;
 
     // TODO calculate orderQuantity and orderType
     const orderQuantity = currentOrder ? currentOrder[key].orderQuantity : 0;
-    const orderType = currentOrder ? currentOrder[key].orderType : OrderType.Normal;
+    const orderType = currentOrder
+      ? currentOrder[key].orderType
+      : OrderType.Normal;
 
     orderPlanning[key] = {
       productName: key,
@@ -99,6 +101,7 @@ export function initializeOrderPlanning(
       orderType: orderType,
       pendingOrderPeriod: pendingOrderPeriod,
       pendingOrderAmount: pendingOrderAmount,
+      pendingOrderType: pendingOrderType,
     };
   });
 
@@ -155,11 +158,11 @@ function calculateDemands(
     ) {
       demands[i + 1] =
         productionProgram.P1.forecast[i].salesOrder.productionWish *
-        requiredQuantityP1 +
+          requiredQuantityP1 +
         productionProgram.P2.forecast[i].salesOrder.productionWish *
-        requiredQuantityP2 +
+          requiredQuantityP2 +
         productionProgram.P3.forecast[i].salesOrder.productionWish *
-        requiredQuantityP3;
+          requiredQuantityP3;
     }
   }
 

@@ -40,19 +40,6 @@ export function recalculatePlanning(
     const newProductionOrder: number =
       Number(productionOrderMap.get(id)!) + difference;
 
-    console.log(
-      "id",
-      id,
-      "current val",
-      planning[type][key][field],
-      "val",
-      value,
-      "new prpod",
-      newProductionOrder,
-      "aa",
-      productionOrderMap.get(id)
-    );
-
     productionOrderMap.set(id, newProductionOrder.toString());
     draft[type][key].productionOrder = Number(productionOrderMap.get(id));
 
@@ -91,8 +78,6 @@ export function initializePlanning(
     const elementIds = planningConfig[type];
     const salesOrderForPeriod =
       productionProgramm[type].salesOrder.productionWish.toString();
-
-    console.log("type", type, "elementIds", elementIds);
 
     var idType = type.replace(/\D/g, "");
 
