@@ -61,12 +61,12 @@ export function initializeOrderListResult(
 }
 
 export function initializeProductionListResult(): ProductionList {
-  // TODO Still Mock data
+  // TODO Still Mock data  ID = Reinfolge
   const mockProductionList: ProductionList = {
     production: [
-      { article: 1, quantity: 1000 },
-      { article: 2, quantity: 1200 },
-      { article: 3, quantity: 1400 },
+      { id: 1, article: 1, quantity: 1000 },
+      { id: 2, article: 2, quantity: 1200 },
+      { id: 3, article: 3, quantity: 1400 },
     ],
   };
 
