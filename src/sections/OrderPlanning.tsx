@@ -28,7 +28,9 @@ import { useDispatch } from "../redux/store";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import InfoIcon from "@mui/icons-material/Info";
+import { OrderType } from "../types/orderPlanningTypes";
 
+// TODO Add Pending order Type
 export default function OrderPlanning() {
   const { goTo } = useNavigationHandler();
   const { orderPlanning, updateOrder } = useOrderPlanning();
@@ -60,8 +62,13 @@ export default function OrderPlanning() {
                 <TableCell>Quantity P3</TableCell>
                 <TableCell>Discount quantity</TableCell>
                 <TableCell>Warehouse Stock</TableCell>
-                <TableCell>Demand for period x
-                  <Tooltip title={"Demand for Period = Production Wish P1 * Quantity P1 + Production Wish P2 * Quantity P2 + Production Wish P3 * Quantity P3"}>
+                <TableCell>
+                  Demand for period x
+                  <Tooltip
+                    title={
+                      "Demand for Period = Production Wish P1 * Quantity P1 + Production Wish P2 * Quantity P2 + Production Wish P3 * Quantity P3"
+                    }
+                  >
                     <InfoIcon
                       style={{
                         cursor: "pointer",
@@ -77,6 +84,7 @@ export default function OrderPlanning() {
                 <TableCell>Order type</TableCell>
                 <TableCell>Pending Order Period</TableCell>
                 <TableCell>Pending Order Amount</TableCell>
+                <TableCell>Pending Order Type</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -284,6 +292,25 @@ export default function OrderPlanning() {
                           value.pendingOrderAmount === 0
                             ? "-"
                             : value.pendingOrderAmount
+                        }
+                        disabled
+                        style={{
+                          border: "1px solid #ccc",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          width: "100%",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <input
+                        type="text"
+                        value={
+                          value.pendingOrderType === 0
+                            ? "-"
+                            : value.pendingOrderType.toString() === "5"
+                            ? "normal"
+                            : "fast"
                         }
                         disabled
                         style={{

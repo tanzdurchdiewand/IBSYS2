@@ -45,6 +45,7 @@ export interface OrderPlanningRow {
   orderType: OrderType;
   pendingOrderPeriod: number;
   pendingOrderAmount: number;
+  pendingOrderType: OrderType;
 }
 
 export enum OrderType {
