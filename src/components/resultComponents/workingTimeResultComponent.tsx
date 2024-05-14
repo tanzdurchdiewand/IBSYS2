@@ -34,11 +34,11 @@ export default function WorkingTimeResultComponent() {
         </TableHead>
         <TableBody>
           {workingTimes &&
-            workingTimes?.worrkingTimes.map((workingTime) => (
-              <TableRow key={workingTime.station.toString()}>
-                <TableCell>{workingTime.station.toString()}</TableCell>
-                <TableCell>{workingTime.overtime.toString()}</TableCell>
-                <TableCell>{workingTime.shift.toString()}</TableCell>
+            workingTimes?.worrkingTime.map((workingTimeItem) => (
+              <TableRow key={workingTimeItem.station.toString()}>
+                <TableCell>{workingTimeItem.station.toString()}</TableCell>
+                <TableCell>{workingTimeItem.overtime.toString()}</TableCell>
+                <TableCell>{workingTimeItem.shift.toString()}</TableCell>
               </TableRow>
             ))}
         </TableBody>

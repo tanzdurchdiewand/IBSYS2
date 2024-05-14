@@ -6,7 +6,7 @@ import {
   Direction,
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
-import { useDispatch } from "../redux/store";
+import { RootState, useDispatch, useSelector } from "../redux/store";
 import { useEffect, useState } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -23,6 +23,18 @@ interface TabPanelProps {
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
+
+  const { sellwish, selldirect, orderlist, productionlist, workingtimelist } =
+    useSelector((state: RootState) => state.resultXml);
+
+  const input = {
+    sellwish,
+    selldirect,
+    orderlist,
+    productionlist,
+    workingtimelist,
+  };
+  console.log(input);
 
   return (
     <Container

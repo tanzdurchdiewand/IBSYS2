@@ -1,48 +1,48 @@
 export type Sellwish = {
-  sellWishItems: SellWishItem[];
+  item: SellWishItem[];
 };
 
 export type SellWishItem = {
-  article: Number;
-  quantity: Number;
+  article: number;
+  quantity: number;
 };
 
 export type Selldirect = {
-  sellDirectItems: SellDirectItem[];
+  item: SellDirectItem[];
 };
 
 export type SellDirectItem = {
-  article: Number;
-  quantity: Number;
-  price: Number;
-  penalty: Number;
+  article: number;
+  quantity: number;
+  price: number;
+  penalty: number;
 };
 
 export type OrderList = {
-  orders: Order[];
+  order: Order[];
 };
 
 export type Order = {
-  article: Number;
-  quantity: Number;
-  modus: Number;
+  article: number;
+  quantity: number;
+  modus: number;
 };
 
 export type ProductionList = {
-  productions: Production[];
+  production: Production[];
 };
 
 export type Production = {
-  article: Number;
-  quantity: Number;
+  article: number;
+  quantity: number;
 };
 
 export type WorkingTimeList = {
-  worrkingTimes: WorkingTime[];
+  worrkingTime: WorkingTime[];
 };
 
 export type WorkingTime = {
-  station: Number;
-  shift: Number;
-  overtime: Number;
+  station: number;
+  shift: number;
+  overtime: number;
 };

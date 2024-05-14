@@ -33,10 +33,10 @@ export default function ProductionResultComponent() {
         </TableHead>
         <TableBody>
           {productionResult &&
-            productionResult?.productions.map((production) => (
-              <TableRow key={production.article.toString()}>
-                <TableCell>{production.article.toString()}</TableCell>
-                <TableCell>{production.quantity.toString()}</TableCell>
+            productionResult?.production.map((productionItem) => (
+              <TableRow key={productionItem.article.toString()}>
+                <TableCell>{productionItem.article.toString()}</TableCell>
+                <TableCell>{productionItem.quantity.toString()}</TableCell>
               </TableRow>
             ))}
         </TableBody>

@@ -15,7 +15,7 @@ export function initializeSellWishResult(
   productionProgramm: ProductionProgramm
 ): Sellwish {
   const sellwish: Sellwish = {
-    sellWishItems: [
+    item: [
       { article: 1, quantity: productionProgramm.P1.salesOrder.salesWish },
       { article: 2, quantity: productionProgramm.P2.salesOrder.salesWish },
       { article: 3, quantity: productionProgramm.P3.salesOrder.salesWish },
@@ -29,7 +29,7 @@ export function initializeSellDirectResult(
   productionProgramm: ProductionProgramm
 ): Selldirect {
   const selldirect: Selldirect = {
-    sellDirectItems: [
+    item: [
       {
         article: 1,
         quantity: productionProgramm.directSell.P1.amount,
@@ -63,7 +63,7 @@ export function initializeOrderListResult(
 export function initializeProductionListResult(): ProductionList {
   // TODO Still Mock data
   const mockProductionList: ProductionList = {
-    productions: [
+    production: [
       { article: 1, quantity: 1000 },
       { article: 2, quantity: 1200 },
       { article: 3, quantity: 1400 },
@@ -84,7 +84,7 @@ export function initializeWorkingTimeListResult(
 function mapMaterialOrderPlanningToOrderList(
   materialOrderPlanning: MaterialOrderPlanning
 ): OrderList {
-  const orders: Order[] = [];
+  const order: Order[] = [];
 
   for (const key in materialOrderPlanning) {
     if (materialOrderPlanning.hasOwnProperty(key)) {
@@ -92,7 +92,7 @@ function mapMaterialOrderPlanningToOrderList(
 
       const { productName, orderQuantity, orderType } = orderPlanningRow;
 
-      const order: Order = {
+      const orderItem: Order = {
         article: productName,
         quantity: orderQuantity,
         modus:
@@ -104,13 +104,13 @@ function mapMaterialOrderPlanningToOrderList(
       };
 
       // Only add to Orders if we need to Order the Article
-      if (Number(order.quantity) > 0) {
-        orders.push(order);
+      if (Number(orderItem.quantity) > 0) {
+        order.push(orderItem);
       }
     }
   }
 
-  return { orders };
+  return { order };
 }
 
 export function mapSummaryRowToWorkingTimeList(
@@ -133,5 +133,5 @@ export function mapSummaryRowToWorkingTimeList(
     overtime: overtime,
   }));
 
-  return { worrkingTimes: workingTimes };
+  return { worrkingTime: workingTimes };
 }

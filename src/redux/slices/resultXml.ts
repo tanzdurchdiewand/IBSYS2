@@ -7,13 +7,13 @@ import {
   WorkingTimeList,
 } from "../../types/resultTypes";
 
-interface ResultXmlState {
+type ResultXmlState = {
   sellwish: Sellwish | null;
   selldirect: Selldirect | null;
   orderlist: OrderList | null;
   productionlist: ProductionList | null;
   workingtimelist: WorkingTimeList | null;
-}
+};
 
 const initialState: ResultXmlState = {
   sellwish: null,
