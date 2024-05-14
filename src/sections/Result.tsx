@@ -24,18 +24,6 @@ interface TabPanelProps {
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
-  const { sellwish, selldirect, orderlist, productionlist, workingtimelist } =
-    useSelector((state: RootState) => state.resultXml);
-
-  const input = {
-    sellwish,
-    selldirect,
-    orderlist,
-    productionlist,
-    workingtimelist,
-  };
-  console.log(input);
-
   return (
     <Container
       role="tabpanel"
@@ -65,6 +53,65 @@ export default function Result() {
   const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const { sellwish, selldirect, orderlist, productionlist, workingtimelist } =
+    useSelector((state: RootState) => state.resultXml);
+
+  const qualitycontrol = {
+    type: "no",
+    losequantity: "0",
+    delay: "0",
+  };
+
+  const input = {
+    qualitycontrol,
+    sellwish,
+    selldirect,
+    orderlist,
+    productionlist,
+    workingtimelist,
+  };
+  console.log(input);
+
+  const jObj = {
+    input,
+  };
+
+  const handleOnClick = () => {
+    const { XMLBuilder } = require("fast-xml-parser");
+
+    const options = {
+      ignoreAttributes: false,
+      attributeNamePrefix: "",
+      arrayMode:
+        /waitinglistworkstations|articles|workplace|orders|waitinglist/,
+      textNodeName: "#text",
+    };
+
+    const builder = new XMLBuilder(options);
+    const xmlContent = builder.build(jObj);
+    console.log(xmlContent);
+    // Create a blob from the XML content
+    const blob = new Blob([xmlContent], { type: "application/xml" });
+
+    // Create a link element
+    const downloadLink = document.createElement("a");
+
+    // Create a downloadable URL from the blob
+    downloadLink.href = URL.createObjectURL(blob);
+
+    // Set the download attribute of the link element
+    downloadLink.download = "input.xml";
+
+    // Append the link to the body
+    document.body.appendChild(downloadLink);
+
+    // Programmatically click the link to start the download
+    downloadLink.click();
+
+    // Clean up by removing the link element from the body
+    document.body.removeChild(downloadLink);
   };
 
   const dispatch = useDispatch();
@@ -114,7 +161,7 @@ export default function Result() {
         </Box>
       </StyledCard>
       <StyledButton
-        onClick={() => console.log("Download")}
+        onClick={handleOnClick}
         sx={{ right: 0 }}
         tooltip="Download XML Input File"
       >

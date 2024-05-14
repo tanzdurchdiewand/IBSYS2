@@ -97,10 +97,10 @@ function mapMaterialOrderPlanningToOrderList(
         quantity: orderQuantity,
         modus:
           orderType === OrderType.Normal
-            ? 4
-            : orderType === OrderType.Fast
             ? 5
-            : 4,
+            : orderType === OrderType.Fast
+            ? 4
+            : 5,
       };
 
       // Only add to Orders if we need to Order the Article
