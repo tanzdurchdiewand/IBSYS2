@@ -14,6 +14,8 @@ export default function ProductionResultComponent() {
 
   const initData = productionResult!.production;
 
+  //TODO: Änderungen müssen in der Store geschreiben werden
+
   const [data, setData] = useState(() => initData);
   console.log(productionResult?.production);
 
