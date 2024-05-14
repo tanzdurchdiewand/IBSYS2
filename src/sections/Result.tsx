@@ -14,6 +14,7 @@ import SellResultComponent from "../components/resultComponents/sellResultCompon
 import OrderResultComponent from "../components/resultComponents/orderResultComponent";
 import ProductionResultComponent from "../components/resultComponents/productionResultComponent";
 import WorkingTimeResultComponent from "../components/resultComponents/workingTimeResultComponent";
+import { useResult } from "../hooks/useResult";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,6 +52,7 @@ function a11yProps(index: number) {
 
 export default function Result() {
   const [value, setValue] = useState(0);
+  useResult();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
