@@ -15,6 +15,7 @@ import OrderResultComponent from "../components/resultComponents/orderResultComp
 import ProductionResultComponent from "../components/resultComponents/productionResultComponent";
 import WorkingTimeResultComponent from "../components/resultComponents/workingTimeResultComponent";
 import { useResult } from "../hooks/useResult";
+import i18n from "../locals/i18n";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -141,10 +142,13 @@ export default function Result() {
             aria-label="basic tabs example"
             variant="fullWidth"
           >
-            <Tab label="Sell Wish & Sell Dirket" {...a11yProps(0)} />
-            <Tab label="Orders" {...a11yProps(1)} />
-            <Tab label="Production" {...a11yProps(2)} />
-            <Tab label="Workingtime" {...a11yProps(3)} />
+            <Tab
+              label={i18n.t("result.tabProductionProgramm")}
+              {...a11yProps(0)}
+            />
+            <Tab label={i18n.t("result.tabOrders")} {...a11yProps(1)} />
+            <Tab label={i18n.t("result.tabProduction")} {...a11yProps(2)} />
+            <Tab label={i18n.t("result.tabWorkingTime")} {...a11yProps(3)} />
           </Tabs>
           <CustomTabPanel value={value} index={0}>
             <SellResultComponent />

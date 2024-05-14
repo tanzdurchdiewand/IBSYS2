@@ -25,6 +25,7 @@ import { setStepper } from "../redux/slices/inputXML";
 import { useCapacityPlanning } from "../hooks/useCapacityPlanning";
 import InfoIcon from "@mui/icons-material/Info";
 import { capacityPlanningData } from "../types/capacityPlanningTypes";
+import i18n from "../locals/i18n";
 
 export default function CapacityPlanning() {
   const theme = useTheme();
@@ -114,12 +115,22 @@ export default function CapacityPlanning() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Designation</TableCell>
-                <TableCell>Final product</TableCell>
-                <TableCell>Article number</TableCell>
-                <TableCell>Order Quantity</TableCell>
+                <TableCell>
+                  {i18n.t("capacityPlanning.columnDesignation")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("capacityPlanning.columnFinalProduct")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("capacityPlanning.columnArticleNumber")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("capacityPlanning.columnProductionQuantity")}
+                </TableCell>
                 {Array.from({ length: 15 }, (_, i) => (
-                  <TableCell key={i}>Workstation {i + 1}</TableCell>
+                  <TableCell key={i}>
+                    {i18n.t("capacityPlanning.columnWorkstation")} {i + 1}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>

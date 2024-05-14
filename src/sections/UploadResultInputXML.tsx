@@ -13,6 +13,7 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import { setStepper } from "../redux/slices/inputXML";
+import i18n from "../locals/i18n";
 
 export default function UploadResultInputXML() {
   const { setSelectedInputXML } = useContext(SelectInputXML);
@@ -64,7 +65,7 @@ export default function UploadResultInputXML() {
             )
           )}
           <Button variant="contained" component="span">
-            Upload XML
+            {i18n.t("uploadXml.xmlUploadButtonText")}
           </Button>
         </label>
         {fileSelected && (

@@ -29,6 +29,7 @@ import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import InfoIcon from "@mui/icons-material/Info";
 import { OrderType } from "../types/orderPlanningTypes";
+import i18n from "../locals/i18n";
 
 // TODO Add Pending order Type
 export default function OrderPlanning() {
@@ -54,16 +55,26 @@ export default function OrderPlanning() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Product</TableCell>
-                <TableCell>Delivery time</TableCell>
-                <TableCell>Deviation</TableCell>
-                <TableCell>Quantity P1</TableCell>
-                <TableCell>Quantity P2</TableCell>
-                <TableCell>Quantity P3</TableCell>
-                <TableCell>Discount quantity</TableCell>
-                <TableCell>Warehouse Stock</TableCell>
+                <TableCell>{i18n.t("orderPlanning.columnProduct")}</TableCell>
                 <TableCell>
-                  Demand for period x
+                  {i18n.t("orderPlanning.columnDeliveryTime")}
+                </TableCell>
+                <TableCell>{i18n.t("orderPlanning.columnDeviation")}</TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnQuantityP1")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnQuantityP2")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnQuantityP3")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnDiscountQuantity")}
+                </TableCell>
+                <TableCell>{i18n.t("orderPlanning.columnStock")}</TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnDemandForPeriod0")}
                   <Tooltip
                     title={
                       "Demand for Period = Production Wish P1 * Quantity P1 + Production Wish P2 * Quantity P2 + Production Wish P3 * Quantity P3"
@@ -77,14 +88,28 @@ export default function OrderPlanning() {
                     />
                   </Tooltip>
                 </TableCell>
-                <TableCell>Demand for period x+1</TableCell>
-                <TableCell>Demand for period x+2</TableCell>
-                <TableCell>Demand for period x+3</TableCell>
-                <TableCell>Order Quantity</TableCell>
-                <TableCell>Order type</TableCell>
-                <TableCell>Pending Order Period</TableCell>
-                <TableCell>Pending Order Amount</TableCell>
-                <TableCell>Pending Order Type</TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnDemandForPeriod1")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnDemandForPeriod2")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnDemandForPeriod3")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnOrderQuantity")}
+                </TableCell>
+                <TableCell>{i18n.t("orderPlanning.columnOrderType")}</TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnPendingOrderPeriod")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnPendingOrderAmaunt")}
+                </TableCell>
+                <TableCell>
+                  {i18n.t("orderPlanning.columnPendingOrderType")}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

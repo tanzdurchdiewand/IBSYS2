@@ -1,4 +1,5 @@
 import { Grid, Box, Typography, styled, Paper } from "@mui/material";
+import i18n from "../../locals/i18n";
 
 export default function CustomGridHeader() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -28,7 +29,9 @@ export default function CustomGridHeader() {
             justifyContent="center"
             autoComplete="off"
           >
-            <Typography variant="h6">Sales Order</Typography>
+            <Typography variant="h6">
+              {i18n.t("productionProgramm.salesorder")}
+            </Typography>
           </Box>
         </Item>
       </Grid>
@@ -46,7 +49,9 @@ export default function CustomGridHeader() {
             justifyContent="center"
             autoComplete="off"
           >
-            <Typography variant="h6">Forecast</Typography>
+            <Typography variant="h6">
+              {i18n.t("productionProgramm.forcast")}
+            </Typography>
           </Box>
         </Item>
       </Grid>

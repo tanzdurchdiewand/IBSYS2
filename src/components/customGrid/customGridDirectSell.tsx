@@ -1,6 +1,7 @@
 import { Grid, Box, styled, Paper } from "@mui/material";
 import { DirectSellRow } from "../../types/productionPlanningTypes";
 import RHFTextField from "../hookform/RHFTextFlied";
+import i18n from "../../locals/i18n";
 
 export type BikeType = {
   shortName: string;
@@ -24,6 +25,15 @@ export default function CustomGridDirectSell({
   bikeType,
   directSell,
 }: Readonly<Props>) {
+  const bikeTranslation =
+    bikeType.shortName === "P1"
+      ? i18n.t("productionProgramm.p1")
+      : bikeType.shortName === "P2"
+      ? i18n.t("productionProgramm.p2")
+      : bikeType.shortName === "P3"
+      ? i18n.t("productionProgramm.p3")
+      : i18n.t("productionProgramm.p1");
+
   return (
     <Grid container>
       <Grid item xs={3}>
@@ -43,7 +53,7 @@ export default function CustomGridDirectSell({
               id="outlined-basic"
               label={bikeType.shortName}
               variant="outlined"
-              value={bikeType.longName}
+              value={bikeTranslation}
               disabled={true}
             />
           </Box>
