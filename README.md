@@ -47,11 +47,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## TODOS
 
--Download Results (Umwandlung von JSON in xml)
 -ProductionResult
 -Produktionsplanung?
 -Beschaffungsplanung (Orderquantity und OrderType automatisch berechnen)
--MaterialPlanung Anzeigefehler
 -Sprache (Vietnamesisch?) langs/de.ts/ en.ts / vi.ts + i18n in den Komponenten nutzen Beispiel: <StepLabel>{`${i18n.t("navBar.orderPlanning")}`}</StepLabel>
 -Testen (Planung machen und mit anderen Tool vergleichen)
 -Keine negativen Werte

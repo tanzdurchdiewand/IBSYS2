@@ -74,7 +74,6 @@ export default function Result() {
     productionlist,
     workingtimelist,
   };
-  console.log(input);
 
   const jObj = {
     input,
@@ -93,7 +92,6 @@ export default function Result() {
 
     const builder = new XMLBuilder(options);
     const xmlContent = builder.build(jObj);
-    console.log(xmlContent);
     // Create a blob from the XML content
     const blob = new Blob([xmlContent], { type: "application/xml" });
 

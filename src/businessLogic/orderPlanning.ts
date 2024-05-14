@@ -9,10 +9,6 @@ import {
 import { ProductionProgramm } from "../types/productionPlanningTypes";
 
 // TODO
-//<inwardstockmovement>
-//<futureinwardstockmovement>
-
-// Fast wie viel schnelle?
 
 // Production Programm(PP)  x = periode  K = kaufteil
 //Demand for Period x = (PPx P1 * KquantityP1) + (PPx P2 * KquantityP1) + (PPx P3 * KquantityP1)
