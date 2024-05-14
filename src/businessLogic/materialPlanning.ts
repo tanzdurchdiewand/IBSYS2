@@ -24,6 +24,7 @@ export const prevWaitingQueueMap: Map<string, string> = new Map<
   string
 >();
 
+// TODO E16 / E17 / E26 wird falsch berechnet (P1, P2 und P3 nutzt die Teile) (productionOrderMap.get(id) = 0)
 export function recalculatePlanning(
   key: string,
   field: keyof MaterialPlanningRow,
@@ -38,6 +39,19 @@ export function recalculatePlanning(
     const difference = -planning[type][key][field] + value;
     const newProductionOrder: number =
       Number(productionOrderMap.get(id)!) + difference;
+
+    console.log(
+      "id",
+      id,
+      "current val",
+      planning[type][key][field],
+      "val",
+      value,
+      "new prpod",
+      newProductionOrder,
+      "aa",
+      productionOrderMap.get(id)
+    );
 
     productionOrderMap.set(id, newProductionOrder.toString());
     draft[type][key].productionOrder = Number(productionOrderMap.get(id));
@@ -78,15 +92,20 @@ export function initializePlanning(
     const salesOrderForPeriod =
       productionProgramm[type].salesOrder.productionWish.toString();
 
+    console.log("type", type, "elementIds", elementIds);
+
     var idType = type.replace(/\D/g, "");
 
     salesOrderMap.set(idType, salesOrderForPeriod);
     prevWaitingQueueMap.set(idType, "0");
 
-
     elementIds.forEach((elementId) => {
-      const currentSafetyStock = currentMaterialPlanning ? currentMaterialPlanning[type][elementId].safetyStock : null;
+      const currentSafetyStock = currentMaterialPlanning
+        ? currentMaterialPlanning[type][elementId].safetyStock
+        : null;
+
       const numericId = parseInt(elementId.replace(/\D/g, ""), 10);
+
       planning[type][elementId] = createMaterialPlanningRow(
         numericId.toString(),
         products,
@@ -106,8 +125,8 @@ export function generateWaitingQueueMap(gameData: GameData) {
       const normalizedWaitingList = Array.isArray(workplace.waitinglist)
         ? workplace.waitinglist
         : workplace.waitinglist
-          ? [workplace.waitinglist]
-          : [];
+        ? [workplace.waitinglist]
+        : [];
 
       normalizedWaitingList.forEach(({ item, amount }) => {
         map.set(item.toString(), amount.toString());
@@ -142,11 +161,15 @@ export function createMaterialPlanningRow(
 ): MaterialPlanningRow {
   const salesOrder = Number(salesOrderMap.get(id));
   const previousWaitingQueue = Number(prevWaitingQueueMap.get(id));
+
+  // handle E16, E17, E26
+  const newId = id.length >= 3 ? id.slice(0, -1) : id;
+
   const stock = Math.trunc(
-    products.find((product) => product.id.toString() === id)?.pct ?? 0
+    products.find((product) => product.id.toString() === newId)?.pct ?? 0
   );
-  const waitingQueue = Number(waitingQueueMap.get(id) ?? 0);
-  const workInProgress = Number(workInProgressMap.get(id) ?? 0);
+  const waitingQueue = Number(waitingQueueMap.get(newId) ?? 0);
+  const workInProgress = Number(workInProgressMap.get(newId) ?? 0);
 
   const calcSafetyStock = currentSafetyStock ? currentSafetyStock : stock;
 
