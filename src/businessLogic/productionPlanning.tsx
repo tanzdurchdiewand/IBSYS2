@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-//TODO: Implement the production planning logic here
 import { arrayBuffer } from "stream/consumers";
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import { P1Planning } from "../types/materialPlanningTypes";
@@ -65,11 +64,14 @@ export default function ProductionPlanning() {
     p2,
     p3
   );
-  //console.log(productionOrders);
+  //console.log(finalProductionOrders);
 
   //Simulate
   //SimulateProduction(finalProductionOrders);
-  let workstationData = SimulateProduction(finalProductionOrders);
+  let workstationData = SimulateProduction(
+    finalProductionOrders,
+    availabeMaterials
+  );
 
   //Evaluation of results
   EvaluateResult();
@@ -429,7 +431,6 @@ export function SetProductionOrder(
           //add to overall avalability
           perMaterials3 += availabe;
         }
-
         //nothing is required
         else {
         }
@@ -475,11 +476,21 @@ export function SetProductionOrder(
       index = finalProductionOrder.findIndex(
         (element) => element.id === order.id
       );
-      finalProductionOrder[index].amount += order.amount;
+      //finalProductionOrder[index].amount += order.amount;
     } else {
       alreadySeen.push(order.id);
       finalProductionOrder.push(order);
     }
+    order.amount = 0;
+  });
+
+  //set new amounts
+  finalProductionOrder.forEach((newOrder) => {
+    productionOrders.forEach((oldOrder) => {
+      if (newOrder.id === oldOrder.id) {
+        newOrder.amount += oldOrder.amount;
+      }
+    });
   });
 
   //set final production order
@@ -488,7 +499,8 @@ export function SetProductionOrder(
 
 //Simulation
 export function SimulateProduction(
-  finalProductionOrders: PlanningWarehouseStock[]
+  finalProductionOrders: PlanningWarehouseStock[],
+  availableMaterials: PlanningWarehouseStock[]
 ) {
   // Set Workstations
   const workstationCount = 15; // Anzahl der Workstations
@@ -527,72 +539,298 @@ export function SimulateProduction(
     workstations.push(workstation);
   }
 
+  //console.log(finalProductionOrders);
   console.log(finalProductionOrders);
-
   finalProductionOrders.forEach((element) => {
     //set lot sizes
     let amountProductionItems = element.amount / 10;
     //set start and endtime for orders wich are done at multiple workstations
     let dayTime: DayTime | undefined;
     //set last order for time calculation at setup times
-    let lastOrder: number | undefined = undefined;
+    var lastOrder: number | undefined;
+    var changeLog: WarehouseStockChange[] | undefined;
 
     //loop at for single lot size
+    //console.log(element.id);
     for (let i = 1; i <= amountProductionItems; i++) {
       //switch depending on material
       switch (element.id) {
-        //
-        case 1 | 2 | 3:
+        case 1:
+        case 2:
+        case 3:
           //Workstations wich are used
           // 4
-          //SimulateProductionWorkstation(workstation4, element);
+          dayTime = SimulateProductionWorkstation(
+            workstations[4],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
           break;
-        case 4 | 5 | 6:
+        case 4:
+        case 5:
+        case 6:
           // 10, 11
           dayTime = SimulateProductionWorkstation(
             workstations[10],
             element,
             dayTime,
-            undefined
+            undefined,
+            availableMaterials,
+            changeLog
           );
-          SimulateProductionWorkstation(workstations[11], element, dayTime, 10);
+          SimulateProductionWorkstation(
+            workstations[11],
+            element,
+            dayTime,
+            10,
+            availableMaterials,
+            changeLog
+          );
           break;
-        case 7 | 8 | 9:
-          // 10, 11
+        case 7:
+        case 8:
+        case 9:
+          dayTime = SimulateProductionWorkstation(
+            workstations[10],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
+          SimulateProductionWorkstation(
+            workstations[11],
+            element,
+            dayTime,
+            10,
+            availableMaterials,
+            changeLog
+          );
           break;
-        case 10 | 11 | 12:
+        case 10:
+        case 11:
+        case 12:
           // 13, 12, 8, 7, 9
+          dayTime = SimulateProductionWorkstation(
+            workstations[13],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[12],
+            element,
+            dayTime,
+            13,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[8],
+            element,
+            dayTime,
+            12,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[7],
+            element,
+            dayTime,
+            8,
+            availableMaterials,
+            changeLog
+          );
+          SimulateProductionWorkstation(
+            workstations[9],
+            element,
+            dayTime,
+            7,
+            availableMaterials,
+            changeLog
+          );
           break;
-        case 13 | 14 | 15:
+        case 13:
+        case 14:
+        case 15:
           // 13, 12, 8, 7, 9
+          dayTime = SimulateProductionWorkstation(
+            workstations[13],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[12],
+            element,
+            dayTime,
+            13,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[8],
+            element,
+            dayTime,
+            12,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[7],
+            element,
+            dayTime,
+            8,
+            availableMaterials,
+            changeLog
+          );
+          SimulateProductionWorkstation(
+            workstations[9],
+            element,
+            dayTime,
+            7,
+            availableMaterials,
+            changeLog
+          );
           break;
         case 16:
           // 6, 14
+          dayTime = SimulateProductionWorkstation(
+            workstations[6],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
+          SimulateProductionWorkstation(
+            workstations[14],
+            element,
+            dayTime,
+            6,
+            availableMaterials,
+            changeLog
+          );
           break;
         case 17:
           // 15
+          dayTime = SimulateProductionWorkstation(
+            workstations[15],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
           break;
-        case 18 | 19 | 20:
+        case 18:
+        case 19:
+        case 20:
           // 6, 8, 7, 9
+          dayTime = SimulateProductionWorkstation(
+            workstations[6],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[8],
+            element,
+            dayTime,
+            6,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[7],
+            element,
+            dayTime,
+            8,
+            availableMaterials,
+            changeLog
+          );
+          dayTime = SimulateProductionWorkstation(
+            workstations[9],
+            element,
+            dayTime,
+            7,
+            availableMaterials,
+            changeLog
+          );
           break;
         case 26:
           // 7, 15
+          dayTime = SimulateProductionWorkstation(
+            workstations[7],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
+          SimulateProductionWorkstation(
+            workstations[15],
+            element,
+            dayTime,
+            7,
+            availableMaterials,
+            changeLog
+          );
           break;
-        case 49 | 54 | 29:
+        case 49:
+        case 54:
+        case 29:
           // 1
+          SimulateProductionWorkstation(
+            workstations[1],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
           break;
-        case 50 | 55 | 30:
+        case 50:
+        case 55:
+        case 30:
           // 2
+          SimulateProductionWorkstation(
+            workstations[2],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
           break;
-        case 51 | 56 | 31:
+        case 51:
+        case 56:
+        case 31:
           // 3
+          SimulateProductionWorkstation(
+            workstations[3],
+            element,
+            dayTime,
+            undefined,
+            availableMaterials,
+            changeLog
+          );
           break;
       }
+      //set lastOrder
+      lastOrder = element.id;
     }
   });
-  console.log(workstations[4]);
-  console.log(workstations[10]);
-  console.log(workstations[11]);
+  console.log("workstation:", workstations);
   return workstations;
 }
 
@@ -601,22 +839,24 @@ export function SimulateProductionWorkstation(
   workStation: PlanningWorkstation,
   order: PlanningWarehouseStock,
   dayTime: DayTime | undefined,
-  lastOrder: number | undefined
+  lastOrder: number | undefined,
+  availableMaterials: PlanningWarehouseStock[],
+  changeLog: WarehouseStockChange[] | undefined
 ) {
   let timeslot: PlanningTimeslot;
   let requiredTime: number = 0;
   let startingTime: DayTime = { day: 1, time: 0 };
 
   // Produktionszeit für jeden Artikel in der Bestellung hinzufügen
-  // Thien: nicht ganz verstanden für was
+  // Comment T: nicht ganz verstanden für was
   for (const item of workStation.productionTimes) {
-    if (item.itemName === order.id.toString()) {
-      requiredTime += item.productionTime * order.amount;
+    if (item.itemName.substring(1) === order.id.toString()) {
+      requiredTime = item.productionTime * 10; //* order.amount;
       break;
     }
   }
 
-  // Setup-Zeit für die Arbeitsstation hinzufügen ;Thien: falls benötigt wird
+  // Setup-Zeit für die Arbeitsstation hinzufügen - Comment T: falls benötigt wird
   if (order.id === lastOrder) {
     requiredTime += workStation.productionSetupTime;
   }
@@ -649,7 +889,7 @@ export function SimulateProductionWorkstation(
         // is there enough time
         element.end -
           workStation.timeslots[workStation.timeslots.indexOf(element) + 1]
-            .start >=
+            ?.start >=
           requiredTime
       ) {
         // set new startingTime
@@ -659,10 +899,34 @@ export function SimulateProductionWorkstation(
   });
 
   //Check available Material
-  //TODO:
+  //TODO: not the real required amount of materials
+  const startingAmount = availableMaterials.find(
+    (item) => Number(item.id) === Number(order.id)
+  )?.amount;
 
-  // if all available
-  if (1 === 1) {
+  //starting amount
+  let currentAmount: number;
+  if (startingAmount !== undefined) {
+    currentAmount = startingAmount;
+  } else {
+    currentAmount = 0;
+  }
+
+  //amount at time of planning
+  if (changeLog !== undefined) {
+    let materialChangeLog = changeLog.filter(
+      (material) =>
+        material.item === order.id &&
+        material.day <= startingTime.day &&
+        material.time <= startingTime.time
+    );
+    currentAmount -= materialChangeLog.reduce(
+      (partialSum, a) => partialSum + a.item,
+      0
+    );
+  }
+
+  if (currentAmount > 0) {
     //set Timeslot
     timeslot = {
       productionOrder: order.id,
@@ -681,12 +945,29 @@ export function SimulateProductionWorkstation(
     //add timeslot
     workStation.timeslots.push(timeslot);
 
+    //add to changelog
+    if (changeLog !== undefined) {
+      let materialChangeLog = changeLog.filter(
+        (material) =>
+          material.item === order.id &&
+          material.day <= startingTime.day &&
+          material.time <= startingTime.time
+      );
+      currentAmount -= materialChangeLog.reduce(
+        (partialSum, a) => partialSum + a.item,
+        0
+      );
+    }
+
     //set new starting time for comming wortstation
     startingTime.time = timeslot.end;
+
     return startingTime;
   }
   //not available
   else {
+    //TODO: What if not available?
+    console.log("missing Material");
   }
 }
 

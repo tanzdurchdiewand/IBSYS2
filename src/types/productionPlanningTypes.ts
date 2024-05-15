@@ -57,13 +57,13 @@ export type ProductionPlan = {
 };
 
 export type WarehouseStockChange = {
+  item: number;
   day: number;
   time: number;
   amount: number;
 }
 
 export type WarehouseStockChanges = {
-  item: number;
   changes: WarehouseStockChange [];
 };
 
