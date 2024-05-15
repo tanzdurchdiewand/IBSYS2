@@ -6,6 +6,8 @@ import { defaultLang } from "./configLang";
 import enLocales from "./langs/en";
 import deLocales from "./langs/de";
 import vitLocales from "./langs/vi";
+import esLocales from "./langs/es";
+import zhLocales from "./langs/zh";
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +20,9 @@ i18n
     resources: {
       en: { translations: enLocales },
       de: { translations: deLocales },
-      vit: { translations: vitLocales },
+      es: { translations: esLocales },
+      vi: { translations: vitLocales },
+      zh: { translations: zhLocales },
     },
     lng,
     fallbackLng: defaultLang.value,
