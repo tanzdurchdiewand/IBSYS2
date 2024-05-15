@@ -27,7 +27,7 @@ export default function DisplayProductionPlanning() {
       >
         <ArrowBackIosIcon />
       </StyledButton>
-      <StyledCard>
+      <StyledCard  style={{  justifyContent: "flex-start" }}>
         <ProductionPlanning />
       </StyledCard>
       <StyledButton

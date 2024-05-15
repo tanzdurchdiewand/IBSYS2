@@ -4,6 +4,7 @@ import { arrayBuffer } from "stream/consumers";
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import { P1Planning } from "../types/materialPlanningTypes";
 import ProductionPlanningTable from "./productionPlanningTable";
+import { Container } from "@mui/material";
 import {
   ProductionProgramm,
   ProductProduction,
@@ -84,10 +85,9 @@ export default function ProductionPlanning() {
   dispatch(setProductionPlan(data));
 
   return (
-    <div>
-      <h1>Production Planning</h1>
+    <Container  style={{  marginTop: '120px' }}>
       <ProductionPlanningTable workstations={workstationData} />
-    </div>
+    </Container>
   );
 }
 
