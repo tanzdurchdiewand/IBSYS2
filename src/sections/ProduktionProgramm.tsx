@@ -27,6 +27,7 @@ import CustomGridDirectSell, {
 import { useProductionProgramm } from "../hooks/useProductionProgramm";
 import CustomProductionGridBody from "../components/customGrid/customProductionGridBody";
 import { setDirectSell } from "../redux/slices/inputProductionProgramm";
+import i18n from "../locals/i18n";
 
 export const directSellStart: DirectSell = {
   P1: { amount: 0, price: 0, penalty: 0 },
@@ -126,7 +127,7 @@ export default function ProduktionProgramm() {
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
-                  Direkt Verkauf
+                  {i18n.t("productionProgramm.directSellTable")}
                 </AccordionSummary>
                 <AccordionDetails>
                   <Grid

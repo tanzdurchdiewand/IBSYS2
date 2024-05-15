@@ -1,3 +1,5 @@
+import i18n from "../locals/i18n";
+
 export interface CapacityPlanningRow {
   designation: string;
   modelType: string;
@@ -35,152 +37,152 @@ export interface ArticleMap {
 
 export const capacityPlanningData: ArticleMap = {
   E4: {
-    description: "Hinterrad",
+    description: `${i18n.t("capacityPlanning.backWheel")}`,
     type: BikePartType.P1,
     capacityRequired: [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0],
   },
   E5: {
-    description: "Hinterrad",
+    description: `${i18n.t("capacityPlanning.backWheel")}`,
     type: BikePartType.P2,
     capacityRequired: [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0],
   },
   E6: {
-    description: "Hinterrad",
+    description: `${i18n.t("capacityPlanning.backWheel")}`,
     type: BikePartType.P3,
     capacityRequired: [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0],
   },
   E7: {
-    description: "Vorderrad",
+    description: `${i18n.t("capacityPlanning.frontWheel")}`,
     type: BikePartType.P1,
     capacityRequired: [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0],
   },
   E8: {
-    description: "Vorderrad",
+    description: `${i18n.t("capacityPlanning.frontWheel")}`,
     type: BikePartType.P2,
     capacityRequired: [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0],
   },
   E9: {
-    description: "Vorderrad",
+    description: `${i18n.t("capacityPlanning.frontWheel")}`,
     type: BikePartType.P3,
     capacityRequired: [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0],
   },
   E10: {
-    description: "Schutzblech hinten",
+    description: `${i18n.t("capacityPlanning.rearMudguard")}`,
     type: BikePartType.P1,
     capacityRequired: [0, 0, 0, 0, 0, 0, 2, 1, 3, 0, 0, 3, 2, 0, 0],
   },
   E11: {
-    description: "Schutzblech hinten",
+    description: `${i18n.t("capacityPlanning.rearMudguard")}`,
     type: BikePartType.P2,
     capacityRequired: [0, 0, 0, 0, 0, 0, 2, 1, 3, 0, 0, 3, 2, 0, 0],
   },
   E12: {
-    description: "Schutzblech hinten",
+    description: `${i18n.t("capacityPlanning.rearMudguard")}`,
     type: BikePartType.P3,
     capacityRequired: [0, 0, 0, 0, 0, 0, 2, 1, 3, 0, 0, 3, 2, 0, 0],
   },
   E13: {
-    description: "Schutzblech vorne",
+    description: `${i18n.t("capacityPlanning.frontMudguard")}`,
     type: BikePartType.P1,
     capacityRequired: [0, 0, 0, 0, 0, 0, 2, 1, 3, 0, 0, 3, 2, 0, 0],
   },
   E14: {
-    description: "Schutzblech vorne",
+    description: `${i18n.t("capacityPlanning.frontMudguard")}`,
     type: BikePartType.P2,
     capacityRequired: [0, 0, 0, 0, 0, 0, 2, 1, 3, 0, 0, 3, 2, 0, 0],
   },
   E15: {
-    description: "Schutzblech vorne",
+    description: `${i18n.t("capacityPlanning.frontMudguard")}`,
     type: BikePartType.P3,
     capacityRequired: [0, 0, 0, 0, 0, 0, 2, 1, 3, 0, 0, 3, 2, 0, 0],
   },
   E16: {
-    description: "Lenker",
+    description: `${i18n.t("capacityPlanning.handlebar")}`,
     type: BikePartType.P1_P2_P3,
     capacityRequired: [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 0],
   },
   E17: {
-    description: "Sattel",
+    description: `${i18n.t("capacityPlanning.seat")}`,
     type: BikePartType.P1_P2_P3,
     capacityRequired: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
   },
   E18: {
-    description: "Rahmen",
+    description: `${i18n.t("capacityPlanning.frame")}`,
     type: BikePartType.P1,
     capacityRequired: [0, 0, 0, 0, 0, 3, 2, 3, 2, 0, 0, 0, 0, 0, 0],
   },
   E19: {
-    description: "Rahmen",
+    description: `${i18n.t("capacityPlanning.frame")}`,
     type: BikePartType.P2,
     capacityRequired: [0, 0, 0, 0, 0, 3, 2, 3, 2, 0, 0, 0, 0, 0, 0],
   },
   E20: {
-    description: "Rahmen",
+    description: `${i18n.t("capacityPlanning.frame")}`,
     type: BikePartType.P3,
     capacityRequired: [0, 0, 0, 0, 0, 3, 2, 3, 2, 0, 0, 0, 0, 0, 0],
   },
   E26: {
-    description: "Pedale",
+    description: `${i18n.t("capacityPlanning.pedal")}`,
     type: BikePartType.P1_P2_P3,
     capacityRequired: [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3],
   },
   E49: {
-    description: "Vorderrad komplett",
+    description: `${i18n.t("capacityPlanning.finishedFrontWheel")}`,
     type: BikePartType.P1,
     capacityRequired: [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   E54: {
-    description: "Vorderrad komplett",
+    description: `${i18n.t("capacityPlanning.finishedFrontWheel")}`,
     type: BikePartType.P2,
     capacityRequired: [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   E29: {
-    description: "Vorderrad komplett",
+    description: `${i18n.t("capacityPlanning.finishedFrontWheel")}`,
     type: BikePartType.P3,
     capacityRequired: [6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   E50: {
-    description: "Rahmen und Räder",
+    description: `${i18n.t("capacityPlanning.frameAndWheels")}`,
     type: BikePartType.P1,
     capacityRequired: [0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   E55: {
-    description: "Rahmen und Räder",
+    description: `${i18n.t("capacityPlanning.frameAndWheels")}`,
     type: BikePartType.P2,
     capacityRequired: [0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   E30: {
-    description: "Rahmen und Räder",
+    description: `${i18n.t("capacityPlanning.frameAndWheels")}`,
     type: BikePartType.P3,
     capacityRequired: [0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   E51: {
-    description: "Fahrrad ohne Pedale",
+    description: `${i18n.t("capacityPlanning.bikeWithoutPedals")}`,
     type: BikePartType.P1,
     capacityRequired: [0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   E56: {
-    description: "Fahrrad ohne Pedale",
+    description: `${i18n.t("capacityPlanning.bikeWithoutPedals")}`,
     type: BikePartType.P2,
     capacityRequired: [0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   E31: {
-    description: "Fahrrad ohne Pedale",
+    description: `${i18n.t("capacityPlanning.bikeWithoutPedals")}`,
     type: BikePartType.P3,
     capacityRequired: [0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   P1: {
-    description: "Fahrrad komplett",
+    description: `${i18n.t("capacityPlanning.completedBike")}`,
     type: BikePartType.P1,
     capacityRequired: [0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   P2: {
-    description: "Fahrrad komplett",
+    description: `${i18n.t("capacityPlanning.completedBike")}`,
     type: BikePartType.P2,
     capacityRequired: [0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   P3: {
-    description: "Fahrrad komplett",
+    description: `${i18n.t("capacityPlanning.completedBike")}`,
     type: BikePartType.P3,
     capacityRequired: [0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   },

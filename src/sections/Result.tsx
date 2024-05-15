@@ -14,6 +14,8 @@ import SellResultComponent from "../components/resultComponents/sellResultCompon
 import OrderResultComponent from "../components/resultComponents/orderResultComponent";
 import ProductionResultComponent from "../components/resultComponents/productionResultComponent";
 import WorkingTimeResultComponent from "../components/resultComponents/workingTimeResultComponent";
+import { useResult } from "../hooks/useResult";
+import i18n from "../locals/i18n";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -23,18 +25,6 @@ interface TabPanelProps {
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-
-  const { sellwish, selldirect, orderlist, productionlist, workingtimelist } =
-    useSelector((state: RootState) => state.resultXml);
-
-  const input = {
-    sellwish,
-    selldirect,
-    orderlist,
-    productionlist,
-    workingtimelist,
-  };
-  console.log(input);
 
   return (
     <Container
@@ -63,8 +53,66 @@ function a11yProps(index: number) {
 
 export default function Result() {
   const [value, setValue] = useState(0);
+  useResult();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const { sellwish, selldirect, orderlist, productionlist, workingtimelist } =
+    useSelector((state: RootState) => state.resultXml);
+
+  const qualitycontrol = {
+    type: "no",
+    losequantity: "0",
+    delay: "0",
+  };
+
+  const input = {
+    qualitycontrol,
+    sellwish,
+    selldirect,
+    orderlist,
+    productionlist,
+    workingtimelist,
+  };
+
+  const jObj = {
+    input,
+  };
+
+  const handleOnClick = () => {
+    const { XMLBuilder } = require("fast-xml-parser");
+
+    const options = {
+      ignoreAttributes: false,
+      attributeNamePrefix: "",
+      arrayMode:
+        /waitinglistworkstations|articles|workplace|orders|waitinglist/,
+      textNodeName: "#text",
+    };
+
+    const builder = new XMLBuilder(options);
+    const xmlContent = builder.build(jObj);
+    // Create a blob from the XML content
+    const blob = new Blob([xmlContent], { type: "application/xml" });
+
+    // Create a link element
+    const downloadLink = document.createElement("a");
+
+    // Create a downloadable URL from the blob
+    downloadLink.href = URL.createObjectURL(blob);
+
+    // Set the download attribute of the link element
+    downloadLink.download = "input.xml";
+
+    // Append the link to the body
+    document.body.appendChild(downloadLink);
+
+    // Programmatically click the link to start the download
+    downloadLink.click();
+
+    // Clean up by removing the link element from the body
+    document.body.removeChild(downloadLink);
   };
 
   const dispatch = useDispatch();
@@ -94,10 +142,13 @@ export default function Result() {
             aria-label="basic tabs example"
             variant="fullWidth"
           >
-            <Tab label="Sell Wish & Sell Dirket" {...a11yProps(0)} />
-            <Tab label="Orders" {...a11yProps(1)} />
-            <Tab label="Production" {...a11yProps(2)} />
-            <Tab label="Workingtime" {...a11yProps(3)} />
+            <Tab
+              label={i18n.t("result.tabProductionProgramm")}
+              {...a11yProps(0)}
+            />
+            <Tab label={i18n.t("result.tabOrders")} {...a11yProps(1)} />
+            <Tab label={i18n.t("result.tabProduction")} {...a11yProps(2)} />
+            <Tab label={i18n.t("result.tabWorkingTime")} {...a11yProps(3)} />
           </Tabs>
           <CustomTabPanel value={value} index={0}>
             <SellResultComponent />
@@ -114,7 +165,7 @@ export default function Result() {
         </Box>
       </StyledCard>
       <StyledButton
-        onClick={() => console.log("Download")}
+        onClick={handleOnClick}
         sx={{ right: 0 }}
         tooltip="Download XML Input File"
       >

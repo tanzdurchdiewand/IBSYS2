@@ -9,9 +9,10 @@ import {
   TextField,
 } from "@mui/material";
 import { useMaterialPlanning } from "../../hooks/useMaterialPlanning";
-import { } from "../../hooks/useNavigationHandlers";
+import {} from "../../hooks/useNavigationHandlers";
 import { PlanningType } from "../../types/materialPlanningTypes";
 import React from "react";
+import i18n from "../../locals/i18n";
 
 type Props = {
   planningType: PlanningType;
@@ -67,20 +68,30 @@ export default function MaterialPlanningComponent({
       >
         <TableHead>
           <TableRow>
-            <TableCell>Product</TableCell>
-            <TableCell>Sales Orders</TableCell>
+            <TableCell>{i18n.t("materialPlanning.columnProduct")}</TableCell>
+            <TableCell>{i18n.t("materialPlanning.columnSalesorder")}</TableCell>
             <TableCell></TableCell>
-            <TableCell>Prev. Waiting Queue</TableCell>
+            <TableCell>
+              {i18n.t("materialPlanning.columnPrevWaiting")}
+            </TableCell>
             <TableCell></TableCell>
-            <TableCell>Safety Stock</TableCell>
+            <TableCell>
+              {i18n.t("materialPlanning.columnSafetyStock")}
+            </TableCell>
             <TableCell></TableCell>
-            <TableCell>Warehouse Stock</TableCell>
+            <TableCell>{i18n.t("materialPlanning.columnStock")}</TableCell>
             <TableCell></TableCell>
-            <TableCell>Material in Waiting Queue</TableCell>
+            <TableCell>
+              {i18n.t("materialPlanning.columnWaitingQueue")}
+            </TableCell>
             <TableCell></TableCell>
-            <TableCell>Work in Progress</TableCell>
+            <TableCell>
+              {i18n.t("materialPlanning.columnWorkInProgress")}
+            </TableCell>
             <TableCell></TableCell>
-            <TableCell>Production Orders</TableCell>
+            <TableCell>
+              {i18n.t("materialPlanning.columnPoductionOrders")}
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

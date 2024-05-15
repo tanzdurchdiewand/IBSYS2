@@ -1,46 +1,45 @@
-import TableContainer from "@mui/material/TableContainer/TableContainer";
+import { useState } from "react";
 import { useResult } from "../../hooks/useResult";
-import Paper from "@mui/material/Paper/Paper";
-import Table from "@mui/material/Table/Table";
-import TableHead from "@mui/material/TableHead/TableHead";
-import TableRow from "@mui/material/TableRow/TableRow";
-import TableCell from "@mui/material/TableCell/TableCell";
-import TableBody from "@mui/material/TableBody/TableBody";
+import { type MRT_Row } from "material-react-table";
+import { Production } from "../../types/resultTypes";
+import { MaterialReactTable } from "material-react-table";
 
 export default function ProductionResultComponent() {
   const productionResult = useResult().productionlist;
 
+  const columns = [
+    { accessorKey: "article", header: "Article" },
+    { accessorKey: "quantity", header: "Quantity" },
+  ];
+
+  const initData = productionResult!.production;
+
+  //TODO: Änderungen müssen in der Store geschreiben werden
+
+  const [data, setData] = useState(() => initData);
+  console.log(productionResult?.production);
+
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Table
-        sx={{ minWidth: 650 }}
-        aria-label="material planning table"
-        stickyHeader
-        size="small"
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell>Article</TableCell>
-            <TableCell>Quantity</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {productionResult &&
-            productionResult?.production.map((productionItem) => (
-              <TableRow key={productionItem.article.toString()}>
-                <TableCell>{productionItem.article.toString()}</TableCell>
-                <TableCell>{productionItem.quantity.toString()}</TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <MaterialReactTable
+      autoResetPageIndex={false}
+      data={data}
+      columns={columns}
+      enableRowOrdering={true}
+      enableSorting={false}
+      muiRowDragHandleProps={({ table }) => ({
+        onDragEnd: () => {
+          const { draggingRow, hoveredRow } = table.getState();
+          if (hoveredRow && draggingRow) {
+            const dataCopy = [...data];
+            dataCopy.splice(
+              (hoveredRow as MRT_Row<Production>).index,
+              0,
+              dataCopy.splice(draggingRow.index, 1)[0]
+            );
+            setData(dataCopy);
+          }
+        },
+      })}
+    ></MaterialReactTable>
   );
 }

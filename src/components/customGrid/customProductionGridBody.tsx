@@ -2,6 +2,7 @@ import { Grid, Box, styled, Paper, TextField } from "@mui/material";
 import { ProductionProgramm } from "../../types/productionPlanningTypes";
 import { BikeType } from "./customGridDirectSell";
 import { useProductionProgramm } from "../../hooks/useProductionProgramm";
+import i18n from "../../locals/i18n";
 
 type Props = {
   bikeType: BikeType;
@@ -32,6 +33,15 @@ export default function CustomProductionGridBody({
       ? "P3"
       : "P1";
 
+  const bikeTranslation =
+    bikeType.shortName === "P1"
+      ? i18n.t("productionProgramm.p1")
+      : bikeType.shortName === "P2"
+      ? i18n.t("productionProgramm.p2")
+      : bikeType.shortName === "P3"
+      ? i18n.t("productionProgramm.p3")
+      : i18n.t("productionProgramm.p1");
+
   return (
     <Grid container>
       <Grid item xs={1}>
@@ -54,7 +64,7 @@ export default function CustomProductionGridBody({
               id="outlined-basic"
               label={bikeType.shortName}
               variant="outlined"
-              value={bikeType.longName}
+              value={bikeTranslation}
               disabled={true}
             />
           </Box>
@@ -75,7 +85,7 @@ export default function CustomProductionGridBody({
             <TextField
               name={`${bikeType.shortName}.salesOrder.salesWish`}
               id="outlined-basic"
-              label="Sales Wish"
+              label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
               value={productionProgramm[type].salesOrder.salesWish}
               disabled={true}
@@ -84,7 +94,7 @@ export default function CustomProductionGridBody({
             <TextField
               name={`${bikeType.shortName}.salesOrder.productionWish`}
               id="outlined-basic"
-              label="Production Wish"
+              label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
               value={productionProgramm[type].salesOrder.productionWish}
               type="number"
@@ -108,7 +118,7 @@ export default function CustomProductionGridBody({
             <TextField
               name={`${bikeType.shortName}.forecast[0].salesOrder.salesWish.`}
               id="outlined-basic"
-              label="Sales Wish"
+              label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
               value={productionProgramm[type].forecast[0].salesOrder.salesWish}
               type="number"
@@ -119,7 +129,7 @@ export default function CustomProductionGridBody({
             <TextField
               name={`${bikeType.shortName}.forecast[0].salesOrder.productionWish.`}
               id="outlined-basic"
-              label="Production Wish"
+              label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
               value={
                 productionProgramm[type].forecast[0].salesOrder.productionWish
@@ -152,7 +162,7 @@ export default function CustomProductionGridBody({
             <TextField
               name={`${bikeType.shortName}.forecast[1].salesOrder.salesWish.`}
               id="outlined-basic"
-              label="Sales Wish"
+              label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
               value={productionProgramm[type].forecast[1].salesOrder.salesWish}
               type="number"
@@ -163,7 +173,7 @@ export default function CustomProductionGridBody({
             <TextField
               name={`${bikeType.shortName}.forecast[1].salesOrder.productionWish.`}
               id="outlined-basic"
-              label="Production Wish"
+              label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
               value={
                 productionProgramm[type].forecast[1].salesOrder.productionWish
@@ -207,7 +217,7 @@ export default function CustomProductionGridBody({
             <TextField
               name={`${bikeType.shortName}.forecast[2].salesOrder.productionWish.`}
               id="outlined-basic"
-              label="Production Wish"
+              label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
               value={
                 productionProgramm[type].forecast[2].salesOrder.productionWish

@@ -39,9 +39,9 @@ export default function OrderResultComponent() {
                 <TableCell>{orderItem.article.toString()}</TableCell>
                 <TableCell>{orderItem.quantity.toString()}</TableCell>
                 <TableCell>
-                  {orderItem.modus === 4
+                  {orderItem.modus === 5
                     ? "Normal"
-                    : orderItem.modus === 5
+                    : orderItem.modus === 4
                     ? "Fast"
                     : ""}
                 </TableCell>
