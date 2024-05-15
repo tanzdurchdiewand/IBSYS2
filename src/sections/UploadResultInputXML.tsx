@@ -14,8 +14,10 @@ import {
 } from "../hooks/useNavigationHandlers";
 import { setStepper } from "../redux/slices/inputXML";
 import i18n from "../locals/i18n";
+import { useLocales } from "../locals";
 
 export default function UploadResultInputXML() {
+  useLocales();
   const { setSelectedInputXML } = useContext(SelectInputXML);
 
   const { fileName, fileSelected } = useSelector(

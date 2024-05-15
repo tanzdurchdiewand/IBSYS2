@@ -25,9 +25,9 @@ type Props = {
 export default function NavVertical({ onClose }: Props) {
   const { onChangeLang, currentLang, allLangs } = useLocales();
 
-  const handleLanguageChange = (newLang: any) => {
-    i18n.changeLanguage(newLang);
-  };
+  // const handleLanguageChange = (newLang: any) => {
+  //   i18n.changeLanguage(newLang);
+  // };
 
   const isDesktop = useResponsive("up", "lg");
 
@@ -65,7 +65,7 @@ export default function NavVertical({ onClose }: Props) {
         {allLangs.map((lang) => (
           <Button
             key={lang.label}
-            onClick={() => handleLanguageChange(lang.value)}
+            onClick={() => onChangeLang(lang.value)}
             disabled={currentLang === lang.systemValue}
           >
             {lang.label}

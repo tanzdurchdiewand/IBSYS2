@@ -26,8 +26,10 @@ import { useCapacityPlanning } from "../hooks/useCapacityPlanning";
 import InfoIcon from "@mui/icons-material/Info";
 import { capacityPlanningData } from "../types/capacityPlanningTypes";
 import i18n from "../locals/i18n";
+import { useLocales } from "../locals";
 
 export default function CapacityPlanning() {
+  useLocales();
   const theme = useTheme();
   const { goTo } = useNavigationHandler();
   const dispatch = useDispatch();

@@ -15,6 +15,7 @@ import { PlanningType } from "../types/materialPlanningTypes";
 import MaterialPlanningComponent from "../components/materialPlanningComponents/MaterialPlanningComponent";
 import { setStepper } from "../redux/slices/inputXML";
 import { useDispatch } from "../redux/store";
+import { useLocales } from "../locals";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,6 +52,7 @@ function a11yProps(index: number) {
 }
 
 export default function MaterialPlanning() {
+  useLocales();
   const [value, setValue] = useState(0);
   const { goTo } = useNavigationHandler();
 

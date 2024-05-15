@@ -28,11 +28,11 @@ import { useDispatch } from "../redux/store";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
 import InfoIcon from "@mui/icons-material/Info";
-import { OrderType } from "../types/orderPlanningTypes";
 import i18n from "../locals/i18n";
+import { useLocales } from "../locals";
 
-// TODO Add Pending order Type
 export default function OrderPlanning() {
+  useLocales();
   const { goTo } = useNavigationHandler();
   const { orderPlanning, updateOrder } = useOrderPlanning();
   const dispatch = useDispatch();

@@ -28,6 +28,7 @@ import { useProductionProgramm } from "../hooks/useProductionProgramm";
 import CustomProductionGridBody from "../components/customGrid/customProductionGridBody";
 import { setDirectSell } from "../redux/slices/inputProductionProgramm";
 import i18n from "../locals/i18n";
+import { useLocales } from "../locals";
 
 export const directSellStart: DirectSell = {
   P1: { amount: 0, price: 0, penalty: 0 },
@@ -36,6 +37,7 @@ export const directSellStart: DirectSell = {
 };
 
 export default function ProduktionProgramm() {
+  useLocales();
   const directSellFromStore = useSelector(
     (state: RootState) => state.inputProductionProgramm.data?.directSell
   );

@@ -16,6 +16,7 @@ import ProductionResultComponent from "../components/resultComponents/production
 import WorkingTimeResultComponent from "../components/resultComponents/workingTimeResultComponent";
 import { useResult } from "../hooks/useResult";
 import i18n from "../locals/i18n";
+import { useLocales } from "../locals";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,6 +53,7 @@ function a11yProps(index: number) {
 }
 
 export default function Result() {
+  useLocales();
   const [value, setValue] = useState(0);
   useResult();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

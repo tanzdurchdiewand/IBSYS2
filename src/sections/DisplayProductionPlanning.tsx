@@ -11,8 +11,10 @@ import ProductionPlanning from "../businessLogic/productionPlanning";
 import { useDispatch } from "../redux/store";
 import { useEffect } from "react";
 import { setStepper } from "../redux/slices/inputXML";
+import { useLocales } from "../locals";
 
 export default function DisplayProductionPlanning() {
+  useLocales();
   const { goTo } = useNavigationHandler();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function DisplayProductionPlanning() {
       >
         <ArrowBackIosIcon />
       </StyledButton>
-      <StyledCard  style={{  justifyContent: "flex-start" }}>
+      <StyledCard style={{ justifyContent: "flex-start" }}>
         <ProductionPlanning />
       </StyledCard>
       <StyledButton
