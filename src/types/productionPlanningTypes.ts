@@ -56,6 +56,22 @@ export type ProductionPlan = {
   productionPlan: PlanningWarehouseStock[];
 };
 
+export type WarehouseStockChange = {
+  day: number;
+  time: number;
+  amount: number;
+}
+
+export type WarehouseStockChanges = {
+  item: number;
+  changes: WarehouseStockChange [];
+};
+
+export type DayTime = {
+  day: number;
+  time: number;
+};
+
 export type DirectSell = {
   P1: DirectSellRow;
   P2: DirectSellRow;

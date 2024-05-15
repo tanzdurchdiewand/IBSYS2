@@ -17,6 +17,10 @@ import {
   WeekTime,
   WORKSTATION_SETUP_TIMES,
   PRODUCTION_SETUP_TIMES,
+  DayTime,
+  WarehouseStockChange,
+  WarehouseStockChanges,
+  ProductionTime,
 } from "../types/productionPlanningTypes";
 import {
   Article,
@@ -27,9 +31,7 @@ import { setProductionPlan } from "../redux/slices/productionPlanning";
 
 export default function ProductionPlanning() {
   //Redux
-  useSelector(
-    (state: RootState) => state.inputProductionProgramm.data
-  );
+  useSelector((state: RootState) => state.inputProductionProgramm.data);
   const dispatch = useDispatch();
 
   //workingarea
@@ -66,8 +68,7 @@ export default function ProductionPlanning() {
   //console.log(productionOrders);
 
   //Simulate
-  //  SimulateProduction(finalProductionOrders);
-
+  //SimulateProduction(finalProductionOrders);
   let workstationData = SimulateProduction(finalProductionOrders);
 
   //Evaluation of results
@@ -85,7 +86,7 @@ export default function ProductionPlanning() {
   dispatch(setProductionPlan(data));
 
   return (
-    <Container  style={{  marginTop: '120px' }}>
+    <Container style={{ marginTop: "120px" }}>
       <ProductionPlanningTable workstations={workstationData} />
     </Container>
   );
@@ -489,10 +490,14 @@ export function SetProductionOrder(
 export function SimulateProduction(
   finalProductionOrders: PlanningWarehouseStock[]
 ) {
+  // Set Workstations
   const workstationCount = 15; // Anzahl der Workstations
 
   // Array zum Speichern aller Workstations
   const workstations: PlanningWorkstation[] = [];
+
+  //missing parts order
+  var missingPartsOrder: ProductionPlan;
 
   // Iteration über alle Workstations
   for (let i = 1; i <= workstationCount; i++) {
@@ -508,6 +513,16 @@ export function SimulateProduction(
       productionSetupTime: WORKSTATION_SETUP_TIMES[i], // Setze die Einrichtungszeit für die entsprechende Workstation
     };
 
+    // Füge available time hinzu
+    let weekTime: WeekTime[] = [
+      { day: 1, availableTime: workstation.maxTime },
+      { day: 2, availableTime: workstation.maxTime },
+      { day: 3, availableTime: workstation.maxTime },
+      { day: 4, availableTime: workstation.maxTime },
+      { day: 5, availableTime: workstation.maxTime },
+    ];
+    workstation.availableTime = weekTime;
+
     // Füge die erstellte Workstation dem Array hinzu
     workstations.push(workstation);
   }
@@ -515,56 +530,64 @@ export function SimulateProduction(
   console.log(finalProductionOrders);
 
   finalProductionOrders.forEach((element) => {
-    //needs to have date time
-    let dateTime: number | undefined = undefined;
+    //set lot sizes
+    let amountProductionItems = element.amount / 10;
+    //set start and endtime for orders wich are done at multiple workstations
+    let dayTime: DayTime | undefined;
+    //set last order for time calculation at setup times
+    let lastOrder: number | undefined = undefined;
 
-    //switch depending on material
-    switch (element.id) {
-      //
-      case 1 | 2 | 3:
-        //Workstations wich are used
-        // 4
-        //SimulateProductionWorkstation(workstation4, element);
-        break;
-      case 4 | 5 | 6:
-        // 10, 11
-        dateTime = SimulateProductionWorkstation(
-          workstations[10],
-          element,
-          dateTime
-        );
-        SimulateProductionWorkstation(workstations[11], element, dateTime);
-        break;
-      case 7 | 8 | 9:
-        // 10, 11
-        break;
-      case 10 | 11 | 12:
-        // 13, 12, 8, 7, 9
-        break;
-      case 13 | 14 | 15:
-        // 13, 12, 8, 7, 9
-        break;
-      case 16:
-        // 6, 14
-        break;
-      case 17:
-        // 15
-        break;
-      case 18 | 19 | 20:
-        // 6, 8, 7, 9
-        break;
-      case 26:
-        // 7, 15
-        break;
-      case 49 | 54 | 29:
-        // 1
-        break;
-      case 50 | 55 | 30:
-        // 2
-        break;
-      case 51 | 56 | 31:
-        // 3
-        break;
+    //loop at for single lot size
+    for (let i = 1; i <= amountProductionItems; i++) {
+      //switch depending on material
+      switch (element.id) {
+        //
+        case 1 | 2 | 3:
+          //Workstations wich are used
+          // 4
+          //SimulateProductionWorkstation(workstation4, element);
+          break;
+        case 4 | 5 | 6:
+          // 10, 11
+          dayTime = SimulateProductionWorkstation(
+            workstations[10],
+            element,
+            dayTime,
+            undefined
+          );
+          SimulateProductionWorkstation(workstations[11], element, dayTime, 10);
+          break;
+        case 7 | 8 | 9:
+          // 10, 11
+          break;
+        case 10 | 11 | 12:
+          // 13, 12, 8, 7, 9
+          break;
+        case 13 | 14 | 15:
+          // 13, 12, 8, 7, 9
+          break;
+        case 16:
+          // 6, 14
+          break;
+        case 17:
+          // 15
+          break;
+        case 18 | 19 | 20:
+          // 6, 8, 7, 9
+          break;
+        case 26:
+          // 7, 15
+          break;
+        case 49 | 54 | 29:
+          // 1
+          break;
+        case 50 | 55 | 30:
+          // 2
+          break;
+        case 51 | 56 | 31:
+          // 3
+          break;
+      }
     }
   });
   console.log(workstations[4]);
@@ -577,16 +600,15 @@ export function SimulateProduction(
 export function SimulateProductionWorkstation(
   workStation: PlanningWorkstation,
   order: PlanningWarehouseStock,
-  dateTime: number | undefined
+  dayTime: DayTime | undefined,
+  lastOrder: number | undefined
 ) {
-  //list of different mappings for time
-  //get first available timeslot
   let timeslot: PlanningTimeslot;
-  let timeslotLength = workStation.timeslots.length;
+  let requiredTime: number = 0;
+  let startingTime: DayTime = { day: 1, time: 0 };
 
-  //calculate time requirement
-  let requiredTime = 0;
   // Produktionszeit für jeden Artikel in der Bestellung hinzufügen
+  // Thien: nicht ganz verstanden für was
   for (const item of workStation.productionTimes) {
     if (item.itemName === order.id.toString()) {
       requiredTime += item.productionTime * order.amount;
@@ -594,50 +616,78 @@ export function SimulateProductionWorkstation(
     }
   }
 
-  // Setup-Zeit für die Arbeitsstation hinzufügen
-  requiredTime += workStation.productionSetupTime;
-
-  //first entry
-  if (timeslotLength === 0) {
-    let weekTime: WeekTime[] = [
-      { day: 1, availableTime: workStation.maxTime },
-      { day: 2, availableTime: workStation.maxTime },
-      { day: 3, availableTime: workStation.maxTime },
-      { day: 4, availableTime: workStation.maxTime },
-      { day: 5, availableTime: workStation.maxTime },
-    ];
-
-    //set empty week
-    workStation.availableTime = weekTime;
+  // Setup-Zeit für die Arbeitsstation hinzufügen ;Thien: falls benötigt wird
+  if (order.id === lastOrder) {
+    requiredTime += workStation.productionSetupTime;
   }
 
-  //next entry with last end as start
-
-  //placeholder for testing
-  let placeholdderTime: number;
-  if (dateTime === undefined) {
-    placeholdderTime = 0;
-  } else {
-    placeholdderTime = dateTime;
+  // Set earliest time from previous workstation
+  if (dayTime !== undefined) {
+    startingTime = dayTime;
   }
-  timeslot = {
-    productionOrder: order.id,
-    day: 1,
-    start: placeholdderTime,
-    end: placeholdderTime + requiredTime,
-  };
 
-  //reduce available time
-  workStation.availableTime.forEach((element) => {
-    if (timeslot.day === element.day) {
-      element.availableTime -= requiredTime;
+  //sort timeslot
+  workStation.timeslots.sort((a, b) => {
+    if (a.day < b.day) return -1;
+    if (a.day > b.day) return 1;
+    if (a.start < b.start) return -1;
+    if (a.start > b.start) return 1;
+    return 0;
+  });
+
+  // Set earliest availabel time for current workstation
+  workStation.timeslots.forEach((element) => {
+    //new startime must be after or equal current startingTime
+    if (startingTime.day >= element.day && startingTime.time >= element.end) {
+      //check if there ist enough time between timeslots (between this entry in sorted array and in the next one)
+      if (
+        // does a next element exist
+        (workStation.timeslots[workStation.timeslots.indexOf(element) + 1] ===
+          undefined &&
+          // does time go outside of the max time
+          startingTime.time < workStation.maxTime) ||
+        // is there enough time
+        element.end -
+          workStation.timeslots[workStation.timeslots.indexOf(element) + 1]
+            .start >=
+          requiredTime
+      ) {
+        // set new startingTime
+        startingTime = { day: element.day, time: element.end };
+      }
     }
   });
 
-  //add timeslot
-  workStation.timeslots.push(timeslot);
+  //Check available Material
+  //TODO:
 
-  return timeslot.end;
+  // if all available
+  if (1 === 1) {
+    //set Timeslot
+    timeslot = {
+      productionOrder: order.id,
+      day: startingTime.day,
+      start: startingTime.time,
+      end: startingTime.time + requiredTime,
+    };
+
+    //reduce available time
+    workStation.availableTime.forEach((element) => {
+      if (timeslot.day === element.day) {
+        element.availableTime -= requiredTime;
+      }
+    });
+
+    //add timeslot
+    workStation.timeslots.push(timeslot);
+
+    //set new starting time for comming wortstation
+    startingTime.time = timeslot.end;
+    return startingTime;
+  }
+  //not available
+  else {
+  }
 }
 
 //evaluation and variation
