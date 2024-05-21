@@ -73,6 +73,7 @@ export default function ProductionPlanning() {
   const [productionResult, setData] = useState(() => productionPlanTimesTotal);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
+  //TODO: Editieren vom Amount Feld
   const table = useMaterialReactTable({
     columns,
     data: productionResult,
@@ -123,7 +124,11 @@ export default function ProductionPlanning() {
           color="secondary"
           onClick={() => {
             let splitId = Object.keys(rowSelection);
-            splitOrder(splitId, productionResult);
+            let rowData: ProductionPlanTimesTotal[] = splitOrder(
+              splitId,
+              productionResult
+            );
+            setData(rowData);
           }}
           variant="contained"
         >
@@ -828,6 +833,7 @@ export function CalculateProductionTime(
   let requiredTime: number = 0;
   let workstationTime: WorkstationTime;
 
+  //TODO: Nicht korrekte Zeiten
   // Produktionszeit für jeden Artikel in der Bestellung hinzufügen
   for (const item of workStation.productionTimes) {
     if (item.itemName.substring(1) === order.id.toString()) {
@@ -843,7 +849,7 @@ export function CalculateProductionTime(
   };
 
   // Setup-Zeit für die Arbeitsstation hinzufügen, falls benötigt wird
-  if (order.id === lastOrder) {
+  if (order.id !== lastOrder) {
     //requiredTime += workStation.productionSetupTime;
     workstationTime.setupTime = workStation.productionSetupTime;
   }
