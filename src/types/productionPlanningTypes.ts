@@ -72,6 +72,26 @@ export type DayTime = {
   time: number;
 };
 
+export type WorkstationTime = {
+  workstation: number;
+  productionTime: number;
+  setupTime: number;
+};
+
+export type ProductionPlanTimes = {
+  id: number;
+  item: number;
+  amount: number;
+  workstationTime: WorkstationTime[];
+};
+
+export type ProductionPlanTimesTotal = {
+  id: number;
+  item: number;
+  amount: number;
+  workstationTimeAsString: string;
+};
+
 export type DirectSell = {
   P1: DirectSellRow;
   P2: DirectSellRow;
