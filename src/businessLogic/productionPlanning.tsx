@@ -893,15 +893,15 @@ export function splitOrder(
   let newProductionItem1: ProductionPlanTimesTotal;
   let newProductionItem2: ProductionPlanTimesTotal;
   let newProductionPlan: ProductionPlanTimesTotal[] = [];
-  let count: number = 0;
+  //let count: number = 0;
   let found: boolean = false;
 
   old.forEach((production) => {
-    count += 1;
+    //count += 1;
     found = false;
     //SetData
-    newProductionItem1 = production;
-    newProductionItem2 = production;
+    newProductionItem1 = { ...production };
+    newProductionItem2 = { ...production };
 
     for (let item of split) {
       if (item === production.id.toString()) {
@@ -910,14 +910,14 @@ export function splitOrder(
         let leftAmount = startAmount - halfAmount;
 
         //first half
-        newProductionItem1.id = count;
+        //newProductionItem1.id = count;
         newProductionItem1.amount = halfAmount;
         newProductionPlan.push(newProductionItem1);
         console.log(newProductionItem1);
 
         //second half
-        count += 1;
-        newProductionItem2.id = count;
+        //count += 1;
+        //newProductionItem2.id = count;
         newProductionItem2.amount = leftAmount;
         newProductionPlan.push(newProductionItem2);
         found = true;
@@ -926,10 +926,11 @@ export function splitOrder(
       }
     }
     //
-    if (found === false) {
-      newProductionItem1 = production;
-      newProductionItem1.id = count;
-      newProductionPlan.push(newProductionItem1);
+    if (!found) {
+      newProductionPlan.push(production);
+      //newProductionItem1 = production;
+      //newProductionItem1.id = count;
+      //newProductionPlan.push(newProductionItem1);
     }
   });
 
