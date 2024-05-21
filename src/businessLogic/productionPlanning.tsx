@@ -4,12 +4,8 @@ import { Box, Button, Container, IconButton } from "@mui/material";
 import { useMemo, useState } from "react";
 import {
   useMaterialReactTable,
-  type MRT_ColumnDef,
-  MRT_ToggleDensePaddingButton,
-  MRT_ToggleFullScreenButton,
   MRT_Row,
   MRT_RowSelectionState,
-  getIsRowSelected,
 } from "material-react-table";
 import {
   PlanningWorkstation,
@@ -67,9 +63,6 @@ export default function ProductionPlanning() {
     GenerateProductionWithString(production);
 
   //Anzeige
-
-  const productionResult = productionPlanTimesTotal;
-
   const columns = [
     { accessorKey: "id", header: "Order", grow: true, size: 100 },
     { accessorKey: "item", header: "Item", grow: true, size: 100 },
@@ -77,56 +70,60 @@ export default function ProductionPlanning() {
     { accessorKey: "workstationTimeAsString", header: "Times", grow: true },
   ];
 
-  const initData = productionResult;
-
-  const [datas, setData] = useState(() => initData);
+  const [productionResult, setData] = useState(() => productionPlanTimesTotal);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
   const table = useMaterialReactTable({
     columns,
-    data: datas,
+    data: productionResult,
     enablePagination: false,
     enableRowNumbers: false,
     enableRowVirtualization: true,
     enableSorting: false,
     enableEditing: true,
-    enableRowSelection: true,
     enableRowOrdering: true,
+    enableRowSelection: true,
     enableMultiRowSelection: false,
+    //select row
+    getRowId: (row) => row.id.toString(),
+    muiTableBodyRowProps: ({ row }) => ({
+      onClick: row.getToggleSelectedHandler(),
+      sx: { cursor: "pointer" },
+    }),
     positionToolbarAlertBanner: "bottom",
-    onRowSelectionChange: setRowSelection, //connect internal row selection state to your own
+    onRowSelectionChange: setRowSelection,
     state: { rowSelection },
-    getRowId: (row) => row.id.toString(), //give each row a more useful id
     //Drag and Drop implementation
     muiRowDragHandleProps: ({ table }) => ({
       onDragEnd: () => {
         const { draggingRow, hoveredRow } = table.getState();
 
         if (hoveredRow && draggingRow) {
-          //set new order in datas
+          //set new order in productionResult
           if (hoveredRow.index !== undefined) {
-            const idOld = datas[draggingRow.index].id;
-            datas[draggingRow.index].id = datas[hoveredRow.index].id;
-            datas[hoveredRow.index].id = idOld;
+            const idOld = productionResult[draggingRow.index].id;
+            productionResult[draggingRow.index].id =
+              productionResult[hoveredRow.index].id;
+            productionResult[hoveredRow.index].id = idOld;
           }
 
-          datas.splice(
+          productionResult.splice(
             (hoveredRow as MRT_Row<ProductionPlanTimesTotal>).index,
             0,
-            datas.splice(draggingRow.index, 1)[0]
+            productionResult.splice(draggingRow.index, 1)[0]
           );
-          setData([...datas]);
+          setData([...productionResult]);
         }
       },
     }),
-    //add custom action buttons to top-left of top toolbar
+    //custom action buttons to top-left of top toolbar
     renderTopToolbarCustomActions: ({ table }) => (
       <Box sx={{ display: "flex", gap: "4px", p: "4px" }}>
         <Button
           color="secondary"
           onClick={() => {
-            //splitOrder();
-            console.log();
+            let splitId = Object.keys(rowSelection);
+            splitOrder(splitId, productionResult);
           }}
           variant="contained"
         >
@@ -137,35 +134,6 @@ export default function ProductionPlanning() {
   });
 
   return <MaterialReactTable table={table} />;
-
-  /*return (
-    <MaterialReactTable
-      autoResetPageIndex={false}
-      data={datas}
-      columns={columns}
-      enableRowOrdering={true}
-      enablePagination={false}
-      enableRowVirtualization
-      enableSorting={false}
-      enableEditing={true}
-      enableRowSelection={true}
-      muiRowDragHandleProps={({ table }) => ({
-        onDragEnd: () => {
-          const { draggingRow, hoveredRow } = table.getState();
-          if (hoveredRow && draggingRow) {
-            const dataCopy = [...datas];
-            dataCopy.splice(
-              (hoveredRow as MRT_Row<PlanningWarehouseStock>).index,
-              0,
-              dataCopy.splice(draggingRow.index, 1)[0]
-            );
-            setData(dataCopy);
-          }
-        },
-      })}
-    ></MaterialReactTable>
-  );
-  */
 }
 
 //set total production orders
@@ -608,7 +576,6 @@ export function SimulateProduction(
   let production: ProductionPlanTimes[] = [];
   let count = 0;
 
-  //console.log(finalProductionOrders);
   finalProductionOrders.forEach((element) => {
     // set new values
     count += 1;
@@ -909,4 +876,59 @@ export function GenerateProductionWithString(
     productionPlanTimesTotal.push(productionPlanTimesTotalItem);
   });
   return productionPlanTimesTotal;
+}
+
+export function splitOrder(
+  splitId: string[],
+  oldProductionPlan: ProductionPlanTimesTotal[]
+) {
+  const old = [...oldProductionPlan];
+  const split = [...splitId];
+  let newProductionItem1: ProductionPlanTimesTotal;
+  let newProductionItem2: ProductionPlanTimesTotal;
+  let newProductionPlan: ProductionPlanTimesTotal[] = [];
+  let count: number = 0;
+  let found: boolean = false;
+
+  old.forEach((production) => {
+    count += 1;
+    found = false;
+    //SetData
+    newProductionItem1 = production;
+    newProductionItem2 = production;
+
+    for (let item of split) {
+      if (item === production.id.toString()) {
+        let startAmount = production.amount;
+        let halfAmount = Math.round(startAmount / 2);
+        let leftAmount = startAmount - halfAmount;
+
+        //first half
+        newProductionItem1.id = count;
+        newProductionItem1.amount = halfAmount;
+        newProductionPlan.push(newProductionItem1);
+        console.log(newProductionItem1);
+
+        //second half
+        count += 1;
+        newProductionItem2.id = count;
+        newProductionItem2.amount = leftAmount;
+        newProductionPlan.push(newProductionItem2);
+        found = true;
+        console.log(newProductionItem2);
+        break;
+      }
+    }
+    //
+    if (found === false) {
+      newProductionItem1 = production;
+      newProductionItem1.id = count;
+      newProductionPlan.push(newProductionItem1);
+    }
+  });
+
+  //TODO: Wird nicht richtig errechnet (siehe Consolenausgabe)
+  console.log(split, newProductionPlan);
+
+  return newProductionPlan;
 }
