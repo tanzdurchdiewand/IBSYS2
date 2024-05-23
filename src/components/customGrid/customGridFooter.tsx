@@ -1,13 +1,9 @@
 import { Grid, Box, styled, Paper, TextField } from "@mui/material";
 import { ProductionProgramm } from "../../types/productionPlanningTypes";
-import { BikeType } from "./customGridDirectSell";
-import { useProductionProgramm } from "../../hooks/useProductionProgramm";
 import i18n from "../../locals/i18n";
 
 type Props = {
-  bikeType: BikeType;
   productionProgramm: ProductionProgramm;
-  period: number;
 };
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -19,28 +15,47 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CustomProductionGridBody({
-  bikeType,
   productionProgramm,
-  period,
 }: Readonly<Props>) {
-  const { handleValueChange, handleForecastChange } = useProductionProgramm();
-  const type =
-    bikeType.shortName === "P1"
-      ? "P1"
-      : bikeType.shortName === "P2"
-      ? "P2"
-      : bikeType.shortName === "P3"
-      ? "P3"
-      : "P1";
+  const sumSalesWish =
+    Number(productionProgramm["P1"].salesOrder.salesWish) +
+    Number(productionProgramm["P2"].salesOrder.salesWish) +
+    Number(productionProgramm["P3"].salesOrder.salesWish);
 
-  const bikeTranslation =
-    bikeType.shortName === "P1"
-      ? i18n.t("productionProgramm.p1")
-      : bikeType.shortName === "P2"
-      ? i18n.t("productionProgramm.p2")
-      : bikeType.shortName === "P3"
-      ? i18n.t("productionProgramm.p3")
-      : i18n.t("productionProgramm.p1");
+  const sumProductionWish =
+    Number(productionProgramm["P1"].salesOrder.productionWish) +
+    Number(productionProgramm["P2"].salesOrder.productionWish) +
+    Number(productionProgramm["P3"].salesOrder.productionWish);
+
+  const sumSalesWishf0 =
+    productionProgramm["P1"].forecast[0].salesOrder.salesWish +
+    productionProgramm["P2"].forecast[0].salesOrder.salesWish +
+    productionProgramm["P3"].forecast[0].salesOrder.salesWish;
+
+  const sumProductionWishf0 =
+    productionProgramm["P1"].forecast[0].salesOrder.productionWish +
+    productionProgramm["P2"].forecast[0].salesOrder.productionWish +
+    productionProgramm["P3"].forecast[0].salesOrder.productionWish;
+
+  const sumSalesWishf1 =
+    productionProgramm["P1"].forecast[1].salesOrder.salesWish +
+    productionProgramm["P2"].forecast[1].salesOrder.salesWish +
+    productionProgramm["P3"].forecast[1].salesOrder.salesWish;
+
+  const sumProductionWishf1 =
+    productionProgramm["P1"].forecast[1].salesOrder.productionWish +
+    productionProgramm["P2"].forecast[1].salesOrder.productionWish +
+    productionProgramm["P3"].forecast[1].salesOrder.productionWish;
+
+  const sumSalesWishf2 =
+    productionProgramm["P1"].forecast[2].salesOrder.salesWish +
+    productionProgramm["P2"].forecast[2].salesOrder.salesWish +
+    productionProgramm["P3"].forecast[2].salesOrder.salesWish;
+
+  const sumProductionWishf2 =
+    productionProgramm["P1"].forecast[2].salesOrder.productionWish +
+    productionProgramm["P2"].forecast[2].salesOrder.productionWish +
+    productionProgramm["P3"].forecast[2].salesOrder.productionWish;
 
   return (
     <Grid container>
@@ -60,11 +75,12 @@ export default function CustomProductionGridBody({
             autoComplete="off"
           >
             <TextField
-              name={`${bikeType.shortName}`}
+              //name={`${bikeType.shortName}`}
               id="outlined-basic"
-              label={bikeType.shortName}
+              //label={bikeType.shortName}
+              label="Summe"
               variant="outlined"
-              value={bikeTranslation}
+              //value={bikeTranslation}
               disabled={true}
             />
           </Box>
@@ -83,22 +99,18 @@ export default function CustomProductionGridBody({
             autoComplete="off"
           >
             <TextField
-              name={`${bikeType.shortName}.salesOrder.salesWish`}
               id="outlined-basic"
               label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
-              value={productionProgramm[type].salesOrder.salesWish}
+              value={sumSalesWish}
               disabled={true}
-              //type="number"
             />
             <TextField
-              name={`${bikeType.shortName}.salesOrder.productionWish`}
               id="outlined-basic"
               label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
-              value={productionProgramm[type].salesOrder.productionWish}
-              type="number"
-              onChange={handleValueChange}
+              value={sumProductionWish}
+              disabled={true}
             />
           </Box>
         </Item>
@@ -116,33 +128,18 @@ export default function CustomProductionGridBody({
             autoComplete="off"
           >
             <TextField
-              name={`${bikeType.shortName}.forecast[0].salesOrder.salesWish.`}
               id="outlined-basic"
               label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
-              value={productionProgramm[type].forecast[0].salesOrder.salesWish}
-              type="number"
-              onChange={(event) =>
-                handleForecastChange(event, bikeType.shortName, 0, "salesWish")
-              }
+              value={sumSalesWishf0}
+              disabled={true}
             />
             <TextField
-              name={`${bikeType.shortName}.forecast[0].salesOrder.productionWish.`}
               id="outlined-basic"
               label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
-              value={
-                productionProgramm[type].forecast[0].salesOrder.productionWish
-              }
-              type="number"
-              onChange={(event) =>
-                handleForecastChange(
-                  event,
-                  bikeType.shortName,
-                  0,
-                  "productionWish"
-                )
-              }
+              value={sumProductionWishf0}
+              disabled={true}
             />
           </Box>
         </Item>
@@ -160,33 +157,18 @@ export default function CustomProductionGridBody({
             autoComplete="off"
           >
             <TextField
-              name={`${bikeType.shortName}.forecast[1].salesOrder.salesWish.`}
               id="outlined-basic"
               label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
-              value={productionProgramm[type].forecast[1].salesOrder.salesWish}
-              type="number"
-              onChange={(event) =>
-                handleForecastChange(event, bikeType.shortName, 1, "salesWish")
-              }
+              value={sumSalesWishf1}
+              disabled={true}
             />
             <TextField
-              name={`${bikeType.shortName}.forecast[1].salesOrder.productionWish.`}
               id="outlined-basic"
               label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
-              value={
-                productionProgramm[type].forecast[1].salesOrder.productionWish
-              }
-              type="number"
-              onChange={(event) =>
-                handleForecastChange(
-                  event,
-                  bikeType.shortName,
-                  1,
-                  "productionWish"
-                )
-              }
+              value={sumProductionWishf1}
+              disabled={true}
             />
           </Box>
         </Item>
@@ -204,33 +186,18 @@ export default function CustomProductionGridBody({
             autoComplete="off"
           >
             <TextField
-              name={`${bikeType.shortName}.forecast[2].salesOrder.salesWish.`}
               id="outlined-basic"
               label="Sales Wish"
               variant="outlined"
-              value={productionProgramm[type].forecast[2].salesOrder.salesWish}
-              type="number"
-              onChange={(event) =>
-                handleForecastChange(event, bikeType.shortName, 2, "salesWish")
-              }
+              value={sumSalesWishf2}
+              disabled={true}
             />
             <TextField
-              name={`${bikeType.shortName}.forecast[2].salesOrder.productionWish.`}
               id="outlined-basic"
               label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
-              value={
-                productionProgramm[type].forecast[2].salesOrder.productionWish
-              }
-              type="number"
-              onChange={(event) =>
-                handleForecastChange(
-                  event,
-                  bikeType.shortName,
-                  2,
-                  "productionWish"
-                )
-              }
+              value={sumProductionWishf2}
+              disabled={true}
             />
           </Box>
         </Item>

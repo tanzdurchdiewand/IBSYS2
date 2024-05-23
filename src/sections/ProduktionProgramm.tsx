@@ -16,6 +16,7 @@ import {
   useNavigationHandler,
 } from "../hooks/useNavigationHandlers";
 import CustomGridHeader from "../components/customGrid/customGridHeader";
+import CustomProductionGridFooter from "../components/customGrid/customGridFooter";
 import CustomGridProductPeriod from "../components/customGrid/customGridProductPeriod";
 import { DirectSell } from "../types/productionPlanningTypes";
 import { FormProvider, useForm } from "react-hook-form";
@@ -121,6 +122,9 @@ export default function ProduktionProgramm() {
                 bikeType={ManBike}
                 productionProgramm={productionProgramm!}
                 period={XML?.results.period ?? 0}
+              />
+              <CustomProductionGridFooter
+                productionProgramm={productionProgramm!}
               />
 
               <Accordion style={{ marginTop: "20px", width: "84%" }}>
