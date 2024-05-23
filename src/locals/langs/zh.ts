@@ -30,6 +30,10 @@ const zh = {
     salesWish: "销售愿望",
     productionWish: "生产愿望",
     directSellTable: "直接销售",
+    total: "数额",
+    amount: "金额",
+    price: "价格",
+    penalty: "处罚",
   },
   materialPlanning: {
     columnProduct: "产品",
@@ -60,6 +64,13 @@ const zh = {
     columnPendingOrderAmaunt: "待处理订单数量",
     columnPendingOrderType: "待处理订单类型",
   },
+    productionPlanning: {
+    order: "订单",
+    item: "文章",
+    amount: "金额",
+    times: "工作时间",
+    splitOrder: "拆分订单",
+  },
   capacityPlanning: {
     columnDesignation: "名称",
     columnFinalProduct: "最终产品",
@@ -85,7 +96,28 @@ const zh = {
     tabProduction: "生产规划",
     tabWorkingTime: "产能计划",
   },
-  // TODO Translation for result tables
+  productionProgrammResult: {
+    article: "文章",
+    productionQuantity: "生产量",
+    sellDirect: "直接销售",
+    salesQuantity: "销售量",
+    salesPrice: "销售价格",
+    penalty: "处罚",
+  },
+  orderResult: {
+    article: "文章",
+    quantity: "数量",
+    modus: "模式",
+  },
+   productionResult: {
+    article: "文章",
+    quantity: "数量",
+  },
+  workingTimeResult: {
+    station: "火车站",
+    overtime: "加时",
+    shift: "调迁",
+  },
 };
 
 export default zh;

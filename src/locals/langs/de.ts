@@ -36,6 +36,10 @@ const de = {
     salesWish: "Verkaufswunsch",
     productionWish: "Produktionswunsch",
     directSellTable: "Direktverkauf",
+    total: "Summe",
+    amount: "Betrag",
+    price: "Preis",
+    penalty: "Strafe",
   },
   materialPlanning: {
     columnProduct: "Produkt",
@@ -66,6 +70,13 @@ const de = {
     columnPendingOrderAmaunt: "Ausstehende Bestellmenge",
     columnPendingOrderType: "Bestelltyp ausstehende Bestellung",
   },
+  productionPlanning: {
+    order: "Bestellung",
+    item: "Artikel",
+    amount: "Betrag",
+    times: "Arbeitsplatzzeiten",
+    splitOrder: "Bestellung aufteilen",
+  },
   capacityPlanning: {
     columnDesignation: "Bezechnung",
     columnFinalProduct: "Finales Produkt",
@@ -91,29 +102,27 @@ const de = {
     tabProduction: "Productionsplanung",
     tabWorkingTime: "Kapazitätsplanung",
   },
-  // TODO Translation for result tables
   productionProgrammResult: {
-    columnArticle: "Productionsprogramm",
-    columnQuantity: "Productionsprogramm",
-    columnDirectSell: "Productionsprogramm",
+    article: "Artikel",
+    productionQuantity: "Produktionsmenge",
+    sellDirect: "Direktverkauf",
+    salesQuantity: "Verkaufsmenge",
+    salesPrice: "Verkaufspreis",
+    penalty: "Strafe",
   },
   orderResult: {
-    tabProductionProgramm: "Productionsprogramm",
-    tabOrders: "Bestellungen",
-    tabProduction: "Productionsplanung",
-    tabWorkingTime: "Kapazitätsplanung",
+    article: "Artikel",
+    quantity: "Menge",
+    modus: "Modus",
   },
   productionResult: {
-    tabProductionProgramm: "Productionsprogramm",
-    tabOrders: "Bestellungen",
-    tabProduction: "Productionsplanung",
-    tabWorkingTime: "Kapazitätsplanung",
+    article: "Artikel",
+    quantity: "Menge",
   },
   workingTimeResult: {
-    tabProductionProgramm: "Productionsprogramm",
-    tabOrders: "Bestellungen",
-    tabProduction: "Productionsplanung",
-    tabWorkingTime: "Kapazitätsplanung",
+    station: "Station",
+    overtime: "Überstunden",
+    shift: "Schicht",
   },
 };
 

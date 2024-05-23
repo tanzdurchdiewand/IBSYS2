@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer/TableContainer";
 import TableHead from "@mui/material/TableHead/TableHead";
 import TableRow from "@mui/material/TableRow/TableRow";
 import { useResult } from "../../hooks/useResult";
+import i18n from "../../locals/i18n";
 
 export default function OrderResultComponent() {
   const orderResult = useResult().orderlist;
@@ -27,9 +28,9 @@ export default function OrderResultComponent() {
       >
         <TableHead>
           <TableRow>
-            <TableCell>Article</TableCell>
-            <TableCell>Quantity</TableCell>
-            <TableCell>Modus</TableCell>
+            <TableCell>{i18n.t("orderResult.article")}</TableCell>
+            <TableCell>{i18n.t("orderResult.quantity")}</TableCell>
+            <TableCell>{i18n.t("orderResult.modus")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

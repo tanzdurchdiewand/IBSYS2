@@ -6,6 +6,7 @@ import TableHead from "@mui/material/TableHead/TableHead";
 import TableRow from "@mui/material/TableRow/TableRow";
 import TableCell from "@mui/material/TableCell/TableCell";
 import TableBody from "@mui/material/TableBody/TableBody";
+import i18n from "../../locals/i18n";
 
 export default function WorkingTimeResultComponent() {
   const workingTimes = useResult().workingtimelist;
@@ -27,9 +28,9 @@ export default function WorkingTimeResultComponent() {
       >
         <TableHead>
           <TableRow>
-            <TableCell>Station</TableCell>
-            <TableCell>Overtime</TableCell>
-            <TableCell>Shift</TableCell>
+            <TableCell>{i18n.t("workingTimeResult.station")}</TableCell>
+            <TableCell>{i18n.t("workingTimeResult.overtime")}</TableCell>
+            <TableCell>{i18n.t("workingTimeResult.shift")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

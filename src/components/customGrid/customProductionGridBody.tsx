@@ -206,7 +206,7 @@ export default function CustomProductionGridBody({
             <TextField
               name={`${bikeType.shortName}.forecast[2].salesOrder.salesWish.`}
               id="outlined-basic"
-              label="Sales Wish"
+              label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
               value={productionProgramm[type].forecast[2].salesOrder.salesWish}
               type="number"

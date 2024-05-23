@@ -36,6 +36,10 @@ const es = {
     salesWish: "Deseo de Venta",
     productionWish: "Deseo de Producción",
     directSellTable: "Venta Directa",
+    total: "Suma",
+    amount: "Importe",
+    price: "Precio",
+    penalty: "Sanción",
   },
   materialPlanning: {
     columnProduct: "Producto",
@@ -66,6 +70,13 @@ const es = {
     columnPendingOrderAmaunt: "Cantidad de Pedido Pendiente",
     columnPendingOrderType: "Tipo de Pedido Pendiente",
   },
+   productionPlanning: {
+    order: "Pedido",
+    item: "Artículo",
+    amount: "Importe",
+    times: "Horario de trabajo",
+    splitOrder: "Orden dividida",
+  },
   capacityPlanning: {
     columnDesignation: "Denominación",
     columnFinalProduct: "Producto Final",
@@ -91,7 +102,28 @@ const es = {
     tabProduction: "Planificación de Producción",
     tabWorkingTime: "Planificación de Capacidad",
   },
-  // TODO Translation for result tables
+    productionProgrammResult: {
+    article: "Artículo",
+    productionQuantity: "Volumen de producción",
+    sellDirect: "Venta directa",
+    salesQuantity: "Volumen de ventas",
+    salesPrice: "Precio de venta",
+    penalty: "Penalti",
+  },
+  orderResult: {
+    article: "Artículo",
+    quantity: "Cantidad",
+    modus: "Modo",
+  },
+   productionResult: {
+    article: "Artículo",
+    quantity: "Cantidad",
+  },
+  workingTimeResult: {
+    station: "Estación",
+    overtime: "Horas extras",
+    shift: "Turno",
+  },
 };
 
 export default es;

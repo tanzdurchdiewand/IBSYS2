@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { RootState, useSelector } from "../../redux/store";
+import i18n from "../../locals/i18n";
 
 export default function SellResultComponent() {
   const { data } = useSelector(
@@ -30,12 +31,20 @@ export default function SellResultComponent() {
       >
         <TableHead>
           <TableRow>
-            <TableCell>Article</TableCell>
-            <TableCell>Produktionsmenge</TableCell>
-            <TableCell>Sell Direkt</TableCell>
-            <TableCell>Verkaufsmenge</TableCell>
-            <TableCell>Verkaufspreis</TableCell>
-            <TableCell>Strafe</TableCell>
+            <TableCell>{i18n.t("productionProgrammResult.article")}</TableCell>
+            <TableCell>
+              {i18n.t("productionProgrammResult.productionQuantity")}
+            </TableCell>
+            <TableCell>
+              {i18n.t("productionProgrammResult.sellDirect")}
+            </TableCell>
+            <TableCell>
+              {i18n.t("productionProgrammResult.salesQuantity")}
+            </TableCell>
+            <TableCell>
+              {i18n.t("productionProgrammResult.salesPrice")}
+            </TableCell>
+            <TableCell>{i18n.t("productionProgrammResult.penalty")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -3,13 +3,20 @@ import { useResult } from "../../hooks/useResult";
 import { type MRT_Row } from "material-react-table";
 import { Production } from "../../types/resultTypes";
 import { MaterialReactTable } from "material-react-table";
+import i18n from "../../locals/i18n";
 
 export default function ProductionResultComponent() {
   const productionResult = useResult().productionlist;
 
   const columns = [
-    { accessorKey: "article", header: "Article" },
-    { accessorKey: "quantity", header: "Quantity" },
+    {
+      accessorKey: "article",
+      header: i18n.t("productionResult.article"),
+    },
+    {
+      accessorKey: "quantity",
+      header: i18n.t("productionResult.quantity"),
+    },
   ];
 
   const initData = productionResult!.production;

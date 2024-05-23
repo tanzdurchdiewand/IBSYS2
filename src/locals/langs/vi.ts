@@ -35,6 +35,10 @@ const vi = {
     salesWish: "Mong Muốn Bán Hàng",
     productionWish: "Mong Muốn Sản Xuất",
     directSellTable: "Bán Trực Tiếp",
+    total: "Tổng",
+    amount: "Số lượng",
+    price: "Giá",
+    penalty: "Hình phạt",
   },
   materialPlanning: {
     columnProduct: "Sản Phẩm",
@@ -65,6 +69,13 @@ const vi = {
     columnPendingOrderAmaunt: "Số Lượng Đơn Hàng Đang Chờ",
     columnPendingOrderType: "Loại Đơn Hàng Đang Chờ",
   },
+    productionPlanning: {
+    order: "Đơn đặt hàng",
+    item: "Mặt hàng",
+    amount: "Số tiền",
+    times: "Thời gian làm việc",
+    splitOrder: "Chia đơn đặt hàng",
+  },
   capacityPlanning: {
     columnDesignation: "Tên Gọi",
     columnFinalProduct: "Sản Phẩm Cuối",
@@ -90,7 +101,28 @@ const vi = {
     tabProduction: "Kế Hoạch Sản Xuất",
     tabWorkingTime: "Kế Hoạch Công Suất",
   },
-  // TODO Translation for result tables
+  productionProgrammResult: {
+    article: "Mặt hàng",
+    productionQuantity: "Số lượng sản xuất",
+    sellDirect: "Bán hàng trực tiếp",
+    salesQuantity: "Số lượng bán hàng",
+    salesPrice: "Giá bán",
+    penalty: "Phạt",
+  },
+  orderResult: {
+    article: "Mặt hàng",
+    quantity: "Số lượng",
+    modus: "Chế độ",
+  },
+   productionResult: {
+    article: "Mặt hàng",
+    quantity: "Số lượng",
+  },
+  workingTimeResult: {
+    station: "Trạm làm việc",
+    overtime: "Làm thêm giờ",
+    shift: "Ca làm việc",
+  },
 };
 
 export default vi;

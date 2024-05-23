@@ -75,12 +75,9 @@ export default function CustomProductionGridBody({
             autoComplete="off"
           >
             <TextField
-              //name={`${bikeType.shortName}`}
               id="outlined-basic"
-              //label={bikeType.shortName}
-              label="Summe"
+              label={i18n.t("productionProgramm.total")}
               variant="outlined"
-              //value={bikeTranslation}
               disabled={true}
             />
           </Box>
@@ -187,7 +184,7 @@ export default function CustomProductionGridBody({
           >
             <TextField
               id="outlined-basic"
-              label="Sales Wish"
+              label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
               value={sumSalesWishf2}
               disabled={true}

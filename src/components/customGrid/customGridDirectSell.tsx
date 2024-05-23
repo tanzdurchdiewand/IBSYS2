@@ -74,7 +74,7 @@ export default function CustomGridDirectSell({
             <RHFTextField
               name={`${bikeType.shortName}.amount.`}
               id="outlined-basic"
-              label="Amount"
+              label={i18n.t("productionProgramm.amount")}
               variant="outlined"
               value={directSell?.amount}
               type="number"
@@ -97,7 +97,7 @@ export default function CustomGridDirectSell({
             <RHFTextField
               name={`${bikeType.shortName}.price`}
               id="outlined-basic"
-              label="Price"
+              label={i18n.t("productionProgramm.price")}
               variant="outlined"
               value={directSell?.price}
               type="number"
@@ -120,7 +120,7 @@ export default function CustomGridDirectSell({
             <RHFTextField
               name={`${bikeType.shortName}.penalty`}
               id="outlined-basic"
-              label="Penalty"
+              label={i18n.t("productionProgramm.penalty")}
               variant="outlined"
               value={directSell?.penalty}
               type="number"

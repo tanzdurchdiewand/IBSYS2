@@ -2,6 +2,7 @@
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import { Box, Button, Container, IconButton } from "@mui/material";
 import { useMemo, useState } from "react";
+import i18n from "../locals/i18n";
 import {
   useMaterialReactTable,
   MRT_Row,
@@ -64,10 +65,28 @@ export default function ProductionPlanning() {
 
   //Anzeige
   const columns = [
-    { accessorKey: "id", header: "Order", grow: true, size: 100 },
-    { accessorKey: "item", header: "Item", grow: true, size: 100 },
-    { accessorKey: "amount", header: "Amount", grow: true },
-    { accessorKey: "workstationTimeAsString", header: "Times", grow: true },
+    {
+      accessorKey: "id",
+      header: i18n.t("productionPlanning.order"),
+      grow: true,
+      size: 100,
+    },
+    {
+      accessorKey: "item",
+      header: i18n.t("productionPlanning.item"),
+      grow: true,
+      size: 100,
+    },
+    {
+      accessorKey: "amount",
+      header: i18n.t("productionPlanning.amount"),
+      grow: true,
+    },
+    {
+      accessorKey: "workstationTimeAsString",
+      header: i18n.t("productionPlanning.times"),
+      grow: true,
+    },
   ];
 
   const [productionResult, setData] = useState(() => productionPlanTimesTotal);
@@ -132,7 +151,7 @@ export default function ProductionPlanning() {
           }}
           variant="contained"
         >
-          Split Order
+          {i18n.t("productionPlanning.splitOrder")}
         </Button>
       </Box>
     ),
