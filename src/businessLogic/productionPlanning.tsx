@@ -854,15 +854,15 @@ export function CalculateProductionTime(
 
   //TODO: Nicht korrekte Zeiten
   // Produktionszeit für jeden Artikel in der Bestellung hinzufügen
-  for (const item of workStation.productionTimes) {
+  /*for (const item of workStation.productionTimes) {
     if (item.itemName.substring(1) === order.id.toString()) {
       requiredTime += item.productionTime * order.amount;
       break;
     }
   }
-
+*/
   workstationTime = {
-    workstation: workStation.workstation,
+    workstation: 1,
     productionTime: requiredTime,
     setupTime: 0,
   };
@@ -870,7 +870,7 @@ export function CalculateProductionTime(
   // Setup-Zeit für die Arbeitsstation hinzufügen, falls benötigt wird
   if (order.id !== lastOrder) {
     //requiredTime += workStation.productionSetupTime;
-    workstationTime.setupTime = workStation.productionSetupTime;
+    workstationTime.setupTime = 1;
   }
   lastOrder = order.id;
 
@@ -909,52 +909,39 @@ export function splitOrder(
 ) {
   const old = [...oldProductionPlan];
   const split = [...splitId];
-  let newProductionItem1: ProductionPlanTimesTotal;
-  let newProductionItem2: ProductionPlanTimesTotal;
-  let newProductionPlan: ProductionPlanTimesTotal[] = [];
+  let newOrderItem: PlanningWarehouseStock;
+  let newOrder: PlanningWarehouseStock[] = [];
+  let newProductionPlan: ProductionPlanTimesTotal[];
+
   //let count: number = 0;
   let found: boolean = false;
 
+  //Create new Order
   old.forEach((production) => {
-    //count += 1;
-    found = false;
-    //SetData
-    newProductionItem1 = { ...production };
-    newProductionItem2 = { ...production };
-
     for (let item of split) {
       if (item === production.id.toString()) {
         let startAmount = production.amount;
         let halfAmount = Math.round(startAmount / 2);
         let leftAmount = startAmount - halfAmount;
 
-        //first half
-        //newProductionItem1.id = count;
-        newProductionItem1.amount = halfAmount;
-        newProductionPlan.push(newProductionItem1);
-        console.log(newProductionItem1);
+        newOrderItem = { id: production.id, amount: halfAmount };
+        newOrder.push(newOrderItem);
 
-        //second half
-        //count += 1;
-        //newProductionItem2.id = count;
-        newProductionItem2.amount = leftAmount;
-        newProductionPlan.push(newProductionItem2);
-        found = true;
-        console.log(newProductionItem2);
+        newOrderItem = { id: production.id, amount: leftAmount };
+        newOrder.push(newOrderItem);
         break;
       }
     }
     //
     if (!found) {
-      newProductionPlan.push(production);
-      //newProductionItem1 = production;
-      //newProductionItem1.id = count;
-      //newProductionPlan.push(newProductionItem1);
+      newOrderItem = { id: production.id, amount: production.amount };
+      newOrder.push(newOrderItem);
     }
   });
 
-  //TODO: Wird nicht richtig errechnet (siehe Consolenausgabe)
-  console.log(split, newProductionPlan);
+  //Create new List
+  let production: ProductionPlanTimes[] = SimulateProduction(newOrder);
+  newProductionPlan = GenerateProductionWithString(production);
 
   return newProductionPlan;
 }
