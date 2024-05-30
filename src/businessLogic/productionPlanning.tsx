@@ -623,7 +623,7 @@ export function SimulateProduction(
         //Workstations wich are used
         // 4
         workstationTime = CalculateProductionTime(
-          workstations[4],
+          workstations[4 - 1],
           element,
           lastOrder
         );
@@ -634,13 +634,13 @@ export function SimulateProduction(
       case 6:
         // 10, 11
         workstationTime = CalculateProductionTime(
-          workstations[10],
+          workstations[10 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[11],
+          workstations[11 - 1],
           element,
           lastOrder
         );
@@ -650,13 +650,13 @@ export function SimulateProduction(
       case 8:
       case 9:
         workstationTime = CalculateProductionTime(
-          workstations[10],
+          workstations[10 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[11],
+          workstations[11 - 1],
           element,
           lastOrder
         );
@@ -667,31 +667,31 @@ export function SimulateProduction(
       case 12:
         // 13, 12, 8, 7, 9
         workstationTime = CalculateProductionTime(
-          workstations[13],
+          workstations[13 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[12],
+          workstations[12 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[8],
+          workstations[8 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[7],
+          workstations[7 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[9],
+          workstations[9 - 1],
           element,
           lastOrder
         );
@@ -702,31 +702,31 @@ export function SimulateProduction(
       case 15:
         // 13, 12, 8, 7, 9
         workstationTime = CalculateProductionTime(
-          workstations[13],
+          workstations[13 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[12],
+          workstations[12 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[8],
+          workstations[8 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[7],
+          workstations[7 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[9],
+          workstations[9 - 1],
           element,
           lastOrder
         );
@@ -735,13 +735,13 @@ export function SimulateProduction(
       case 16:
         // 6, 14
         workstationTime = CalculateProductionTime(
-          workstations[6],
+          workstations[6 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[14],
+          workstations[14 - 1],
           element,
           lastOrder
         );
@@ -750,7 +750,7 @@ export function SimulateProduction(
       case 17:
         // 15
         workstationTime = CalculateProductionTime(
-          workstations[15],
+          workstations[15 - 1],
           element,
           lastOrder
         );
@@ -761,25 +761,25 @@ export function SimulateProduction(
       case 20:
         // 6, 8, 7, 9
         workstationTime = CalculateProductionTime(
-          workstations[6],
+          workstations[6 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[8],
+          workstations[8 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[7],
+          workstations[7 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[9],
+          workstations[9 - 1],
           element,
           lastOrder
         );
@@ -788,13 +788,13 @@ export function SimulateProduction(
       case 26:
         // 7, 15
         workstationTime = CalculateProductionTime(
-          workstations[7],
+          workstations[7 - 1],
           element,
           lastOrder
         );
         productionItem.workstationTime.push(workstationTime);
         workstationTime = CalculateProductionTime(
-          workstations[15],
+          workstations[15 - 1],
           element,
           lastOrder
         );
@@ -805,7 +805,7 @@ export function SimulateProduction(
       case 29:
         // 1
         workstationTime = CalculateProductionTime(
-          workstations[1],
+          workstations[1 - 1],
           element,
           lastOrder
         );
@@ -816,7 +816,7 @@ export function SimulateProduction(
       case 30:
         // 2
         workstationTime = CalculateProductionTime(
-          workstations[2],
+          workstations[2 - 1],
           element,
           lastOrder
         );
@@ -827,7 +827,7 @@ export function SimulateProduction(
       case 31:
         // 3
         workstationTime = CalculateProductionTime(
-          workstations[3],
+          workstations[3 - 1],
           element,
           lastOrder
         );
@@ -854,15 +854,15 @@ export function CalculateProductionTime(
 
   //TODO: Nicht korrekte Zeiten
   // Produktionszeit für jeden Artikel in der Bestellung hinzufügen
-  /*for (const item of workStation.productionTimes) {
+  for (const item of workStation.productionTimes) {
     if (item.itemName.substring(1) === order.id.toString()) {
       requiredTime += item.productionTime * order.amount;
       break;
     }
   }
-*/
+
   workstationTime = {
-    workstation: 1,
+    workstation: workStation.workstation,
     productionTime: requiredTime,
     setupTime: 0,
   };
@@ -870,7 +870,7 @@ export function CalculateProductionTime(
   // Setup-Zeit für die Arbeitsstation hinzufügen, falls benötigt wird
   if (order.id !== lastOrder) {
     //requiredTime += workStation.productionSetupTime;
-    workstationTime.setupTime = 1;
+    workstationTime.setupTime = workStation.productionSetupTime;
   }
   lastOrder = order.id;
 
