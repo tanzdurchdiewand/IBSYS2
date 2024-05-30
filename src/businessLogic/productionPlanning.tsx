@@ -918,26 +918,30 @@ export function splitOrder(
 
   //Create new Order
   old.forEach((production) => {
+    found = false;
     for (let item of split) {
       if (item === production.id.toString()) {
+        found = true;
         let startAmount = production.amount;
         let halfAmount = Math.round(startAmount / 2);
         let leftAmount = startAmount - halfAmount;
 
-        newOrderItem = { id: production.id, amount: halfAmount };
+        newOrderItem = { id: production.item, amount: halfAmount };
         newOrder.push(newOrderItem);
 
-        newOrderItem = { id: production.id, amount: leftAmount };
+        newOrderItem = { id: production.item, amount: leftAmount };
         newOrder.push(newOrderItem);
         break;
       }
     }
     //
     if (!found) {
-      newOrderItem = { id: production.id, amount: production.amount };
+      newOrderItem = { id: production.item, amount: production.amount };
       newOrder.push(newOrderItem);
     }
   });
+
+  console.log(newOrder);
 
   //Create new List
   let production: ProductionPlanTimes[] = SimulateProduction(newOrder);
