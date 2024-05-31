@@ -28,7 +28,7 @@ export default function ProductionPlanning() {
   const dispatch = useDispatch();
 
   //workingarea
-  const data: ProductionPlan = {
+  let data: ProductionPlan = {
     productionPlan: [],
   };
 
@@ -56,6 +56,8 @@ export default function ProductionPlanning() {
     p3
   );
 
+  data.productionPlan = [...finalProductionOrders];
+
   let production: ProductionPlanTimes[] = SimulateProduction(
     finalProductionOrders
   );
@@ -70,22 +72,26 @@ export default function ProductionPlanning() {
       header: i18n.t("productionPlanning.order"),
       grow: true,
       size: 100,
+      enableEditing: false,
     },
     {
       accessorKey: "item",
       header: i18n.t("productionPlanning.item"),
       grow: true,
       size: 100,
+      enableEditing: false,
     },
     {
       accessorKey: "amount",
       header: i18n.t("productionPlanning.amount"),
       grow: true,
+      enableEditing: true,
     },
     {
       accessorKey: "workstationTimeAsString",
       header: i18n.t("productionPlanning.times"),
       grow: true,
+      enableEditing: false,
     },
   ];
 
@@ -104,6 +110,21 @@ export default function ProductionPlanning() {
     enableRowOrdering: true,
     enableRowSelection: true,
     enableMultiRowSelection: false,
+    editDisplayMode: "cell",
+    //optionally, use single-click to activate editing mode instead of default double-click
+    muiTableBodyCellProps: ({ cell, column, table }) => ({
+      onClick: () => {
+        table.setEditingCell(cell); //set editing cell
+        //optionally, focus the text field
+        queueMicrotask(() => {
+          const textField = table.refs.editInputRefs.current[column.id];
+          if (textField) {
+            textField.focus();
+            textField.select?.();
+          }
+        });
+      },
+    }),
     //select row
     getRowId: (row) => row.id.toString(),
     muiTableBodyRowProps: ({ row }) => ({
@@ -126,7 +147,6 @@ export default function ProductionPlanning() {
               productionResult[hoveredRow.index].id;
             productionResult[hoveredRow.index].id = idOld;
           }
-
           productionResult.splice(
             (hoveredRow as MRT_Row<ProductionPlanTimesTotal>).index,
             0,
@@ -156,6 +176,9 @@ export default function ProductionPlanning() {
       </Box>
     ),
   });
+
+  //write table to redux store
+  dispatch(setProductionPlan(data));
 
   return <MaterialReactTable table={table} />;
 }
