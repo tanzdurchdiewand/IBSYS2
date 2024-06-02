@@ -28,9 +28,12 @@ export default function ProductionPlanning() {
   const dispatch = useDispatch();
 
   //workingarea
-  const data: ProductionPlan = {
+  let data: ProductionPlan = {
     productionPlan: [],
   };
+  Object.defineProperty(data, "productionPlan", {
+    writable: true,
+  });
 
   //requiered material for each product
   let p1: PlanningWarehouseStock[] = [];
@@ -56,10 +59,15 @@ export default function ProductionPlanning() {
     p3
   );
 
+  //Save data
+  data.productionPlan = [...finalProductionOrders];
+
+  //Simulate Produktion
   let production: ProductionPlanTimes[] = SimulateProduction(
     finalProductionOrders
   );
 
+  //Generate Data for View in Table
   let productionPlanTimesTotal: ProductionPlanTimesTotal[] =
     GenerateProductionWithString(production);
 
@@ -70,22 +78,26 @@ export default function ProductionPlanning() {
       header: i18n.t("productionPlanning.order"),
       grow: true,
       size: 100,
+      enableEditing: false,
     },
     {
       accessorKey: "item",
       header: i18n.t("productionPlanning.item"),
       grow: true,
       size: 100,
+      enableEditing: false,
     },
     {
       accessorKey: "amount",
       header: i18n.t("productionPlanning.amount"),
       grow: true,
+      enableEditing: true,
     },
     {
       accessorKey: "workstationTimeAsString",
       header: i18n.t("productionPlanning.times"),
       grow: true,
+      enableEditing: false,
     },
   ];
 
@@ -110,6 +122,37 @@ export default function ProductionPlanning() {
     enableRowOrdering: true,
     enableRowSelection: true,
     enableMultiRowSelection: false,
+    editDisplayMode: "cell",
+    muiEditTextFieldProps: ({ cell }) => ({
+      onChange: (event) => {
+        //set new values for data;
+        const Property = Object.getOwnPropertyDescriptor(
+          data.productionPlan[1],
+          "amount"
+        );
+        console.log(Property);
+        setDataOnFieldChange(
+          Number(),
+          cell.row._valuesCache.amount,
+          data,
+          productionOrders
+        );
+      },
+    }),
+    //optionally, use single-click to activate editing mode instead of default double-click
+    muiTableBodyCellProps: ({ cell, column, table }) => ({
+      onClick: () => {
+        table.setEditingCell(cell); //set editing cell
+        //optionally, focus the text field
+        queueMicrotask(() => {
+          const textField = table.refs.editInputRefs.current[column.id];
+          if (textField) {
+            textField.focus();
+            textField.select?.();
+          }
+        });
+      },
+    }),
     //select row
     getRowId: (row) => row.id.toString(),
     muiTableBodyRowProps: ({ row }) => ({
@@ -132,7 +175,6 @@ export default function ProductionPlanning() {
               productionResult[hoveredRow.index].id;
             productionResult[hoveredRow.index].id = idOld;
           }
-
           productionResult.splice(
             (hoveredRow as MRT_Row<ProductionPlanTimesTotal>).index,
             0,
@@ -163,6 +205,9 @@ export default function ProductionPlanning() {
       </Box>
     ),
   });
+
+  //write table to redux store
+  dispatch(setProductionPlan(data));
 
   return <MaterialReactTable table={table} />;
 }
@@ -955,4 +1000,27 @@ export function splitOrder(
   newProductionPlan = GenerateProductionWithString(production);
 
   return newProductionPlan;
+}
+
+export function setDataOnFieldChange(
+  index: number,
+  newValue: number,
+  data: ProductionPlan,
+  productionOrders: PlanningWarehouseStock[]
+) {
+  //set new value
+  //data.productionPlan[index].amount = newValue;
+
+  //Check correct values for current Change
+  let item = data.productionPlan[index].id;
+  let sum = 0;
+  let total = productionOrders.find((element) => (element.id = item));
+
+  data.productionPlan.forEach(function (order, i) {
+    if (order.id === item) {
+      sum += order.amount;
+    }
+  });
+
+  console.log(sum, total);
 }
