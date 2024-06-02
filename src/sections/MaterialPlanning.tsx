@@ -62,7 +62,7 @@ export default function MaterialPlanning() {
   }, [dispatch]);
 
   const backPath = "/start/produktion";
-  const forwardPath = "/start/order";
+  const forwardPath = "/start/capacity";
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

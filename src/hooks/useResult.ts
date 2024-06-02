@@ -29,6 +29,9 @@ export const useResult = () => {
   const capacitySummaryRows = useSelector(
     (state: RootState) => state.inputCapacityPlanning.summaryRows
   );
+  const productionPlan = useSelector(
+    (state: RootState) => state.productionPlanning.list.productionPlan
+  );
 
   const sellwish = useSelector((state: RootState) => state.resultXml.sellwish);
 
@@ -41,6 +44,7 @@ export const useResult = () => {
   const productionlist = useSelector(
     (state: RootState) => state.resultXml.productionlist
   );
+
   const workingtimelist = useSelector(
     (state: RootState) => state.resultXml.workingtimelist
   );
@@ -57,7 +61,11 @@ export const useResult = () => {
       )
     );
     // TODO Data still Mocked
-    dispatch(setProductionlistData(initializeProductionListResult()));
+    dispatch(
+      setProductionlistData(initializeProductionListResult(productionPlan!))
+    );
+    console.log("productionPlan", productionPlan, productionlist);
+    // dispatch(setProductionlistData(productionlist!));
   }, [dispatch, productionProgramm, orderPlanning, capacitySummaryRows]);
 
   return { sellwish, selldirect, orderlist, productionlist, workingtimelist };

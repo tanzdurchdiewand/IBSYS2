@@ -34,7 +34,7 @@ export default function CapacityPlanning() {
   const { goTo } = useNavigationHandler();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setStepper(5));
+    dispatch(setStepper(3));
   }, [dispatch]);
   const { capacityRows, summaryRows, handleValueChange } =
     useCapacityPlanning();
@@ -106,7 +106,7 @@ export default function CapacityPlanning() {
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
-        onClick={() => goTo("/start/production", Direction.Back)}
+        onClick={() => goTo("/start/material", Direction.Back)}
         sx={{ left: 0 }}
         tooltip="Previous Step"
       >
@@ -195,7 +195,7 @@ export default function CapacityPlanning() {
         </TableContainer>
       </StyledCard>
       <StyledButton
-        onClick={() => goTo("/start/result", Direction.Forward)}
+        onClick={() => goTo("/start/order", Direction.Forward)}
         sx={{ right: 0 }}
         tooltip="Next Step"
       >

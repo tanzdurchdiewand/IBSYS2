@@ -125,7 +125,7 @@ export default function Result() {
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
-        onClick={() => goTo("/start/capacity", Direction.Back)}
+        onClick={() => goTo("/start/production", Direction.Back)}
         sx={{ left: 0 }}
         tooltip="Previous Step"
       >

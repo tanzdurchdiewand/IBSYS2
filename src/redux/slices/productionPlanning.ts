@@ -34,7 +34,7 @@ const slice = createSlice({
   name: "inputXML",
   initialState,
   reducers: {
-    setProductionPlan: (state, action: PayloadAction<ProductionPlan>) => {
+    setProductionPlan: (state, action: PayloadAction<any>) => {
       state.list.productionPlan = action.payload;
     },
   },
@@ -42,6 +42,3 @@ const slice = createSlice({
 
 export default slice.reducer;
 export const { setProductionPlan } = slice.actions;
-
-
-

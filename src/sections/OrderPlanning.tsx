@@ -38,13 +38,13 @@ export default function OrderPlanning() {
   const dispatch = useDispatch();
   const theme = useTheme();
   useEffect(() => {
-    dispatch(setStepper(3));
+    dispatch(setStepper(4));
   }, [dispatch]);
 
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton
-        onClick={() => goTo("/start/material", Direction.Back)}
+        onClick={() => goTo("/start/capacity", Direction.Back)}
         sx={{ left: 0 }}
         tooltip="Previous Step"
       >

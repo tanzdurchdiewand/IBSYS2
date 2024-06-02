@@ -18,7 +18,7 @@ export default function DisplayProductionPlanning() {
   const { goTo } = useNavigationHandler();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setStepper(4));
+    dispatch(setStepper(5));
   }, [dispatch]);
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
@@ -33,7 +33,7 @@ export default function DisplayProductionPlanning() {
         <ProductionPlanning />
       </StyledCard>
       <StyledButton
-        onClick={() => goTo("/start/capacity", Direction.Forward)}
+        onClick={() => goTo("/start/result", Direction.Forward)}
         sx={{ right: 0 }}
         tooltip="Next Step"
       >

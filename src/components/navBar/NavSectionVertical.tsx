@@ -49,6 +49,14 @@ export default function NavSectionVertical() {
           </StepContent>
         </Step>
         <Step>
+          <StepLabel>{`${i18n.t("navBar.capacityPlanning")}`}</StepLabel>
+          <StepContent>
+            <Typography>{`${i18n.t(
+              "navBarText.capacityPlanningText"
+            )}`}</Typography>
+          </StepContent>
+        </Step>
+        <Step>
           <StepLabel>{`${i18n.t("navBar.orderPlanning")}`}</StepLabel>
           <StepContent>
             <Typography>{`${i18n.t(
@@ -61,14 +69,6 @@ export default function NavSectionVertical() {
           <StepContent>
             <Typography>{`${i18n.t(
               "navBarText.productionPlanningText"
-            )}`}</Typography>
-          </StepContent>
-        </Step>
-        <Step>
-          <StepLabel>{`${i18n.t("navBar.capacityPlanning")}`}</StepLabel>
-          <StepContent>
-            <Typography>{`${i18n.t(
-              "navBarText.capacityPlanningText"
             )}`}</Typography>
           </StepContent>
         </Step>

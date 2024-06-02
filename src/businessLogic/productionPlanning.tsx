@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RootState, useDispatch, useSelector } from "../redux/store";
 import { Box, Button, Container, IconButton } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import i18n from "../locals/i18n";
 import {
   useMaterialReactTable,
@@ -91,6 +91,12 @@ export default function ProductionPlanning() {
 
   const [productionResult, setData] = useState(() => productionPlanTimesTotal);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
+  useEffect(() => {
+    const productionPlan = {
+      productionPlan: productionResult,
+    };
+    dispatch(setProductionPlan(productionPlan));
+  }, [dispatch, productionResult]);
 
   //TODO: Editieren vom Amount Feld
   const table = useMaterialReactTable({
@@ -133,6 +139,7 @@ export default function ProductionPlanning() {
             productionResult.splice(draggingRow.index, 1)[0]
           );
           setData([...productionResult]);
+          // setProductionPlan([...productionResult]);
         }
       },
     }),
