@@ -28,7 +28,7 @@ export default function ProductionPlanning() {
   const dispatch = useDispatch();
 
   //workingarea
-  let data: ProductionPlan = {
+  var data: ProductionPlan = {
     productionPlan: [],
   };
   Object.defineProperty(data, "productionPlan", {
@@ -110,6 +110,9 @@ export default function ProductionPlanning() {
     dispatch(setProductionPlan(productionPlan));
   }, [dispatch, productionResult]);
 
+  const [dataTest, setDataTest] = useState(data);
+  console.log(dataTest, data);
+
   //TODO: Editieren vom Amount Feld
   const table = useMaterialReactTable({
     columns,
@@ -130,13 +133,14 @@ export default function ProductionPlanning() {
           data.productionPlan[1],
           "amount"
         );
-        console.log(Property);
-        setDataOnFieldChange(
-          Number(),
-          cell.row._valuesCache.amount,
-          data,
-          productionOrders
-        );
+        productionResult[cell.row.index].amount = cell.row._valuesCache.amount;
+        console.log(productionResult, table);
+        // setDataOnFieldChange(
+        //   Number(),
+        //   cell.row._valuesCache.amount,
+        //   data,
+        //   productionOrders
+        // );
       },
     }),
     //optionally, use single-click to activate editing mode instead of default double-click
@@ -205,6 +209,31 @@ export default function ProductionPlanning() {
       </Box>
     ),
   });
+
+  function setDataOnFieldChange(
+    index: number,
+    newValue: number,
+    data: ProductionPlan,
+    productionOrders: PlanningWarehouseStock[]
+  ) {
+    //set new value
+    //data.productionPlan[index].amount = newValue;
+
+    //setDataTest();
+
+    //Check correct values for current Change
+    let item = data.productionPlan[index].id;
+    let sum = 0;
+    let total = productionOrders.find((element) => (element.id = item));
+
+    data.productionPlan.forEach(function (order, i) {
+      if (order.id === item) {
+        sum += order.amount;
+      }
+    });
+
+    console.log(sum, total);
+  }
 
   //write table to redux store
   dispatch(setProductionPlan(data));
@@ -1000,27 +1029,4 @@ export function splitOrder(
   newProductionPlan = GenerateProductionWithString(production);
 
   return newProductionPlan;
-}
-
-export function setDataOnFieldChange(
-  index: number,
-  newValue: number,
-  data: ProductionPlan,
-  productionOrders: PlanningWarehouseStock[]
-) {
-  //set new value
-  //data.productionPlan[index].amount = newValue;
-
-  //Check correct values for current Change
-  let item = data.productionPlan[index].id;
-  let sum = 0;
-  let total = productionOrders.find((element) => (element.id = item));
-
-  data.productionPlan.forEach(function (order, i) {
-    if (order.id === item) {
-      sum += order.amount;
-    }
-  });
-
-  console.log(sum, total);
 }
