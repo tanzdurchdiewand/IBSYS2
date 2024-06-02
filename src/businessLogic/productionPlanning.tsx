@@ -31,6 +31,9 @@ export default function ProductionPlanning() {
   let data: ProductionPlan = {
     productionPlan: [],
   };
+  Object.defineProperty(data, "productionPlan", {
+    writable: true,
+  });
 
   //requiered material for each product
   let p1: PlanningWarehouseStock[] = [];
@@ -56,12 +59,15 @@ export default function ProductionPlanning() {
     p3
   );
 
+  //Save data
   data.productionPlan = [...finalProductionOrders];
 
+  //Simulate Produktion
   let production: ProductionPlanTimes[] = SimulateProduction(
     finalProductionOrders
   );
 
+  //Generate Data for View in Table
   let productionPlanTimesTotal: ProductionPlanTimesTotal[] =
     GenerateProductionWithString(production);
 
@@ -111,6 +117,22 @@ export default function ProductionPlanning() {
     enableRowSelection: true,
     enableMultiRowSelection: false,
     editDisplayMode: "cell",
+    muiEditTextFieldProps: ({ cell }) => ({
+      onChange: (event) => {
+        //set new values for data;
+        const Property = Object.getOwnPropertyDescriptor(
+          data.productionPlan[1],
+          "amount"
+        );
+        console.log(Property);
+        setDataOnFieldChange(
+          Number(),
+          cell.row._valuesCache.amount,
+          data,
+          productionOrders
+        );
+      },
+    }),
     //optionally, use single-click to activate editing mode instead of default double-click
     muiTableBodyCellProps: ({ cell, column, table }) => ({
       onClick: () => {
@@ -971,4 +993,27 @@ export function splitOrder(
   newProductionPlan = GenerateProductionWithString(production);
 
   return newProductionPlan;
+}
+
+export function setDataOnFieldChange(
+  index: number,
+  newValue: number,
+  data: ProductionPlan,
+  productionOrders: PlanningWarehouseStock[]
+) {
+  //set new value
+  //data.productionPlan[index].amount = newValue;
+
+  //Check correct values for current Change
+  let item = data.productionPlan[index].id;
+  let sum = 0;
+  let total = productionOrders.find((element) => (element.id = item));
+
+  data.productionPlan.forEach(function (order, i) {
+    if (order.id === item) {
+      sum += order.amount;
+    }
+  });
+
+  console.log(sum, total);
 }
