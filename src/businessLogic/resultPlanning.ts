@@ -155,16 +155,10 @@ export function mapSummaryRowToWorkingTimeList(
   // Maximale Überstunden pro Periode (50% der Grundkapazität)
   const maxOvertimePerPeriod = baseCapacityPerPeriod / 2;
 
-  // Zusätzliche Kapazität durch Überstunden und Schichten
-  let additionalCapacity = 0;
-
   // Durchgehen der Werte für Überstunden und Schichten
   values.forEach((overtime, index) => {
     // Überstunden pro Periode begrenzen
     const cappedOvertime = Math.min(overtime, maxOvertimePerPeriod);
-
-    // Zusätzliche Kapazität für Überstunden und Schichten
-    additionalCapacity += cappedOvertime;
 
     // Hinzufügen der Arbeitszeit für die Schicht ohne Überstunden
     const baseWorkingTime: WorkingTime = {
