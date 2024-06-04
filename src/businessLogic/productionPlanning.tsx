@@ -1,12 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RootState, useDispatch, useSelector } from "../redux/store";
-import { Box, Button, Container, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import i18n from "../locals/i18n";
 import {
   useMaterialReactTable,
   MRT_Row,
   MRT_RowSelectionState,
+  MRT_ColumnDef,
 } from "material-react-table";
 import {
   PlanningWorkstation,
@@ -22,6 +30,7 @@ import {
 import { Article } from "../types/inputXMLTypes";
 import { setProductionPlan } from "../redux/slices/productionPlanning";
 import { MaterialReactTable } from "material-react-table";
+
 export default function ProductionPlanning() {
   //Redux
   useSelector((state: RootState) => state.inputProductionProgramm.data);
@@ -71,44 +80,128 @@ export default function ProductionPlanning() {
   let productionPlanTimesTotal: ProductionPlanTimesTotal[] =
     GenerateProductionWithString(production);
 
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string | undefined>
+  >({});
+
+  const productionPlanData = productionPlanTimesTotal;
+
+  const [testProductionResult, setTestProductionResult] =
+    useState<ProductionPlanTimesTotal>();
+
+  const columns = useMemo<MRT_ColumnDef<ProductionPlanTimesTotal>[]>(
+    () => [
+      {
+        accessorKey: "id",
+        header: "Id",
+        enableEditing: false,
+        size: 80,
+      },
+      {
+        accessorKey: "item",
+        header: "Item",
+        enableEditing: false,
+        size: 80,
+      },
+      {
+        accessorKey: "amount",
+        header: "Amount",
+        muiEditTextFieldProps: ({ cell, row }) => ({
+          type: "number",
+          required: true,
+          error: !!validationErrors?.[cell.id],
+          helperText: validationErrors?.[cell.id],
+          //store edited user in state to be saved later
+          onBlur: (event) => {
+            const validationError = event.currentTarget.value
+              ? "Required"
+              : undefined;
+            setValidationErrors({
+              ...validationErrors,
+              [cell.id]: validationError,
+            });
+            setTestProductionResult(row._valuesCache);
+          },
+        }),
+      },
+      {
+        accessorKey: "workstationTimeAsString",
+        header: "WorkstationTimeAsString",
+        enableEditing: false,
+        size: 80,
+      },
+    ],
+    [testProductionResult, validationErrors]
+  );
+
   //Anzeige
-  const columns = [
-    {
-      accessorKey: "id",
-      header: i18n.t("productionPlanning.order"),
-      grow: true,
-      size: 100,
-      enableEditing: false,
-    },
-    {
-      accessorKey: "item",
-      header: i18n.t("productionPlanning.item"),
-      grow: true,
-      size: 100,
-      enableEditing: false,
-    },
-    {
-      accessorKey: "amount",
-      header: i18n.t("productionPlanning.amount"),
-      grow: true,
-      enableEditing: true,
-    },
-    {
-      accessorKey: "workstationTimeAsString",
-      header: i18n.t("productionPlanning.times"),
-      grow: true,
-      enableEditing: false,
-    },
-  ];
+  // const columns = [
+  //   {
+  //     accessorKey: "id",
+  //     header: i18n.t("productionPlanning.order"),
+  //     grow: true,
+  //     size: 100,
+  //     enableEditing: false,
+  //   },
+  //   {
+  //     accessorKey: "item",
+  //     header: i18n.t("productionPlanning.item"),
+  //     grow: true,
+  //     size: 100,
+  //     enableEditing: false,
+  //   },
+  //   {
+  //     accessorKey: "amount",
+  //     header: i18n.t("productionPlanning.amount"),
+  //     grow: true,
+  //     enableEditing: true,
+  //   },
+  //   {
+  //     accessorKey: "workstationTimeAsString",
+  //     header: i18n.t("productionPlanning.times"),
+  //     grow: true,
+  //     enableEditing: false,
+  //   },
+  // ];
+
+  console.log(testProductionResult);
 
   const [productionResult, setData] = useState(() => productionPlanTimesTotal);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
+
+  function updateProductionResult(
+    testProductionResult: ProductionPlanTimesTotal
+  ) {
+    // Erstellen Sie eine Kopie von productionResult
+    const updatedProductionResult = [...productionResult];
+
+    // Durchlaufen Sie das updatedProductionResult Array
+    for (let i = 0; i < updatedProductionResult.length; i++) {
+      // Wenn das aktuelle Element dem testProductionResult entspricht
+      if (updatedProductionResult[i].id === testProductionResult.id) {
+        // Aktualisieren Sie das Element
+        updatedProductionResult[i] = testProductionResult;
+        break;
+      }
+    }
+
+    // Aktualisieren Sie den Zustand mit der aktualisierten Liste
+    setData(updatedProductionResult);
+  }
+
   useEffect(() => {
     const productionPlan = {
       productionPlan: productionResult,
     };
     dispatch(setProductionPlan(productionPlan));
   }, [dispatch, productionResult]);
+
+  const handleSaveUsers = async () => {
+    if (testProductionResult) {
+      updateProductionResult(testProductionResult);
+    }
+    console.log("Save", testProductionResult);
+  };
 
   //TODO: Editieren vom Amount Feld
   const table = useMaterialReactTable({
@@ -123,22 +216,22 @@ export default function ProductionPlanning() {
     enableRowSelection: true,
     enableMultiRowSelection: false,
     editDisplayMode: "cell",
-    muiEditTextFieldProps: ({ cell }) => ({
-      onChange: (event) => {
-        //set new values for data;
-        const Property = Object.getOwnPropertyDescriptor(
-          data.productionPlan[1],
-          "amount"
-        );
-        console.log(Property);
-        setDataOnFieldChange(
-          Number(),
-          cell.row._valuesCache.amount,
-          data,
-          productionOrders
-        );
-      },
-    }),
+    // muiEditTextFieldProps: ({ cell }) => ({
+    //   onChange: (event) => {
+    //     //set new values for data;
+    //     const Property = Object.getOwnPropertyDescriptor(
+    //       data.productionPlan[1],
+    //       "amount"
+    //     );
+    //     console.log(Property);
+    //     setDataOnFieldChange(
+    //       Number(),
+    //       cell.row._valuesCache.amount,
+    //       data,
+    //       productionOrders
+    //     );
+    //   },
+    // }),
     //optionally, use single-click to activate editing mode instead of default double-click
     muiTableBodyCellProps: ({ cell, column, table }) => ({
       onClick: () => {
@@ -170,18 +263,22 @@ export default function ProductionPlanning() {
         if (hoveredRow && draggingRow) {
           //set new order in productionResult
           if (hoveredRow.index !== undefined) {
-            const idOld = productionResult[draggingRow.index].id;
-            productionResult[draggingRow.index].id =
-              productionResult[hoveredRow.index].id;
-            productionResult[hoveredRow.index].id = idOld;
+            // create a deep copy of the array
+            const updatedProductionResult = JSON.parse(
+              JSON.stringify(productionResult)
+            );
+            const idOld = updatedProductionResult[draggingRow.index].id;
+            updatedProductionResult[draggingRow.index].id =
+              updatedProductionResult[hoveredRow.index].id;
+            updatedProductionResult[hoveredRow.index].id = idOld;
+
+            updatedProductionResult.splice(
+              (hoveredRow as MRT_Row<ProductionPlanTimesTotal>).index,
+              0,
+              updatedProductionResult.splice(draggingRow.index, 1)[0]
+            );
+            setData(updatedProductionResult);
           }
-          productionResult.splice(
-            (hoveredRow as MRT_Row<ProductionPlanTimesTotal>).index,
-            0,
-            productionResult.splice(draggingRow.index, 1)[0]
-          );
-          setData([...productionResult]);
-          // setProductionPlan([...productionResult]);
         }
       },
     }),
@@ -189,7 +286,7 @@ export default function ProductionPlanning() {
     renderTopToolbarCustomActions: ({ table }) => (
       <Box sx={{ display: "flex", gap: "4px", p: "4px" }}>
         <Button
-          color="secondary"
+          color="success"
           onClick={() => {
             let splitId = Object.keys(rowSelection);
             let rowData: ProductionPlanTimesTotal[] = splitOrder(
@@ -201,6 +298,14 @@ export default function ProductionPlanning() {
           variant="contained"
         >
           {i18n.t("productionPlanning.splitOrder")}
+        </Button>
+        <Button
+          color="success"
+          variant="contained"
+          onClick={handleSaveUsers}
+          // disabled={Object.keys(testProductionResult).length === 0}
+        >
+          {"Save"}
         </Button>
       </Box>
     ),
