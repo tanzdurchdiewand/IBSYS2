@@ -1,13 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RootState, useDispatch, useSelector } from "../redux/store";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import i18n from "../locals/i18n";
 import {
@@ -119,12 +112,12 @@ export default function ProductionPlanning() {
         }),
       },
     ],
-    [testProductionResult, validationErrors]
+    [validationErrors]
   );
 
   console.log(testProductionResult);
 
-  const [productionResult, setData] = useState(() => productionPlanTimesTotal);
+  const [productionResult, setData] = useState(productionPlanData);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
   function updateProductionResult(
