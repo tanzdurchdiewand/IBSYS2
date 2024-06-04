@@ -92,12 +92,6 @@ export default function ProductionPlanning() {
   const columns = useMemo<MRT_ColumnDef<ProductionPlanTimesTotal>[]>(
     () => [
       {
-        accessorKey: "id",
-        header: "Id",
-        enableEditing: false,
-        size: 80,
-      },
-      {
         accessorKey: "item",
         header: "Item",
         enableEditing: false,
@@ -124,45 +118,9 @@ export default function ProductionPlanning() {
           },
         }),
       },
-      {
-        accessorKey: "workstationTimeAsString",
-        header: "WorkstationTimeAsString",
-        enableEditing: false,
-        size: 80,
-      },
     ],
     [testProductionResult, validationErrors]
   );
-
-  //Anzeige
-  // const columns = [
-  //   {
-  //     accessorKey: "id",
-  //     header: i18n.t("productionPlanning.order"),
-  //     grow: true,
-  //     size: 100,
-  //     enableEditing: false,
-  //   },
-  //   {
-  //     accessorKey: "item",
-  //     header: i18n.t("productionPlanning.item"),
-  //     grow: true,
-  //     size: 100,
-  //     enableEditing: false,
-  //   },
-  //   {
-  //     accessorKey: "amount",
-  //     header: i18n.t("productionPlanning.amount"),
-  //     grow: true,
-  //     enableEditing: true,
-  //   },
-  //   {
-  //     accessorKey: "workstationTimeAsString",
-  //     header: i18n.t("productionPlanning.times"),
-  //     grow: true,
-  //     enableEditing: false,
-  //   },
-  // ];
 
   console.log(testProductionResult);
 
@@ -216,22 +174,6 @@ export default function ProductionPlanning() {
     enableRowSelection: true,
     enableMultiRowSelection: false,
     editDisplayMode: "cell",
-    // muiEditTextFieldProps: ({ cell }) => ({
-    //   onChange: (event) => {
-    //     //set new values for data;
-    //     const Property = Object.getOwnPropertyDescriptor(
-    //       data.productionPlan[1],
-    //       "amount"
-    //     );
-    //     console.log(Property);
-    //     setDataOnFieldChange(
-    //       Number(),
-    //       cell.row._valuesCache.amount,
-    //       data,
-    //       productionOrders
-    //     );
-    //   },
-    // }),
     //optionally, use single-click to activate editing mode instead of default double-click
     muiTableBodyCellProps: ({ cell, column, table }) => ({
       onClick: () => {
@@ -310,36 +252,13 @@ export default function ProductionPlanning() {
       </Box>
     ),
   });
-
-  function setDataOnFieldChange(
-    index: number,
-    newValue: number,
-    data: ProductionPlan,
-    productionOrders: PlanningWarehouseStock[]
-  ) {
-    //set new value
-    //data.productionPlan[index].amount = newValue;
-
-    //setDataTest();
-
-    //Check correct values for current Change
-    let item = data.productionPlan[index].id;
-    let sum = 0;
-    let total = productionOrders.find((element) => (element.id = item));
-
-    data.productionPlan.forEach(function (order, i) {
-      if (order.id === item) {
-        sum += order.amount;
-      }
-    });
-
-    console.log(sum, total);
-  }
-
-  //write table to redux store
   dispatch(setProductionPlan(data));
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <Box sx={{ width: "100%" }}>
+      <MaterialReactTable table={table} />
+    </Box>
+  );
 }
 
 //set total production orders
