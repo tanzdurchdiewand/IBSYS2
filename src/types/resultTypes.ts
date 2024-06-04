@@ -39,7 +39,7 @@ export type Production = {
 };
 
 export type WorkingTimeList = {
-  worrkingTime: WorkingTime[];
+  workingTime: WorkingTime[];
 };
 
 export type WorkingTime = {

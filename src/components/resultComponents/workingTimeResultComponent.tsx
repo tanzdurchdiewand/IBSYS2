@@ -35,7 +35,7 @@ export default function WorkingTimeResultComponent() {
         </TableHead>
         <TableBody>
           {workingTimes &&
-            workingTimes?.worrkingTime.map((workingTimeItem) => (
+            workingTimes?.workingTime.map((workingTimeItem) => (
               <TableRow key={workingTimeItem.station.toString()}>
                 <TableCell>{workingTimeItem.station.toString()}</TableCell>
                 <TableCell>{workingTimeItem.overtime.toString()}</TableCell>

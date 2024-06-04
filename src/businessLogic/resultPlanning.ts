@@ -120,8 +120,8 @@ function mapMaterialOrderPlanningToOrderList(
           orderType === OrderType.Normal
             ? 5
             : orderType === OrderType.Fast
-            ? 4
-            : 5,
+              ? 4
+              : 5,
       };
 
       // Only add to Orders if we need to Order the Article
@@ -147,12 +147,36 @@ export function mapSummaryRowToWorkingTimeList(
 
   const { values } = shiftsAndOvertimesRow;
 
-  // TODO Shifts
-  const workingTimes: WorkingTime[] = values.map((overtime, index) => ({
-    station: index + 1,
-    shift: 1,
-    overtime: overtime,
-  }));
+  const workingTimes: WorkingTime[] = [];
 
-  return { worrkingTime: workingTimes };
+  // Grundkapazität pro Arbeitsplatz pro Periode
+  const baseCapacityPerPeriod = 2400; // Minuten
+
+  // Maximale Überstunden pro Periode (50% der Grundkapazität)
+  const maxOvertimePerPeriod = baseCapacityPerPeriod / 2;
+
+  // Zusätzliche Kapazität durch Überstunden und Schichten
+  let additionalCapacity = 0;
+
+  // Durchgehen der Werte für Überstunden und Schichten
+  values.forEach((overtime, index) => {
+    // Überstunden pro Periode begrenzen
+    const cappedOvertime = Math.min(overtime, maxOvertimePerPeriod);
+
+    // Zusätzliche Kapazität für Überstunden und Schichten
+    additionalCapacity += cappedOvertime;
+
+    // Hinzufügen der Arbeitszeit für die Schicht ohne Überstunden
+    const baseWorkingTime: WorkingTime = {
+      station: index + 1,
+      shift: 1,
+      overtime: baseCapacityPerPeriod + cappedOvertime, // Standardkapazität plus Überstunden
+    };
+    workingTimes.push(baseWorkingTime);
+  });
+
+  return { workingTime: workingTimes };
 }
+
+
+
