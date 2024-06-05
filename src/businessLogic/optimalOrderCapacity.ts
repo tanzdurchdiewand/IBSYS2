@@ -205,6 +205,7 @@ export const optimalOrderCapacity = (
       produkt.Bestellmenge = 0;
     } else {
       if (ZeitpunktLeer - (produkt.Lieferzeit + produkt.Abweichung) < 0) {
+        console.log("Express order");
         produkt.Bestellart = "Express order";
 
         if (produkt.RabattMenge - produkt.BedarfWoche1 <= 0) {
@@ -283,6 +284,7 @@ export const optimalOrderCapacity = (
           produkt.Bestellmenge = produkt.RabattMenge;
         }
       } else {
+        console.log("Standard order");
         produkt.Bestellart = "Standard order";
         produkt.Bestellmenge = produkt.RabattMenge;
       }
