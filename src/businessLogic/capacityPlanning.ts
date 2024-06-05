@@ -4,6 +4,7 @@ import {
   SummaryTable,
   capacityPlanningData,
 } from "../types/capacityPlanningTypes";
+import { GameData, WaitingWorkplace, WaitinglistWorkstations } from "../types/inputXMLTypes";
 import { ProductionProgramm, WORKSTATION_SETUP_TIMES } from "../types/productionPlanningTypes";
 
 export function initializeCapacityPlanning(
@@ -32,6 +33,7 @@ export function initializeCapacityPlanning(
 export function initializeCapacityPlanningSummary(
   capacityPlanning: CapacityPlanningTable,
   summaryTable: SummaryTable | null,
+  gameData: GameData
 ): SummaryTable {
   const generateArray = (): number[] => Array.from({ length: 15 }).map(() => 0);
 
@@ -50,10 +52,13 @@ export function initializeCapacityPlanningSummary(
       // Fülle die Kapazitätsanforderungen
       capacityRequirements[index] += num;
 
-      // Berechne die Setup-Zeiten und Vorgängerperioden
+      // Berechne die Setup-Zeiten
       const setupTime = getSetupTime(workstationIndex + 1);
       setupTimes[workstationIndex] += setupTime;
-      setupTimePreviousPeriods[workstationIndex] = 0;
+
+      // Hänge die Rüstzeiten der Vorperiode ein
+      const previousPeriodSetupTime = getPreviousPeriodSetupTime(workstationIndex + 1, gameData);
+      setupTimePreviousPeriods[workstationIndex] += previousPeriodSetupTime;
     });
   });
 
@@ -63,7 +68,6 @@ export function initializeCapacityPlanningSummary(
     shiftsAndOvertimes[i] = Math.max(totalCapacityRequirements[i] - MINUTES_PER_PERIOD, 0); // Überstunden berechnen
     shiftsAndOvertimePerDays[i] = shiftsAndOvertimes[i] / 5; // Überstunden pro Tag berechnen
   }
-
 
   const capacitySummaryPlanning: SummaryTable = generateSummaryRows(
     capacityRequirements,
@@ -76,10 +80,29 @@ export function initializeCapacityPlanningSummary(
 
   return capacitySummaryPlanning;
 
+  // Funktion zur Berechnung der Setup-Zeiten
   function getSetupTime(workstationIndex: number): number {
     return WORKSTATION_SETUP_TIMES[workstationIndex] || 0;
   }
+
+  // TODO: funktioniert nicht wie es soll glaub ich
+  function getPreviousPeriodSetupTime(workstationIndex: number, gameData: GameData): number {
+    const waitinglistworkstations: WaitinglistWorkstations = gameData.results.waitinglistworkstations;
+    const workplace: WaitingWorkplace[] = waitinglistworkstations[`workplace${workstationIndex}` as keyof WaitinglistWorkstations];
+    let setupTime = 0;
+
+    if (workplace) {
+      // Durchlaufe die Warteschlangen für die Arbeitsstation
+      workplace.forEach((waitinglist: any) => {
+        // Addiere die Zeit für jede Warteschlange
+        setupTime += parseInt(waitinglist.timeneed);
+      });
+    }
+
+    return setupTime;
+  }
 }
+
 
 
 const getProductProductionQuantity = (
