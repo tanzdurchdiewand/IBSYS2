@@ -33,7 +33,7 @@ export type ProductionList = {
 };
 
 export type Production = {
-  id: number;
+  id?: number;
   article: number;
   quantity: number;
 };

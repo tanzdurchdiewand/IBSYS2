@@ -68,7 +68,6 @@ export function initializeProductionListResult(
 ): ProductionList {
   const productionList: ProductionList = {
     production: productionPlan.productionPlan.map((item) => ({
-      id: item.id,
       article: item.item || 0, // Falls item.item undefined ist, wird 0 als Standardwert gesetzt
       quantity: item.amount,
     })),
@@ -76,22 +75,6 @@ export function initializeProductionListResult(
 
   return productionList;
 }
-
-// export function initializeProductionListResult(
-//   productionPlan: ProductionPlan
-// ): ProductionList {
-//   // TODO Still Mock data  ID = Reinfolge
-//   const productionList: ProductionList = productionPlan;
-//   // const productionList: ProductionList = {
-//   //   production: [
-//   //     { id: 1, article: 1, quantity: 1000 },
-//   //     { id: 2, article: 2, quantity: 1200 },
-//   //     { id: 3, article: 3, quantity: 1400 },
-//   //   ],
-//   // };
-
-//   return productionList;
-// }
 
 export function initializeWorkingTimeListResult(
   capacitySummaryRows: SummaryTable
