@@ -109,7 +109,6 @@ interface Product {
   BedarfWoche1: number;
   BedarfWoche2: number;
   BedarfWoche3: number;
-  BedarfWoche4: number;
   Lieferzeit: number;
   Abweichung: number;
   RabattMenge: number;
@@ -136,7 +135,6 @@ export const optimalOrderCapacity = (
     BedarfWoche1: 0,
     BedarfWoche2: 0,
     BedarfWoche3: 0,
-    BedarfWoche4: 0,
     Lieferzeit: materialOrderPlanning[key].deliveryTime,
     Abweichung: materialOrderPlanning[key].deviation,
     RabattMenge: materialOrderPlanning[key].discountQuantity,
@@ -173,22 +171,11 @@ export const optimalOrderCapacity = (
       produkt.UsedInP3 *
         produktprogramm.P3.forecast[2].salesOrder.productionWish;
 
-    produkt.BedarfWoche4 =
-      produkt.UsedInP1 *
-        produktprogramm.P1.forecast[3].salesOrder.productionWish +
-      produkt.UsedInP2 *
-        produktprogramm.P2.forecast[3].salesOrder.productionWish +
-      produkt.UsedInP3 *
-        produktprogramm.P3.forecast[3].salesOrder.productionWish;
-
     let ZeitpunktLeer = 0;
 
     if (
       produkt.Warenbestand -
-        (produkt.BedarfWoche1 +
-          produkt.BedarfWoche2 +
-          produkt.BedarfWoche3 +
-          produkt.BedarfWoche4) <=
+        (produkt.BedarfWoche1 + produkt.BedarfWoche2 + produkt.BedarfWoche3) <=
       0
     ) {
       ZeitpunktLeer = 4;
@@ -272,26 +259,23 @@ export const optimalOrderCapacity = (
           produkt.RabattMenge -
             (produkt.BedarfWoche1 +
               produkt.BedarfWoche2 +
-              produkt.BedarfWoche3 +
-              produkt.BedarfWoche4) <=
+              produkt.BedarfWoche3) <=
             0 &&
-          produkt.Lieferzeit >= 4
+          produkt.Lieferzeit >= 3
         ) {
           let faktor: number;
           faktor =
             Math.ceil(
               (produkt.BedarfWoche1 +
                 produkt.BedarfWoche2 +
-                produkt.BedarfWoche3 +
-                produkt.BedarfWoche4) /
+                produkt.BedarfWoche3) /
                 produkt.RabattMenge
             ) < 2
               ? 2
               : Math.ceil(
                   (produkt.BedarfWoche1 +
                     produkt.BedarfWoche2 +
-                    produkt.BedarfWoche3 +
-                    produkt.BedarfWoche4) /
+                    produkt.BedarfWoche3) /
                     produkt.RabattMenge
                 );
           produkt.Bestellmenge = produkt.RabattMenge * faktor;
@@ -337,7 +321,7 @@ export const optimalOrderCapacity = (
 
     function BestellungVorherigePeriode(Woche: number): number {
       for (let j = 0; j < ausstehendeBestellungen.length; j++) {
-        if (produkte[i].productName == ausstehendeBestellungen[j].article) {
+        if (produkte[i].productName === ausstehendeBestellungen[j].article) {
           if (currentPeriod - ausstehendeBestellungen[j].orderperiod >= 4) {
             if (
               ausstehendeBestellungen[j].mode === 4 &&
@@ -488,30 +472,7 @@ export const optimalOrderCapacity = (
             produkt.Abweichung,
             3
           );
-
-    produkt.BestandNachLieferung5 =
-      produkt.BestandNachLieferung4 -
-        produkt.BedarfWoche4 +
-        BestellungVorherigePeriode(4) +
-        BestandNachLieferung(
-          produkt.Bestellart,
-          produkt.Bestellmenge,
-          produkt.Lieferzeit,
-          produkt.Abweichung,
-          4
-        ) <
-      0
-        ? 0
-        : produkt.BestandNachLieferung4 -
-          produkt.BedarfWoche4 +
-          BestellungVorherigePeriode(4) +
-          BestandNachLieferung(
-            produkt.Bestellart,
-            produkt.Bestellmenge,
-            produkt.Lieferzeit,
-            produkt.Abweichung,
-            4
-          );
+    console.log(produkt);
   });
 
   console.log(produkte);
