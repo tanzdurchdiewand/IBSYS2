@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RootState, useDispatch, useSelector } from "../redux/store";
-import { Box, Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import i18n from "../locals/i18n";
 import {
@@ -116,9 +123,45 @@ export default function ProductionPlanning() {
           },
         }),
       },
+      {
+        accessorKey: "workstationTimeAsString",
+        header: "WorkstationTimeAsString",
+        enableEditing: false,
+        size: 80,
+      },
     ],
-    [validationErrors]
+    [testProductionResult, validationErrors]
   );
+
+  //Anzeige
+  // const columns = [
+  //   {
+  //     accessorKey: "id",
+  //     header: i18n.t("productionPlanning.order"),
+  //     grow: true,
+  //     size: 100,
+  //     enableEditing: false,
+  //   },
+  //   {
+  //     accessorKey: "item",
+  //     header: i18n.t("productionPlanning.item"),
+  //     grow: true,
+  //     size: 100,
+  //     enableEditing: false,
+  //   },
+  //   {
+  //     accessorKey: "amount",
+  //     header: i18n.t("productionPlanning.amount"),
+  //     grow: true,
+  //     enableEditing: true,
+  //   },
+  //   {
+  //     accessorKey: "workstationTimeAsString",
+  //     header: i18n.t("productionPlanning.times"),
+  //     grow: true,
+  //     enableEditing: false,
+  //   },
+  // ];
 
   const [productionResult, setData] = useState(() => productionPlanTimesTotal);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
@@ -168,6 +211,22 @@ export default function ProductionPlanning() {
     enableRowSelection: true,
     enableMultiRowSelection: false,
     editDisplayMode: "cell",
+    // muiEditTextFieldProps: ({ cell }) => ({
+    //   onChange: (event) => {
+    //     //set new values for data;
+    //     const Property = Object.getOwnPropertyDescriptor(
+    //       data.productionPlan[1],
+    //       "amount"
+    //     );
+    //     console.log(Property);
+    //     setDataOnFieldChange(
+    //       Number(),
+    //       cell.row._valuesCache.amount,
+    //       data,
+    //       productionOrders
+    //     );
+    //   },
+    // }),
     //optionally, use single-click to activate editing mode instead of default double-click
     muiTableBodyCellProps: ({ cell, column, table }) => ({
       onClick: () => {
@@ -248,11 +307,7 @@ export default function ProductionPlanning() {
   });
   // dispatch(setProductionPlan(data));
 
-  return (
-    <Box sx={{ width: "100%" }}>
-      <MaterialReactTable table={table} />
-    </Box>
-  );
+  return <MaterialReactTable table={table} />;
 }
 
 //set total production orders
@@ -947,7 +1002,7 @@ export function CalculateProductionTime(
   let requiredTime: number = 0;
   let workstationTime: WorkstationTime;
 
-  //TODO: Nicht korrekte Zeiten
+  // Zeiten passen
   // Produktionszeit für jeden Artikel in der Bestellung hinzufügen
   for (const item of workStation.productionTimes) {
     if (item.itemName.substring(1) === order.id.toString()) {
