@@ -4,7 +4,7 @@ import {
   SummaryTable,
   capacityPlanningData,
 } from "../types/capacityPlanningTypes";
-import { ProductionProgramm } from "../types/productionPlanningTypes";
+import { ProductionProgramm, WORKSTATION_SETUP_TIMES } from "../types/productionPlanningTypes";
 
 export function initializeCapacityPlanning(
   productionProgramm: ProductionProgramm
@@ -29,31 +29,41 @@ export function initializeCapacityPlanning(
   return capacityPlanning;
 }
 
-// TODO Rüstzeit vorperiode aus gamedata
 export function initializeCapacityPlanningSummary(
   capacityPlanning: CapacityPlanningTable,
-  summaryTable: SummaryTable | null
+  summaryTable: SummaryTable | null,
 ): SummaryTable {
-
   const generateArray = (): number[] => Array.from({ length: 15 }).map(() => 0);
 
-  // Check if the user changed values and use them
-  const shiftsAndOvertimesObj = summaryTable?.find(item => item.label === "Shifts And Overtimes");
-  const shiftsAndOvertimesPerDaysObj = summaryTable?.find(item => item.label === "Shifts And Overtime Per Days");
-  const shiftsAndOvertimes = shiftsAndOvertimesObj ? shiftsAndOvertimesObj.values : generateArray();
-  const shiftsAndOvertimePerDasy = shiftsAndOvertimesPerDaysObj ? shiftsAndOvertimesPerDaysObj.values : generateArray();
+  const MINUTES_PER_PERIOD = 2400;
 
+  const shiftsAndOvertimes = generateArray();
+  const shiftsAndOvertimePerDays = generateArray();
   const capacityRequirements = generateArray();
   const setupTimes = generateArray();
   const setupTimePreviousPeriods = generateArray();
   const totalCapacityRequirements = generateArray();
 
-  // TODO Update capacityRequirements based on workstationResults
-  Object.values(capacityPlanning).forEach(({ workstationResults }) => {
-    workstationResults.forEach((value, index) => {
-      capacityRequirements[index] += value;
+  // Berechne die Schichten und Überstunden basierend auf den Kapazitätsplanungsdaten
+  Object.values(capacityPlanning).forEach(({ workstationResults }, workstationIndex) => {
+    workstationResults.forEach((num, index) => {
+      // Fülle die Kapazitätsanforderungen
+      capacityRequirements[index] += num;
+
+      // Berechne die Setup-Zeiten und Vorgängerperioden
+      const setupTime = getSetupTime(workstationIndex + 1);
+      setupTimes[workstationIndex] += setupTime;
+      setupTimePreviousPeriods[workstationIndex] = 0;
     });
   });
+
+  // Berechne Gesamtkapazitätsanforderungen und Überstunden
+  for (let i = 0; i < capacityRequirements.length; i++) {
+    totalCapacityRequirements[i] = capacityRequirements[i] + setupTimes[i] + setupTimePreviousPeriods[i];
+    shiftsAndOvertimes[i] = Math.max(totalCapacityRequirements[i] - MINUTES_PER_PERIOD, 0); // Überstunden berechnen
+    shiftsAndOvertimePerDays[i] = shiftsAndOvertimes[i] / 5; // Überstunden pro Tag berechnen
+  }
+
 
   const capacitySummaryPlanning: SummaryTable = generateSummaryRows(
     capacityRequirements,
@@ -61,11 +71,16 @@ export function initializeCapacityPlanningSummary(
     setupTimePreviousPeriods,
     totalCapacityRequirements,
     shiftsAndOvertimes,
-    shiftsAndOvertimePerDasy
+    shiftsAndOvertimePerDays
   );
 
   return capacitySummaryPlanning;
+
+  function getSetupTime(workstationIndex: number): number {
+    return WORKSTATION_SETUP_TIMES[workstationIndex] || 0;
+  }
 }
+
 
 const getProductProductionQuantity = (
   type: BikePartType,
