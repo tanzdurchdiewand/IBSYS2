@@ -50,6 +50,7 @@ export interface Planning {
   P1: P1Planning;
   P2: P2Planning;
   P3: P3Planning;
+  safetyStockMap: Map<string, string>;
 }
 
 export interface MaterialPlanningRow {
@@ -86,6 +87,7 @@ export const dependencyMapping: DependencyMapping = {
   "30": ["6", "12", "29"],
   "29": ["9", "15", "20"],
 };
+
 export const updateOrdersMapping: DependencyMapping = {
   // P1
   "1": ["261", "51", "161", "171", "50", "4", "10", "49", "7", "13", "18"],
