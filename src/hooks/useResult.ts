@@ -64,7 +64,6 @@ export const useResult = () => {
     dispatch(
       setProductionlistData(initializeProductionListResult(productionPlan!))
     );
-    console.log("productionPlan", productionPlan, productionlist);
     // dispatch(setProductionlistData(productionlist!));
   }, [dispatch, productionProgramm, orderPlanning, capacitySummaryRows]);
 

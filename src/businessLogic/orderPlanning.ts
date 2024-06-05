@@ -18,41 +18,7 @@ import { ProductionProgramm } from "../types/productionPlanningTypes";
 // Bedarf bis nächste Lieferung = if (1 <= Lieferdauer) { Demand for Period x } else if (2  <= Lieferdauer) { Demand for Period x + Demand for Period x1}
 // OrderType = (Anfangsbestand - Bedarf bis nächste Lieferung) < 0? Fast : Normal;
 // Bestellmenge: Economic order quantity EOQ model
-/*
-Data Example:
-  demands: [250, 300, 275, 325, 350], // Demands for consecutive periods
-  orderCostPerOrder: 50, 
-  unitCost: 20,
-  holdingCostRate: 0.025, //Lagerkostensatz
-  deliveryTime: 3,
-  safetyStockFactor: 1.65, // Corresponds to about a 95% service level
-  demandStdDev: 30 // Standard deviation of demand
 
-interface InventoryParameters {
-  demands: number[]; // Array of demands for each period
-  orderCostPerOrder: number; // k_B
-  unitCost: number; // w
-  holdingCostRate: number; // i
-  deliveryTime: number; // Number of periods it takes for an order to arrive
-  safetyStockFactor: number; // z
-  demandStdDev: number; // Standard deviation of demand
-}
-
-export function calculateDynamicOrderQuantity(params: InventoryParameters): number {
-  const { demands, orderCostPerOrder, unitCost, holdingCostRate, deliveryTime, safetyStockFactor, demandStdDev } = params;
-
-  const totalDemand = demands.slice(0, deliveryTime).reduce((acc, demand) => acc + demand, 0);
-  const safetyStock = safetyStockFactor * demandStdDev * Math.sqrt(deliveryTime);
-  const totalRequirement = totalDemand + safetyStock;
-
-  const numerator = 2 * totalRequirement * orderCostPerOrder;
-  const denominator = unitCost * holdingCostRate;
-  const optimalOrderQuantity = Math.sqrt(numerator / denominator);
-
-  return optimalOrderQuantity;
-}
-*/
-//
 export function initializeOrderPlanning(
   gameData: GameData,
   productionProgramm: ProductionProgramm,
@@ -77,11 +43,107 @@ export function initializeOrderPlanning(
     const pendingOrderAmount = filteredOrders?.amount ?? 0;
     const pendingOrderType = filteredOrders?.mode ?? 0;
 
+    interface OrderPlanningRow {
+      productName: number;
+      deliveryTime: number;
+      deviation: number;
+      quantityP1: number;
+      quantityP2: number;
+      quantityP3: number;
+      discountQuantity: number;
+      warehouseStock: number;
+      demandForPeriod: [number, number, number, number];
+      orderQuantity: number;
+      orderType: OrderType;
+      pendingOrderPeriod: number;
+      pendingOrderAmount: number;
+      pendingOrderType: OrderType;
+    }
+
+    function calculateOptimalOrder(row: OrderPlanningRow): {
+      optimalOrderQuantity: number;
+      orderType: OrderType;
+    } {
+      const {
+        deliveryTime,
+        warehouseStock,
+        demandForPeriod,
+        pendingOrderAmount,
+        pendingOrderPeriod,
+      } = row;
+
+      console.log(row);
+      // Berechne die zukünftige Nachfrage bis zur Lieferzeit
+      const futureDemand = demandForPeriod
+        .slice(0, deliveryTime)
+        .reduce((acc, demand) => acc + demand, 0);
+
+      // Berechne den Lagerbestand unter Berücksichtigung der anstehenden Bestellungen
+      let adjustedStock = Number(warehouseStock) - futureDemand;
+      if (Number(pendingOrderPeriod) <= deliveryTime) {
+        adjustedStock += Number(pendingOrderAmount);
+      }
+
+      // Berechne die optimale Bestellmenge
+      const optimalOrderQuantity =
+        futureDemand - adjustedStock > 0 ? futureDemand - adjustedStock : 0;
+
+      // Entscheide, ob eine schnelle Bestellung notwendig ist
+      const requiredOrderType =
+        futureDemand > warehouseStock ? OrderType.Fast : OrderType.Normal;
+
+      return {
+        optimalOrderQuantity,
+        orderType: requiredOrderType,
+      };
+    }
+
+    const calculatedOrderQuantityData = currentOrder
+      ? currentOrder[key]
+      : {
+          productName: key as unknown as number,
+          deliveryTime: details.deliveryTime,
+          deviation: details.deviation,
+          quantityP1: details.requiredQuantityP1,
+          quantityP2: details.requiredQuantityP2,
+          quantityP3: details.requiredQuantityP3,
+          discountQuantity: details.discountQuantity,
+          warehouseStock: warehouseStock,
+          demandForPeriod: demands,
+          orderQuantity: 0,
+          orderType: OrderType.Normal,
+          pendingOrderPeriod: pendingOrderPeriod,
+          pendingOrderAmount: pendingOrderAmount,
+          pendingOrderType: pendingOrderType,
+        };
+
+    const calculatedOrderQuantityTest = calculateOptimalOrder(
+      calculatedOrderQuantityData
+    );
+    console.log(calculatedOrderQuantityTest);
+
+    function calculateDynamicOrderQuantity(
+      orderData: OrderPlanningRow
+    ): number {
+      // Berechnen Sie die Gesamtnachfrage für die nächsten 4 Perioden
+      const totalDemand = orderData.demandForPeriod.reduce((a, b) => a + b, 0);
+
+      // Berechnen Sie die durchschnittliche Nachfrage pro Periode
+      const averageDemand = totalDemand / orderData.demandForPeriod.length;
+
+      // Berechnen Sie die Bestellmenge basierend auf der durchschnittlichen Nachfrage und der Lieferzeit
+      const orderQuantity = averageDemand * orderData.deliveryTime;
+
+      return orderQuantity;
+    }
+
     // TODO calculate orderQuantity and orderType
-    const orderQuantity = currentOrder ? currentOrder[key].orderQuantity : 0;
+    const orderQuantity = currentOrder
+      ? currentOrder[key].orderQuantity
+      : calculatedOrderQuantityTest.optimalOrderQuantity;
     const orderType = currentOrder
       ? currentOrder[key].orderType
-      : OrderType.Normal;
+      : calculatedOrderQuantityTest.orderType;
 
     orderPlanning[key] = {
       productName: key,

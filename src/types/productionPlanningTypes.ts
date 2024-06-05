@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export type ProductionProgramm = {
   P1: ProductProduction;
   P2: ProductProduction;
@@ -85,6 +87,10 @@ export type ProductionPlanTimes = {
   item: number;
   amount: number;
   workstationTime: WorkstationTime[];
+};
+
+export type ProductionPlanTimesTotalStore = {
+  productionPlan: ProductionPlanTimesTotal[];
 };
 
 export type ProductionPlanTimesTotal = {

@@ -77,13 +77,18 @@ export default function ProductionPlanning() {
     Record<string, string | undefined>
   >({});
 
-  const productionPlanData = productionPlanTimesTotal;
-
   const [testProductionResult, setTestProductionResult] =
     useState<ProductionPlanTimesTotal>();
 
   const columns = useMemo<MRT_ColumnDef<ProductionPlanTimesTotal>[]>(
     () => [
+      {
+        accessorKey: "id",
+        header: "ID",
+        enableEditing: false,
+        size: 40,
+        hidden: true,
+      },
       {
         accessorKey: "item",
         header: "Item",
@@ -115,9 +120,7 @@ export default function ProductionPlanning() {
     [validationErrors]
   );
 
-  console.log(testProductionResult);
-
-  const [productionResult, setData] = useState(productionPlanData);
+  const [productionResult, setData] = useState(() => productionPlanTimesTotal);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
   function updateProductionResult(
@@ -136,22 +139,20 @@ export default function ProductionPlanning() {
       }
     }
 
-    // Aktualisieren Sie den Zustand mit der aktualisierten Liste
     setData(updatedProductionResult);
   }
 
   useEffect(() => {
-    const productionPlan = {
+    const productionPlanData = {
       productionPlan: productionResult,
     };
-    dispatch(setProductionPlan(productionPlan));
+    dispatch(setProductionPlan(productionPlanData));
   }, [dispatch, productionResult]);
 
   const handleSaveUsers = async () => {
     if (testProductionResult) {
       updateProductionResult(testProductionResult);
     }
-    console.log("Save", testProductionResult);
   };
 
   //TODO: Editieren vom Amount Feld
@@ -245,7 +246,7 @@ export default function ProductionPlanning() {
       </Box>
     ),
   });
-  dispatch(setProductionPlan(data));
+  // dispatch(setProductionPlan(data));
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -1034,8 +1035,6 @@ export function splitOrder(
       newOrder.push(newOrderItem);
     }
   });
-
-  console.log(newOrder);
 
   //Create new List
   let production: ProductionPlanTimes[] = SimulateProduction(newOrder);

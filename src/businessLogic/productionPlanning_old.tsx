@@ -49,11 +49,9 @@ export default function ProductionPlanning() {
     p2,
     p3
   );
-  //console.log(productionOrders);
 
   //get available Materials
   let availabeMaterials: PlanningWarehouseStock[] = SetAvailableMaterials();
-  //console.log(availabeMaterials);
 
   //_loop
   //set starting order
@@ -64,7 +62,6 @@ export default function ProductionPlanning() {
     p2,
     p3
   );
-  //console.log(finalProductionOrders);
 
   //Simulate
   //SimulateProduction(finalProductionOrders);
@@ -85,7 +82,7 @@ export default function ProductionPlanning() {
   data.productionPlan = productionOrders;
 
   //Redux save
-  dispatch(setProductionPlan(data));
+  // dispatch(setProductionPlan(data));
 
   return (
     <Container style={{ marginTop: "120px" }}>
@@ -539,8 +536,6 @@ export function SimulateProduction(
     workstations.push(workstation);
   }
 
-  //console.log(finalProductionOrders);
-  console.log(finalProductionOrders);
   finalProductionOrders.forEach((element) => {
     //set lot sizes
     let amountProductionItems = element.amount / 10;
@@ -551,7 +546,7 @@ export function SimulateProduction(
     var changeLog: WarehouseStockChange[] | undefined;
 
     //loop at for single lot size
-    //console.log(element.id);
+ 
     for (let i = 1; i <= amountProductionItems; i++) {
       //switch depending on material
       switch (element.id) {
@@ -830,7 +825,7 @@ export function SimulateProduction(
       lastOrder = element.id;
     }
   });
-  console.log("workstation:", workstations);
+
   return workstations;
 }
 
@@ -967,7 +962,7 @@ export function SimulateProductionWorkstation(
   //not available
   else {
     //TODO: What if not available?
-    console.log("missing Material");
+  
   }
 }
 

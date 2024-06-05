@@ -66,7 +66,6 @@ export function initializeOrderListResult(
 export function initializeProductionListResult(
   productionPlan: ProductionPlan
 ): ProductionList {
-  console.log("productionPlan", productionPlan);
   const productionList: ProductionList = {
     production: productionPlan.productionPlan.map((item) => ({
       id: item.id,

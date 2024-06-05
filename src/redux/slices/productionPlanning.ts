@@ -1,6 +1,9 @@
 // Import the necessary functions and types from Redux Toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProductionPlan } from "../../types/productionPlanningTypes";
+import {
+  ProductionPlan,
+  ProductionPlanTimesTotalStore,
+} from "../../types/productionPlanningTypes";
 
 export type AsyncCallStatus = "idle" | "loading" | "succeeded" | "failed";
 
@@ -11,7 +14,7 @@ export type productionPlanningData = {
   error: {
     fetch: Error | string | null;
   };
-  productionPlan: ProductionPlan | null;
+  productionPlan: ProductionPlanTimesTotalStore | null;
 };
 
 type productionPlanningDataState = {
@@ -34,7 +37,10 @@ const slice = createSlice({
   name: "inputXML",
   initialState,
   reducers: {
-    setProductionPlan: (state, action: PayloadAction<any>) => {
+    setProductionPlan: (
+      state,
+      action: PayloadAction<ProductionPlanTimesTotalStore>
+    ) => {
       state.list.productionPlan = action.payload;
     },
   },
