@@ -3,7 +3,6 @@ import { Grid, Box, Tabs, Tab, TableContainer, Table, TableHead, TableRow, Table
 import { PlanningWorkstation } from '../types/productionPlanningTypes';
 
 const ProductionPlanningTable = ({ workstations }: { workstations: PlanningWorkstation[] }) => {
-    console.log(workstations);
     const [selectedTab, setSelectedTab] = useState<number | ''>('');
 
     const handleChange = (event: React.SyntheticEvent, newValue: number | '') => {

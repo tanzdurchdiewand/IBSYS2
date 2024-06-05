@@ -1,52 +1,37 @@
-import { useState } from "react";
 import { useResult } from "../../hooks/useResult";
-import { type MRT_Row } from "material-react-table";
 import { Production } from "../../types/resultTypes";
-import { MaterialReactTable } from "material-react-table";
 import i18n from "../../locals/i18n";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 export default function ProductionResultComponent() {
   const productionResult = useResult().productionlist;
-
-  const columns = [
-    {
-      accessorKey: "article",
-      header: i18n.t("productionResult.article"),
-    },
-    {
-      accessorKey: "quantity",
-      header: i18n.t("productionResult.quantity"),
-    },
-  ];
-
-  const initData = productionResult!.production;
-
-  //TODO: Änderungen müssen in der Store geschreiben werden
-
-  const [data, setData] = useState(() => initData);
-  console.log(productionResult?.production);
+  const data = productionResult!.production;
 
   return (
-    <MaterialReactTable
-      autoResetPageIndex={false}
-      data={data}
-      columns={columns}
-      enableRowOrdering={true}
-      enableSorting={false}
-      muiRowDragHandleProps={({ table }) => ({
-        onDragEnd: () => {
-          const { draggingRow, hoveredRow } = table.getState();
-          if (hoveredRow && draggingRow) {
-            const dataCopy = [...data];
-            dataCopy.splice(
-              (hoveredRow as MRT_Row<Production>).index,
-              0,
-              dataCopy.splice(draggingRow.index, 1)[0]
-            );
-            setData(dataCopy);
-          }
-        },
-      })}
-    ></MaterialReactTable>
+    <TableContainer style={{ maxHeight: 800, overflow: "auto", width: 700 }}>
+      <Table stickyHeader>
+        <TableHead>
+          <TableRow>
+            <TableCell>{i18n.t("productionResult.article")}</TableCell>
+            <TableCell>{i18n.t("productionResult.quantity")}</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row: Production, index: number) => (
+            <TableRow key={index}>
+              <TableCell>{row.article}</TableCell>
+              <TableCell>{row.quantity}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

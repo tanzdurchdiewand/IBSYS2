@@ -84,8 +84,6 @@ export default function ProductionPlanning() {
     Record<string, string | undefined>
   >({});
 
-  const productionPlanData = productionPlanTimesTotal;
-
   const [testProductionResult, setTestProductionResult] =
     useState<ProductionPlanTimesTotal>();
 
@@ -93,9 +91,10 @@ export default function ProductionPlanning() {
     () => [
       {
         accessorKey: "id",
-        header: "Id",
+        header: "ID",
         enableEditing: false,
-        size: 80,
+        size: 40,
+        hidden: true,
       },
       {
         accessorKey: "item",
@@ -164,8 +163,6 @@ export default function ProductionPlanning() {
   //   },
   // ];
 
-  console.log(testProductionResult);
-
   const [productionResult, setData] = useState(() => productionPlanTimesTotal);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
@@ -185,22 +182,20 @@ export default function ProductionPlanning() {
       }
     }
 
-    // Aktualisieren Sie den Zustand mit der aktualisierten Liste
     setData(updatedProductionResult);
   }
 
   useEffect(() => {
-    const productionPlan = {
+    const productionPlanData = {
       productionPlan: productionResult,
     };
-    dispatch(setProductionPlan(productionPlan));
+    dispatch(setProductionPlan(productionPlanData));
   }, [dispatch, productionResult]);
 
   const handleSaveUsers = async () => {
     if (testProductionResult) {
       updateProductionResult(testProductionResult);
     }
-    console.log("Save", testProductionResult);
   };
 
   //TODO: Editieren vom Amount Feld
@@ -303,41 +298,14 @@ export default function ProductionPlanning() {
           color="success"
           variant="contained"
           onClick={handleSaveUsers}
-        // disabled={Object.keys(testProductionResult).length === 0}
+          // disabled={Object.keys(testProductionResult).length === 0}
         >
           {"Save"}
         </Button>
       </Box>
     ),
   });
-
-  function setDataOnFieldChange(
-    index: number,
-    newValue: number,
-    data: ProductionPlan,
-    productionOrders: PlanningWarehouseStock[]
-  ) {
-    //set new value
-    //data.productionPlan[index].amount = newValue;
-
-    //setDataTest();
-
-    //Check correct values for current Change
-    let item = data.productionPlan[index].id;
-    let sum = 0;
-    let total = productionOrders.find((element) => (element.id = item));
-
-    data.productionPlan.forEach(function (order, i) {
-      if (order.id === item) {
-        sum += order.amount;
-      }
-    });
-
-    console.log(sum, total);
-  }
-
-  //write table to redux store
-  dispatch(setProductionPlan(data));
+  // dispatch(setProductionPlan(data));
 
   return <MaterialReactTable table={table} />;
 }
@@ -1122,8 +1090,6 @@ export function splitOrder(
       newOrder.push(newOrderItem);
     }
   });
-
-  console.log(newOrder);
 
   //Create new List
   let production: ProductionPlanTimes[] = SimulateProduction(newOrder);
