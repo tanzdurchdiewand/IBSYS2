@@ -114,7 +114,7 @@ export default function CapacityPlanning() {
       </StyledButton>
       <StyledCard>
         <TableContainer component={Paper}>
-          <Table>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell>

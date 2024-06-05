@@ -60,7 +60,6 @@ export function initializeOrderPlanning(
         pendingOrderPeriod,
       } = row;
 
-      console.log(row);
       // Berechne die zukünftige Nachfrage bis zur Lieferzeit
       const futureDemand = demandForPeriod
         .slice(0, deliveryTime)
@@ -108,7 +107,6 @@ export function initializeOrderPlanning(
     const calculatedOrderQuantityTest = calculateOptimalOrder(
       calculatedOrderQuantityData
     );
-    console.log(calculatedOrderQuantityTest);
 
     const orderQuantity = currentOrder
       ? currentOrder[key].orderQuantity

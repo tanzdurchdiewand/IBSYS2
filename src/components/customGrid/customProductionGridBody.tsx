@@ -87,16 +87,16 @@ export default function CustomProductionGridBody({
               id="outlined-basic"
               label={i18n.t("productionProgramm.salesWish")}
               variant="outlined"
-              value={productionProgramm[type].salesOrder.salesWish}
+              value={Number(productionProgramm[type].salesOrder.salesWish)}
               disabled={true}
-              //type="number"
+              type="number"
             />
             <TextField
               name={`${bikeType.shortName}.salesOrder.productionWish`}
               id="outlined-basic"
               label={i18n.t("productionProgramm.productionWish")}
               variant="outlined"
-              value={productionProgramm[type].salesOrder.productionWish}
+              value={Number(productionProgramm[type].salesOrder.productionWish)}
               type="number"
               onChange={handleValueChange}
             />

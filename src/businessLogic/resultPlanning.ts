@@ -119,8 +119,8 @@ function mapMaterialOrderPlanningToOrderList(
           orderType === OrderType.Normal
             ? 5
             : orderType === OrderType.Fast
-              ? 4
-              : 5,
+            ? 4
+            : 5,
       };
 
       // Only add to Orders if we need to Order the Article
@@ -137,7 +137,7 @@ export function mapSummaryRowToWorkingTimeList(
   summaryTable: SummaryTable
 ): WorkingTimeList | null {
   const shiftsAndOvertimesRow = summaryTable.find(
-    (row) => row.label === "Shifts And Overtimes"
+    (row) => row.label === "Shifts And Overtime Per Days"
   );
 
   if (!shiftsAndOvertimesRow) {
@@ -163,13 +163,10 @@ export function mapSummaryRowToWorkingTimeList(
     const baseWorkingTime: WorkingTime = {
       station: index + 1,
       shift: 1,
-      overtime: baseCapacityPerPeriod + cappedOvertime, // Standardkapazität plus Überstunden
+      overtime: cappedOvertime, // Standardkapazität plus Überstunden
     };
     workingTimes.push(baseWorkingTime);
   });
 
   return { workingTime: workingTimes };
 }
-
-
-

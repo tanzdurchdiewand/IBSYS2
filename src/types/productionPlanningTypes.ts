@@ -1,5 +1,3 @@
-import exp from "constants";
-
 export type ProductionProgramm = {
   P1: ProductProduction;
   P2: ProductProduction;
