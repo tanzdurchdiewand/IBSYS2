@@ -1,4 +1,3 @@
-import { log } from "console";
 import { GameData } from "../types/inputXMLTypes";
 import {
   MaterialOrderPlanning,
@@ -7,17 +6,6 @@ import {
   orderDetail,
 } from "../types/orderPlanningTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
-
-// TODO
-
-// Production Programm(PP)  x = periode  K = kaufteil
-//Demand for Period x = (PPx P1 * KquantityP1) + (PPx P2 * KquantityP1) + (PPx P3 * KquantityP1)
-
-// Lieferdauer in Perioden = (Lieferfrist + Abweichung)
-// Bedarf 4 Perioden = Demand for Period x + Demand for Period x1 + Demand for Period x2 + Demand for Period x3
-// Bedarf bis nächste Lieferung = if (1 <= Lieferdauer) { Demand for Period x } else if (2  <= Lieferdauer) { Demand for Period x + Demand for Period x1}
-// OrderType = (Anfangsbestand - Bedarf bis nächste Lieferung) < 0? Fast : Normal;
-// Bestellmenge: Economic order quantity EOQ model
 
 export function initializeOrderPlanning(
   gameData: GameData,
@@ -122,22 +110,6 @@ export function initializeOrderPlanning(
     );
     console.log(calculatedOrderQuantityTest);
 
-    function calculateDynamicOrderQuantity(
-      orderData: OrderPlanningRow
-    ): number {
-      // Berechnen Sie die Gesamtnachfrage für die nächsten 4 Perioden
-      const totalDemand = orderData.demandForPeriod.reduce((a, b) => a + b, 0);
-
-      // Berechnen Sie die durchschnittliche Nachfrage pro Periode
-      const averageDemand = totalDemand / orderData.demandForPeriod.length;
-
-      // Berechnen Sie die Bestellmenge basierend auf der durchschnittlichen Nachfrage und der Lieferzeit
-      const orderQuantity = averageDemand * orderData.deliveryTime;
-
-      return orderQuantity;
-    }
-
-    // TODO calculate orderQuantity and orderType
     const orderQuantity = currentOrder
       ? currentOrder[key].orderQuantity
       : calculatedOrderQuantityTest.optimalOrderQuantity;
