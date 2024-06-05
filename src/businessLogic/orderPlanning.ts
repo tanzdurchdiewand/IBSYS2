@@ -6,6 +6,7 @@ import {
   orderDetail,
 } from "../types/orderPlanningTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
+import { optimalOrderCapacity } from "./optimalOrderCapacity";
 
 export function initializeOrderPlanning(
   gameData: GameData,
@@ -14,6 +15,17 @@ export function initializeOrderPlanning(
 ): MaterialOrderPlanning {
   const orderPlanning: any = {};
   const pendingOrders = gameData.results.futureinwardstockmovement.order;
+
+  if (currentOrder !== null) {
+    console.log("Current Order", currentOrder);
+    const testData = optimalOrderCapacity(
+      currentOrder,
+      productionProgramm,
+      pendingOrders,
+      gameData.results.period
+    );
+    console.log(testData);
+  }
 
   Object.entries(orderDetail).forEach(([key, details]) => {
     const warehouseStock = returnWarehouseStockForProduct(gameData, key);
