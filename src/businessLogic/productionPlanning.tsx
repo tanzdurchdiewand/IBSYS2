@@ -655,8 +655,8 @@ export function SetProductionOrder(
 
   for (let i = 0; i < 6; i++) {
     finalProductionOrder.forEach((newOrder) => {
-      if (newOrder.item !== undefined) {
-        let priority = MATERIAL_PRIORITY[newOrder.item];
+      if (newOrder.id !== undefined) {
+        let priority = MATERIAL_PRIORITY[newOrder.id];
         if (priority === i) {
           newPlan.push(newOrder);
         }
