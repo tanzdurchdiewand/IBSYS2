@@ -16,6 +16,7 @@ import {
   WeekTime,
   WORKSTATION_SETUP_TIMES,
   PRODUCTION_SETUP_TIMES,
+  MATERIAL_PRIORITY,
   ProductionPlanTimes,
   WorkstationTime,
   ProductionPlanTimesTotal,
@@ -649,8 +650,22 @@ export function SetProductionOrder(
     });
   });
 
+  //set with priority
+  let newPlan: PlanningWarehouseStock[] = [];
+
+  for (let i = 0; i < 6; i++) {
+    finalProductionOrder.forEach((newOrder) => {
+      if (newOrder.item !== undefined) {
+        let priority = MATERIAL_PRIORITY[newOrder.item];
+        if (priority === i) {
+          newPlan.push(newOrder);
+        }
+      }
+    });
+  }
+
   //set final production order
-  return finalProductionOrder;
+  return newPlan;
 }
 
 //Simulation

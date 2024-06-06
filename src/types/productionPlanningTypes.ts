@@ -160,3 +160,67 @@ export const WORKSTATION_SETUP_TIMES: Record<number, number> = {
   14: 0,
   15: 15,
 };
+
+export const MATERIAL_PRIORITY: Record<number, number> = {
+  // Priority 0
+  16: 3,
+  17: 3,
+  26: 4,
+
+  // Priority 1
+  //P1
+  7: 1,
+  13: 1,
+  18: 1,
+  //P2
+  8: 1,
+  14: 1,
+  19: 1,
+  //P3
+  9: 1,
+  15: 1,
+  20: 1,
+
+  // Priority 2
+  //P1
+  4: 2,
+  10: 2,
+  49: 2,
+  //P2
+  5: 2,
+  11: 2,
+  54: 2,
+  //P3
+  6: 2,
+  12: 2,
+  29: 2,
+
+  // Priority 3
+  //16: 3,
+  //17: 3,
+
+  //P1
+  50: 3,
+  //P2
+  55: 3,
+  //P3
+  30: 3,
+
+  // Priority 4
+  // 26: 4,
+
+  //P1
+  51: 4,
+  //P2
+  56: 4,
+  //P3
+  31: 4,
+
+  // Priority 5
+  //P1
+  1: 5,
+  //P2
+  2: 5,
+  //P3
+  3: 5
+};
