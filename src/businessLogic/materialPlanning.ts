@@ -157,18 +157,22 @@ function setPreviousWaitingQueueMap() {
 }
 
 function generateWorkInProgressMap(gameData: GameData): Map<string, string> {
-  return gameData.results.ordersinwork.workplace.reduce(
-    (map: Map<string, string>, workplace: WorkplaceOrdersInWork) => {
-      const key = workplace.item.toString();
-      const existingAmount = map.get(key);
-      const newAmount = existingAmount
-        ? parseInt(existingAmount) + Number(workplace.amount)
-        : workplace.amount;
-      map.set(key, newAmount.toString());
-      return map;
-    },
-    new Map<string, string>()
-  );
+  if (gameData.results.ordersinwork.workplace !== undefined) {
+    return gameData.results.ordersinwork.workplace.reduce(
+      (map: Map<string, string>, workplace: WorkplaceOrdersInWork) => {
+        const key = workplace.item.toString();
+        const existingAmount = map.get(key);
+        const newAmount = existingAmount
+          ? parseInt(existingAmount) + Number(workplace.amount)
+          : workplace.amount;
+        map.set(key, newAmount.toString());
+        return map;
+      },
+      new Map<string, string>()
+    );
+  } else {
+    return new Map<string, string>();
+  }
 }
 
 function setStockMap(products: Article[]) {

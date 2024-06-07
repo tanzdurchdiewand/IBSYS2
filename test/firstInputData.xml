@@ -1,0 +1,139 @@
+<results game="52" group="2" period="1">
+<forecast p1="150" p2="100" p3="100"/>
+<warehousestock>
+<article id="1" amount="0" startamount="100" pct="0.00" price="156.13" stockvalue="0.00"/>
+<article id="2" amount="0" startamount="100" pct="0.00" price="163.33" stockvalue="0.00"/>
+<article id="3" amount="0" startamount="100" pct="0.00" price="165.08" stockvalue="0.00"/>
+<article id="4" amount="100" startamount="100" pct="100.00" price="40.85" stockvalue="4085.00"/>
+<article id="5" amount="100" startamount="100" pct="100.00" price="39.85" stockvalue="3985.00"/>
+<article id="6" amount="100" startamount="100" pct="100.00" price="40.85" stockvalue="4085.00"/>
+<article id="7" amount="100" startamount="100" pct="100.00" price="35.85" stockvalue="3585.00"/>
+<article id="8" amount="100" startamount="100" pct="100.00" price="35.85" stockvalue="3585.00"/>
+<article id="9" amount="100" startamount="100" pct="100.00" price="35.85" stockvalue="3585.00"/>
+<article id="10" amount="100" startamount="100" pct="100.00" price="12.40" stockvalue="1240.00"/>
+<article id="11" amount="100" startamount="100" pct="100.00" price="14.65" stockvalue="1465.00"/>
+<article id="12" amount="100" startamount="100" pct="100.00" price="14.65" stockvalue="1465.00"/>
+<article id="13" amount="100" startamount="100" pct="100.00" price="12.40" stockvalue="1240.00"/>
+<article id="14" amount="100" startamount="100" pct="100.00" price="14.65" stockvalue="1465.00"/>
+<article id="15" amount="100" startamount="100" pct="100.00" price="14.65" stockvalue="1465.00"/>
+<article id="16" amount="300" startamount="300" pct="100.00" price="7.02" stockvalue="2106.00"/>
+<article id="17" amount="300" startamount="300" pct="100.00" price="7.16" stockvalue="2148.00"/>
+<article id="18" amount="100" startamount="100" pct="100.00" price="13.15" stockvalue="1315.00"/>
+<article id="19" amount="100" startamount="100" pct="100.00" price="14.35" stockvalue="1435.00"/>
+<article id="20" amount="100" startamount="100" pct="100.00" price="15.55" stockvalue="1555.00"/>
+<article id="21" amount="300" startamount="300" pct="100.00" price="5.00" stockvalue="1500.00"/>
+<article id="22" amount="300" startamount="300" pct="100.00" price="6.50" stockvalue="1950.00"/>
+<article id="23" amount="300" startamount="300" pct="100.00" price="6.50" stockvalue="1950.00"/>
+<article id="24" amount="6100" startamount="6100" pct="100.00" price="0.06" stockvalue="366.00"/>
+<article id="25" amount="3600" startamount="3600" pct="100.00" price="0.06" stockvalue="216.00"/>
+<article id="26" amount="300" startamount="300" pct="100.00" price="10.50" stockvalue="3150.00"/>
+<article id="27" amount="1800" startamount="1800" pct="100.00" price="0.10" stockvalue="180.00"/>
+<article id="28" amount="4500" startamount="4500" pct="100.00" price="1.20" stockvalue="5400.00"/>
+<article id="29" amount="100" startamount="100" pct="100.00" price="69.29" stockvalue="6929.00"/>
+<article id="30" amount="100" startamount="100" pct="100.00" price="127.53" stockvalue="12753.00"/>
+<article id="31" amount="100" startamount="100" pct="100.00" price="144.42" stockvalue="14442.00"/>
+<article id="32" amount="2700" startamount="2700" pct="100.00" price="0.75" stockvalue="2025.00"/>
+<article id="33" amount="900" startamount="900" pct="100.00" price="22.00" stockvalue="19800.00"/>
+<article id="34" amount="22000" startamount="22000" pct="100.00" price="0.10" stockvalue="2200.00"/>
+<article id="35" amount="3600" startamount="3600" pct="100.00" price="1.00" stockvalue="3600.00"/>
+<article id="36" amount="900" startamount="900" pct="100.00" price="8.00" stockvalue="7200.00"/>
+<article id="37" amount="900" startamount="900" pct="100.00" price="1.50" stockvalue="1350.00"/>
+<article id="38" amount="300" startamount="300" pct="100.00" price="1.50" stockvalue="450.00"/>
+<article id="39" amount="900" startamount="900" pct="100.00" price="1.50" stockvalue="1350.00"/>
+<article id="40" amount="900" startamount="900" pct="100.00" price="2.50" stockvalue="2250.00"/>
+<article id="41" amount="900" startamount="900" pct="100.00" price="0.06" stockvalue="54.00"/>
+<article id="42" amount="1800" startamount="1800" pct="100.00" price="0.10" stockvalue="180.00"/>
+<article id="43" amount="1900" startamount="1900" pct="100.00" price="5.00" stockvalue="9500.00"/>
+<article id="44" amount="2700" startamount="2700" pct="100.00" price="0.50" stockvalue="1350.00"/>
+<article id="45" amount="900" startamount="900" pct="100.00" price="0.06" stockvalue="54.00"/>
+<article id="46" amount="900" startamount="900" pct="100.00" price="0.10" stockvalue="90.00"/>
+<article id="47" amount="900" startamount="900" pct="100.00" price="3.50" stockvalue="3150.00"/>
+<article id="48" amount="1800" startamount="1800" pct="100.00" price="1.50" stockvalue="2700.00"/>
+<article id="49" amount="100" startamount="100" pct="100.00" price="64.64" stockvalue="6464.00"/>
+<article id="50" amount="100" startamount="100" pct="100.00" price="120.63" stockvalue="12063.00"/>
+<article id="51" amount="100" startamount="100" pct="100.00" price="137.47" stockvalue="13747.00"/>
+<article id="52" amount="600" startamount="600" pct="100.00" price="22.00" stockvalue="13200.00"/>
+<article id="53" amount="22000" startamount="22000" pct="100.00" price="0.10" stockvalue="2200.00"/>
+<article id="54" amount="100" startamount="100" pct="100.00" price="68.09" stockvalue="6809.00"/>
+<article id="55" amount="100" startamount="100" pct="100.00" price="125.33" stockvalue="12533.00"/>
+<article id="56" amount="100" startamount="100" pct="100.00" price="142.67" stockvalue="14267.00"/>
+<article id="57" amount="600" startamount="600" pct="100.00" price="22.00" stockvalue="13200.00"/>
+<article id="58" amount="22000" startamount="22000" pct="100.00" price="0.10" stockvalue="2200.00"/>
+<article id="59" amount="1800" startamount="1800" pct="100.00" price="0.15" stockvalue="270.00"/>
+<totalstockvalue>242901.00</totalstockvalue>
+</warehousestock>
+<inwardstockmovement/>
+<futureinwardstockmovement/>
+<idletimecosts>
+<workplace id="1" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="24.00"/>
+<workplace id="2" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="24.00"/>
+<workplace id="3" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="24.00"/>
+<workplace id="4" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="24.00"/>
+<workplace id="6" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="240.00"/>
+<workplace id="7" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="240.00"/>
+<workplace id="8" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="240.00"/>
+<workplace id="9" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="600.00"/>
+<workplace id="10" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="240.00"/>
+<workplace id="11" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="240.00"/>
+<workplace id="12" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="240.00"/>
+<workplace id="13" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="360.00"/>
+<workplace id="14" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="24.00"/>
+<workplace id="15" setupevents="0" idletime="2400" wageidletimecosts="1080.00" wagecosts="0.00" machineidletimecosts="24.00"/>
+<sum setupevents="0" idletime="33600" wageidletimecosts="15120.00" wagecosts="0.00" machineidletimecosts="2544.00"/>
+</idletimecosts>
+<waitinglistworkstations>
+<workplace id="1" timeneed="0"/>
+<workplace id="2" timeneed="0"/>
+<workplace id="3" timeneed="0"/>
+<workplace id="4" timeneed="0"/>
+<workplace id="6" timeneed="0"/>
+<workplace id="7" timeneed="0"/>
+<workplace id="8" timeneed="0"/>
+<workplace id="9" timeneed="0"/>
+<workplace id="10" timeneed="0"/>
+<workplace id="11" timeneed="0"/>
+<workplace id="12" timeneed="0"/>
+<workplace id="13" timeneed="0"/>
+<workplace id="14" timeneed="0"/>
+<workplace id="15" timeneed="0"/>
+</waitinglistworkstations>
+<waitingliststock/>
+<ordersinwork/>
+<completedorders/>
+<cycletimes startedorders="0" waitingorders="0"/>
+<result>
+<general>
+<capacity current="33600" average="33600.00" all="33600"/>
+<possiblecapacity current="33600" average="33600.00" all="33600"/>
+<relpossiblenormalcapacity current="100.00%" average="100.00%" all="-"/>
+<productivetime current="0" average="0.00" all="0"/>
+<effiency current="0.00%" average="0.00%" all="-"/>
+<sellwish current="450" average="450.00" all="450"/>
+<salesquantity current="300" average="300.00" all="300"/>
+<deliveryreliability current="66.67%" average="66.67%" all="-"/>
+<idletime current="33600" average="33600.00" all="33600"/>
+<idletimecosts current="17664.00" average="17664.00" all="17664.00"/>
+<storevalue current="264221.00" average="264221.00" all="-"/>
+<storagecosts current="6670.65" average="6670.65" all="6670.65"/>
+</general>
+<defectivegoods>
+<quantity current="0" average="0.00" all="0"/>
+<costs current="0.00" average="0.00" all="0.00"/>
+</defectivegoods>
+<normalsale>
+<salesprice current="200.00" average="200.00" all="-"/>
+<profit current="-12788.60" average="-12788.60" all="-12788.60"/>
+<profitperunit current="-42.63" average="-42.63" all="-"/>
+</normalsale>
+<directsale>
+<profit current="0.00" average="0.00" all="0.00"/>
+<contractpenalty current="0.00" average="0.00" all="0.00"/>
+</directsale>
+<marketplacesale>
+<profit current="0.00" average="0.00" all="0.00"/>
+</marketplacesale>
+<summary>
+<profit current="-12788.60" average="-12788.60" all="-12788.60"/>
+</summary>
+</result>
+</results>
