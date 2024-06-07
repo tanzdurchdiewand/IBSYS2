@@ -1,9 +1,9 @@
-<results game="52" group="2" period="1">
+<results game="52" group="2" period="0">
 <forecast p1="150" p2="100" p3="100"/>
 <warehousestock>
-<article id="1" amount="0" startamount="100" pct="0.00" price="156.13" stockvalue="0.00"/>
-<article id="2" amount="0" startamount="100" pct="0.00" price="163.33" stockvalue="0.00"/>
-<article id="3" amount="0" startamount="100" pct="0.00" price="165.08" stockvalue="0.00"/>
+<article id="1" amount="100" startamount="100" pct="0.00" price="156.13" stockvalue="0.00"/>
+<article id="2" amount="100" startamount="100" pct="0.00" price="163.33" stockvalue="0.00"/>
+<article id="3" amount="100" startamount="100" pct="0.00" price="165.08" stockvalue="0.00"/>
 <article id="4" amount="100" startamount="100" pct="100.00" price="40.85" stockvalue="4085.00"/>
 <article id="5" amount="100" startamount="100" pct="100.00" price="39.85" stockvalue="3985.00"/>
 <article id="6" amount="100" startamount="100" pct="100.00" price="40.85" stockvalue="4085.00"/>

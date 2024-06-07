@@ -400,9 +400,18 @@ export function SetProductionGoals(
   //set production orders for P1
   if (p1 !== undefined) {
     Object.entries(p1).forEach(([key, value]) => {
+      let pName = value.productName;
+      if (
+        value.productName === 161 ||
+        value.productName === 171 ||
+        value.productName === 261
+      ) {
+        //convert 161 to 16
+        pName = Number(value.productName.toString().substring(0, 2));
+      }
       //add values
       productionOrders.forEach((element) => {
-        if (element.id === value.productName) {
+        if (element.id === pName) {
           //add to productionOrders
           element.amount += value.productionOrder;
           //add to individual product pws1
@@ -419,9 +428,18 @@ export function SetProductionGoals(
   //set production orders for P2
   if (p2 !== undefined) {
     Object.entries(p2).forEach(([key, value]) => {
+      let pName = value.productName;
+      if (
+        value.productName === 162 ||
+        value.productName === 172 ||
+        value.productName === 262
+      ) {
+        //convert 161 to 16
+        pName = Number(value.productName.toString().substring(0, 2));
+      }
       //add values
       productionOrders.forEach((element) => {
-        if (element.id === value.productName) {
+        if (element.id === pName) {
           //add to productionOrders
           element.amount += value.productionOrder;
           //add to individual product pws2
@@ -438,9 +456,18 @@ export function SetProductionGoals(
   //set Production orders for P3
   if (p3 !== undefined) {
     Object.entries(p3).forEach(([key, value]) => {
+      let pName = value.productName;
+      if (
+        value.productName === 163 ||
+        value.productName === 173 ||
+        value.productName === 263
+      ) {
+        //convert 161 to 16
+        pName = Number(value.productName.toString().substring(0, 2));
+      }
       //add values
       productionOrders.forEach((element) => {
-        if (element.id === value.productName) {
+        if (element.id === pName) {
           //add to productionOrders
           element.amount += value.productionOrder;
           //add to individual product pws1
