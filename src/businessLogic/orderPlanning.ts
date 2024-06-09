@@ -38,7 +38,7 @@ export function initializeOrderPlanning(
     );
 
     const filteredOrders =
-      pendingOrders.find((order) => order.article!.toString() === key) ?? null;
+      pendingOrders?.find((order) => order.article!.toString() === key) ?? null;
     const pendingOrderPeriod = filteredOrders?.orderperiod ?? 0;
     const pendingOrderAmount = filteredOrders?.amount ?? 0;
     const pendingOrderType = filteredOrders?.mode ?? 0;
@@ -100,21 +100,21 @@ export function initializeOrderPlanning(
     const calculatedOrderQuantityData = currentOrder
       ? currentOrder[key]
       : {
-          productName: key as unknown as number,
-          deliveryTime: details.deliveryTime,
-          deviation: details.deviation,
-          quantityP1: details.requiredQuantityP1,
-          quantityP2: details.requiredQuantityP2,
-          quantityP3: details.requiredQuantityP3,
-          discountQuantity: details.discountQuantity,
-          warehouseStock: warehouseStock,
-          demandForPeriod: demands,
-          orderQuantity: 0,
-          orderType: OrderType.Normal,
-          pendingOrderPeriod: pendingOrderPeriod,
-          pendingOrderAmount: pendingOrderAmount,
-          pendingOrderType: pendingOrderType,
-        };
+        productName: key as unknown as number,
+        deliveryTime: details.deliveryTime,
+        deviation: details.deviation,
+        quantityP1: details.requiredQuantityP1,
+        quantityP2: details.requiredQuantityP2,
+        quantityP3: details.requiredQuantityP3,
+        discountQuantity: details.discountQuantity,
+        warehouseStock: warehouseStock,
+        demandForPeriod: demands,
+        orderQuantity: 0,
+        orderType: OrderType.Normal,
+        pendingOrderPeriod: pendingOrderPeriod,
+        pendingOrderAmount: pendingOrderAmount,
+        pendingOrderType: pendingOrderType,
+      };
 
     const calculatedOrderQuantityTest = calculateOptimalOrder(
       calculatedOrderQuantityData
@@ -198,11 +198,11 @@ function calculateDemands(
     ) {
       demands[i + 1] =
         productionProgram.P1.forecast[i].salesOrder.productionWish *
-          requiredQuantityP1 +
+        requiredQuantityP1 +
         productionProgram.P2.forecast[i].salesOrder.productionWish *
-          requiredQuantityP2 +
+        requiredQuantityP2 +
         productionProgram.P3.forecast[i].salesOrder.productionWish *
-          requiredQuantityP3;
+        requiredQuantityP3;
     }
   }
 
