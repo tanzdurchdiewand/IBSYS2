@@ -102,8 +102,8 @@ function mapMaterialOrderPlanningToOrderList(
           orderType === OrderType.Normal
             ? 5
             : orderType === OrderType.Fast
-            ? 4
-            : 5,
+              ? 4
+              : 5,
       };
 
       // Only add to Orders if we need to Order the Article
@@ -142,6 +142,7 @@ export function mapSummaryRowToWorkingTimeList(
     // Überstunden pro Periode begrenzen
     const cappedOvertime = Math.min(overtime, maxOvertimePerPeriod);
 
+    // TODO Shifts auf basis der Überstunden ausrechnen (für 5 da capa 0 immer 0)
     // Hinzufügen der Arbeitszeit für die Schicht ohne Überstunden
     const baseWorkingTime: WorkingTime = {
       station: index + 1,
