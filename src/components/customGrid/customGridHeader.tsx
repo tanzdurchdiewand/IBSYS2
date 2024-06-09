@@ -7,16 +7,24 @@ export default function CustomGridHeader() {
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: "center",
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
+    boxShadow: theme.shadows[1],
+    borderRadius: 0,
   }));
 
   return (
-    <Grid container>
+    <Grid
+      container
+      sx={{
+        paddingTop: "60px",
+      }}
+    >
       <Grid item xs={1}>
         {" "}
       </Grid>
-      <Grid item xs={4}>
-        <Item>
+      <Grid item xs={2}></Grid>
+      <Grid item xs={2}>
+        <Item sx={{ backgroundColor: "rgba(173, 255, 0, 0.1)" }}>
           <Box
             component="form"
             sx={{
@@ -36,7 +44,7 @@ export default function CustomGridHeader() {
         </Item>
       </Grid>
       <Grid item xs={6}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{

@@ -17,6 +17,7 @@ import WorkingTimeResultComponent from "../components/resultComponents/workingTi
 import { useResult } from "../hooks/useResult";
 import i18n from "../locals/i18n";
 import { useLocales } from "../locals";
+import { Grid } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -132,6 +133,11 @@ export default function Result() {
         <ArrowBackIosIcon />
       </StyledButton>
       <StyledCard>
+        <Grid
+          style={{
+            marginTop: "40px",
+          }}
+        ></Grid>
         <Box
           sx={{
             borderBottom: 1,

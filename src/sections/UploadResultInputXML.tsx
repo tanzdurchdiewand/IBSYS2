@@ -15,6 +15,7 @@ import {
 import { setStepper } from "../redux/slices/inputXML";
 import i18n from "../locals/i18n";
 import { useLocales } from "../locals";
+import { Grid } from "@mui/material";
 
 export default function UploadResultInputXML() {
   useLocales();
@@ -35,6 +36,11 @@ export default function UploadResultInputXML() {
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledCard>
         {/* File input and error display logic */}
+        <Grid
+          style={{
+            marginTop: "350px",
+          }}
+        ></Grid>
         <input
           style={{ display: "none" }}
           id="upload-button"

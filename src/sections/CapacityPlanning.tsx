@@ -182,6 +182,7 @@ export default function CapacityPlanning() {
                             )
                           }
                           variant="outlined"
+                          inputProps={{ min: 0 }}
                         />
                       ) : (
                         <span>{renderInput(value.toString())}</span>

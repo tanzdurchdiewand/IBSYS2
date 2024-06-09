@@ -16,6 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  borderRadius: 0,
 }));
 
 export default function CustomProductionGridBody({
@@ -48,7 +49,7 @@ export default function CustomProductionGridBody({
         {" "}
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.09)" }}>
           <Box
             component="form"
             sx={{
@@ -71,7 +72,7 @@ export default function CustomProductionGridBody({
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(173, 255, 0, 0.1)" }}>
           <Box
             component="form"
             sx={{
@@ -89,7 +90,7 @@ export default function CustomProductionGridBody({
               variant="outlined"
               value={Number(productionProgramm[type].salesOrder.salesWish)}
               disabled={true}
-              type="number"
+              //type="number"
             />
             <TextField
               name={`${bikeType.shortName}.salesOrder.productionWish`}
@@ -99,12 +100,14 @@ export default function CustomProductionGridBody({
               value={Number(productionProgramm[type].salesOrder.productionWish)}
               type="number"
               onChange={handleValueChange}
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ min: 0 }}
             />
           </Box>
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{
@@ -125,7 +128,10 @@ export default function CustomProductionGridBody({
               onChange={(event) =>
                 handleForecastChange(event, bikeType.shortName, 0, "salesWish")
               }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ min: 0 }}
             />
+
             <TextField
               name={`${bikeType.shortName}.forecast[0].salesOrder.productionWish.`}
               id="outlined-basic"
@@ -143,12 +149,14 @@ export default function CustomProductionGridBody({
                   "productionWish"
                 )
               }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ min: 0 }}
             />
           </Box>
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{
@@ -169,6 +177,8 @@ export default function CustomProductionGridBody({
               onChange={(event) =>
                 handleForecastChange(event, bikeType.shortName, 1, "salesWish")
               }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ min: 0 }}
             />
             <TextField
               name={`${bikeType.shortName}.forecast[1].salesOrder.productionWish.`}
@@ -187,12 +197,14 @@ export default function CustomProductionGridBody({
                   "productionWish"
                 )
               }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ min: 0 }}
             />
           </Box>
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{
@@ -213,6 +225,8 @@ export default function CustomProductionGridBody({
               onChange={(event) =>
                 handleForecastChange(event, bikeType.shortName, 2, "salesWish")
               }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ min: 0 }}
             />
             <TextField
               name={`${bikeType.shortName}.forecast[2].salesOrder.productionWish.`}
@@ -231,6 +245,8 @@ export default function CustomProductionGridBody({
                   "productionWish"
                 )
               }
+              sx={{ backgroundColor: "white" }}
+              inputProps={{ min: 0 }}
             />
           </Box>
         </Item>

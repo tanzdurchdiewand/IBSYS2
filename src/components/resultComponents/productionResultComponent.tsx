@@ -15,8 +15,16 @@ export default function ProductionResultComponent() {
   const data = productionResult!.production;
 
   return (
-    <TableContainer style={{ maxHeight: 800, overflow: "auto", width: 700 }}>
-      <Table stickyHeader>
+    <TableContainer
+      style={{
+        maxHeight: 620,
+        overflow: "auto",
+        width: 700,
+        backgroundColor: "#FFF",
+        paddingBottom: "80px",
+      }}
+    >
+      <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
             <TableCell>{i18n.t("productionResult.article")}</TableCell>

@@ -273,6 +273,7 @@ export default function OrderPlanning() {
                             Number(e.target.value)
                           )
                         }
+                        inputProps={{ min: 0 }}
                       />
                     </TableCell>
                     <TableCell>

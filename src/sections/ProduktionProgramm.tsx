@@ -4,6 +4,7 @@ import {
   AccordionSummary,
   Container,
   Grid,
+  Typography,
 } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -98,7 +99,12 @@ export default function ProduktionProgramm() {
         >
           <ArrowBackIosIcon />
         </StyledButton>
-        <StyledCard>
+        <StyledCard
+          sx={{
+            overflowY: "auto",
+            maxHeight: "calc(100vh - 100px)",
+          }}
+        >
           {productionProgramm && (
             <Grid
               container
@@ -126,37 +132,51 @@ export default function ProduktionProgramm() {
               <CustomProductionGridFooter
                 productionProgramm={productionProgramm!}
               />
-
-              <Accordion style={{ marginTop: "20px", width: "84%" }}>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1-content"
-                  id="panel1-header"
-                >
-                  {i18n.t("productionProgramm.directSellTable")}
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Grid
-                    container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
+              <Grid
+                style={{
+                  paddingBottom: "50px",
+                  marginTop: "20px",
+                  width: "84%",
+                }}
+              >
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
                   >
-                    <CustomGridDirectSell
-                      bikeType={ChildrenBike}
-                      directSell={sellDirect.P1}
-                    />
-                    <CustomGridDirectSell
-                      bikeType={WommenBike}
-                      directSell={sellDirect.P2}
-                    />
-                    <CustomGridDirectSell
-                      bikeType={ManBike}
-                      directSell={sellDirect.P3}
-                    />
-                  </Grid>
-                </AccordionDetails>
-              </Accordion>
+                    <Typography variant="h6">
+                      {i18n.t("productionProgramm.directSellTable")}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails
+                    style={{
+                      overflowY: "auto",
+                      maxHeight: "calc(100vh - 300px)",
+                    }}
+                  >
+                    <Grid
+                      container
+                      direction="column"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <CustomGridDirectSell
+                        bikeType={ChildrenBike}
+                        directSell={sellDirect.P1}
+                      />
+                      <CustomGridDirectSell
+                        bikeType={WommenBike}
+                        directSell={sellDirect.P2}
+                      />
+                      <CustomGridDirectSell
+                        bikeType={ManBike}
+                        directSell={sellDirect.P3}
+                      />
+                    </Grid>
+                  </AccordionDetails>
+                </Accordion>
+              </Grid>
             </Grid>
           )}
         </StyledCard>

@@ -57,11 +57,12 @@ export default function MaterialPlanningComponent({
     <TableContainer
       component={Paper}
       sx={{
-        overflow: "hidden",
+        overflowX: "hidden",
+        maxHeight: "800px",
       }}
     >
       <Table
-        sx={{ minWidth: 650 }}
+        sx={{ minWidth: 900 }}
         aria-label="material planning table"
         stickyHeader
         size="small"
@@ -92,6 +93,7 @@ export default function MaterialPlanningComponent({
             <TableCell>
               {i18n.t("materialPlanning.columnPoductionOrders")}
             </TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -121,6 +123,8 @@ export default function MaterialPlanningComponent({
                             planningType
                           )
                         }
+                        sx={{ backgroundColor: "white" }}
+                        inputProps={{ min: 0 }}
                       />
                     </TableCell>
                     <TableCell>-</TableCell>

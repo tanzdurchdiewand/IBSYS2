@@ -19,6 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  borderRadius: 0,
 }));
 
 export default function CustomGridDirectSell({
@@ -78,6 +79,7 @@ export default function CustomGridDirectSell({
               variant="outlined"
               value={directSell?.amount}
               type="number"
+              inputProps={{ min: 0 }}
             />
           </Box>
         </Item>
@@ -101,6 +103,7 @@ export default function CustomGridDirectSell({
               variant="outlined"
               value={directSell?.price}
               type="number"
+              inputProps={{ min: 0 }}
             />
           </Box>
         </Item>
@@ -124,6 +127,7 @@ export default function CustomGridDirectSell({
               variant="outlined"
               value={directSell?.penalty}
               type="number"
+              inputProps={{ min: 0 }}
             />
           </Box>
         </Item>

@@ -12,50 +12,51 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+  borderRadius: 0,
 }));
 
 export default function CustomProductionGridBody({
   productionProgramm,
 }: Readonly<Props>) {
   const sumSalesWish =
-    Number(productionProgramm["P1"].salesOrder.salesWish) +
-    Number(productionProgramm["P2"].salesOrder.salesWish) +
-    Number(productionProgramm["P3"].salesOrder.salesWish);
+    Number(productionProgramm["P1"].salesOrder.salesWish || 0) +
+    Number(productionProgramm["P2"].salesOrder.salesWish || 0) +
+    Number(productionProgramm["P3"].salesOrder.salesWish || 0);
 
   const sumProductionWish =
-    Number(productionProgramm["P1"].salesOrder.productionWish) +
-    Number(productionProgramm["P2"].salesOrder.productionWish) +
-    Number(productionProgramm["P3"].salesOrder.productionWish);
+    Number(productionProgramm["P1"].salesOrder.productionWish || 0) +
+    Number(productionProgramm["P2"].salesOrder.productionWish || 0) +
+    Number(productionProgramm["P3"].salesOrder.productionWish || 0);
 
   const sumSalesWishf0 =
-    productionProgramm["P1"].forecast[0].salesOrder.salesWish +
-    productionProgramm["P2"].forecast[0].salesOrder.salesWish +
-    productionProgramm["P3"].forecast[0].salesOrder.salesWish;
+    (productionProgramm["P1"].forecast[0].salesOrder.salesWish || 0) +
+    (productionProgramm["P2"].forecast[0].salesOrder.salesWish || 0) +
+    (productionProgramm["P3"].forecast[0].salesOrder.salesWish || 0);
 
   const sumProductionWishf0 =
-    productionProgramm["P1"].forecast[0].salesOrder.productionWish +
-    productionProgramm["P2"].forecast[0].salesOrder.productionWish +
-    productionProgramm["P3"].forecast[0].salesOrder.productionWish;
+    (productionProgramm["P1"].forecast[0].salesOrder.productionWish || 0) +
+    (productionProgramm["P2"].forecast[0].salesOrder.productionWish || 0) +
+    (productionProgramm["P3"].forecast[0].salesOrder.productionWish || 0);
 
   const sumSalesWishf1 =
-    productionProgramm["P1"].forecast[1].salesOrder.salesWish +
-    productionProgramm["P2"].forecast[1].salesOrder.salesWish +
-    productionProgramm["P3"].forecast[1].salesOrder.salesWish;
+    (productionProgramm["P1"].forecast[1].salesOrder.salesWish || 0) +
+    (productionProgramm["P2"].forecast[1].salesOrder.salesWish || 0) +
+    (productionProgramm["P3"].forecast[1].salesOrder.salesWish || 0);
 
   const sumProductionWishf1 =
-    productionProgramm["P1"].forecast[1].salesOrder.productionWish +
-    productionProgramm["P2"].forecast[1].salesOrder.productionWish +
-    productionProgramm["P3"].forecast[1].salesOrder.productionWish;
+    (productionProgramm["P1"].forecast[1].salesOrder.productionWish || 0) +
+    (productionProgramm["P2"].forecast[1].salesOrder.productionWish || 0) +
+    (productionProgramm["P3"].forecast[1].salesOrder.productionWish || 0);
 
   const sumSalesWishf2 =
-    productionProgramm["P1"].forecast[2].salesOrder.salesWish +
-    productionProgramm["P2"].forecast[2].salesOrder.salesWish +
-    productionProgramm["P3"].forecast[2].salesOrder.salesWish;
+    (productionProgramm["P1"].forecast[2].salesOrder.salesWish || 0) +
+    (productionProgramm["P2"].forecast[2].salesOrder.salesWish || 0) +
+    (productionProgramm["P3"].forecast[2].salesOrder.salesWish || 0);
 
   const sumProductionWishf2 =
-    productionProgramm["P1"].forecast[2].salesOrder.productionWish +
-    productionProgramm["P2"].forecast[2].salesOrder.productionWish +
-    productionProgramm["P3"].forecast[2].salesOrder.productionWish;
+    (productionProgramm["P1"].forecast[2].salesOrder.productionWish || 0) +
+    (productionProgramm["P2"].forecast[2].salesOrder.productionWish || 0) +
+    (productionProgramm["P3"].forecast[2].salesOrder.productionWish || 0);
 
   return (
     <Grid container>
@@ -63,7 +64,7 @@ export default function CustomProductionGridBody({
         {" "}
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.09)" }}>
           <Box
             component="form"
             sx={{
@@ -84,7 +85,7 @@ export default function CustomProductionGridBody({
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(173, 255, 0, 0.1)" }}>
           <Box
             component="form"
             sx={{
@@ -113,7 +114,7 @@ export default function CustomProductionGridBody({
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{
@@ -142,7 +143,7 @@ export default function CustomProductionGridBody({
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{
@@ -171,7 +172,7 @@ export default function CustomProductionGridBody({
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{

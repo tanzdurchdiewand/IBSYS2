@@ -12,6 +12,7 @@ export default function CustomGridProductPeriod({ period }: Props) {
     padding: theme.spacing(1),
     textAlign: "center",
     color: theme.palette.text.secondary,
+    borderRadius: 0,
   }));
 
   return (
@@ -20,7 +21,7 @@ export default function CustomGridProductPeriod({ period }: Props) {
         {" "}
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.09)" }}>
           <Box
             component="form"
             sx={{
@@ -40,7 +41,7 @@ export default function CustomGridProductPeriod({ period }: Props) {
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(173, 255, 0, 0.1)" }}>
           <Box
             component="form"
             sx={{
@@ -58,7 +59,7 @@ export default function CustomGridProductPeriod({ period }: Props) {
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{
@@ -76,7 +77,7 @@ export default function CustomGridProductPeriod({ period }: Props) {
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{
@@ -94,7 +95,7 @@ export default function CustomGridProductPeriod({ period }: Props) {
         </Item>
       </Grid>
       <Grid item xs={2}>
-        <Item>
+        <Item sx={{ backgroundColor: "rgba(255, 165, 0, 0.05)" }}>
           <Box
             component="form"
             sx={{
