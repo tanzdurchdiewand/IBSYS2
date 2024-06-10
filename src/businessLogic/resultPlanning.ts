@@ -102,8 +102,8 @@ function mapMaterialOrderPlanningToOrderList(
           orderType === OrderType.Normal
             ? 5
             : orderType === OrderType.Fast
-              ? 4
-              : 5,
+            ? 4
+            : 5,
       };
 
       // Only add to Orders if we need to Order the Article
@@ -140,6 +140,11 @@ export function mapSummaryRowToWorkingTimeList(
     let capacity = Math.round(overtime * 5 + baseCapacityPerPeriod);
     let cappedOvertime = 0;
 
+    // Workstation 5 is not used
+    if (index === 4) {
+      shifts = 0;
+    }
+
     if (capacity > baseCapacityPerPeriod && capacity <= 3600) {
       cappedOvertime = capacity - baseCapacityPerPeriod;
     } else if (capacity > 3600 && capacity <= 4800) {
@@ -164,4 +169,3 @@ export function mapSummaryRowToWorkingTimeList(
 
   return { workingTime: workingTimes };
 }
-
