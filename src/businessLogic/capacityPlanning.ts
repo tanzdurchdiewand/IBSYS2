@@ -46,28 +46,41 @@ export function initializeCapacityPlanningSummary(
   const setupTimePreviousPeriods = generateArray();
   const totalCapacityRequirements = generateArray();
 
-  // Berechne die Schichten und Überstunden basierend auf den Kapazitätsplanungsdaten
-  Object.values(capacityPlanning).forEach(({ workstationResults }, workstationIndex) => {
+  // Count the number of orders for each workstation
+  const orderCounts = generateArray();
+  Object.values(capacityPlanning).forEach(({ workstationResults }) => {
     workstationResults.forEach((num, index) => {
-      // Fülle die Kapazitätsanforderungen
+      // Fill the capacity requirements
       capacityRequirements[index] += num;
 
-      // Berechne die Setup-Zeiten
-      const setupTime = getSetupTime(workstationIndex + 1);
-      setupTimes[workstationIndex] += setupTime;
+      // Increment order count if there is an order for the workstation
+      if (num > 0) {
+        orderCounts[index]++;
+      }
 
-      // Hänge die Rüstzeiten der Vorperiode ein
-      const previousPeriodSetupTime = getPreviousPeriodSetupTime(workstationIndex + 1, gameData);
-      setupTimePreviousPeriods[workstationIndex] += previousPeriodSetupTime;
+      // Calculate setup times
+      const setupTime = getSetupTime(index + 1);
+      setupTimes[index] = setupTime * orderCounts[index];
+
+      // Append setup times from the previous period
+      const previousPeriodSetupTime = getPreviousPeriodSetupTime(index + 1, gameData);
+      setupTimePreviousPeriods[index] += previousPeriodSetupTime;
     });
   });
 
-  // Berechne Gesamtkapazitätsanforderungen und Überstunden
+
+  // Calculate total capacity requirements and overtime
   for (let i = 0; i < capacityRequirements.length; i++) {
     totalCapacityRequirements[i] = capacityRequirements[i] + setupTimes[i] + setupTimePreviousPeriods[i];
-    shiftsAndOvertimes[i] = Math.max(totalCapacityRequirements[i] - MINUTES_PER_PERIOD, 0); // Überstunden berechnen
-    shiftsAndOvertimePerDays[i] = shiftsAndOvertimes[i] / 5; // Überstunden pro Tag berechnen
+    shiftsAndOvertimes[i] = Math.max(totalCapacityRequirements[i] - MINUTES_PER_PERIOD, 0);
+    shiftsAndOvertimePerDays[i] = shiftsAndOvertimes[i] / 5;
   }
+
+  // Calculate setup time based on the number of orders
+  const setupTimeBasedOnOrders = generateArray();
+  orderCounts.forEach((count, index) => {
+    setupTimeBasedOnOrders[index] = count * getSetupTime(index + 1);
+  });
 
   const capacitySummaryPlanning: SummaryTable = generateSummaryRows(
     capacityRequirements,
@@ -75,26 +88,22 @@ export function initializeCapacityPlanningSummary(
     setupTimePreviousPeriods,
     totalCapacityRequirements,
     shiftsAndOvertimes,
-    shiftsAndOvertimePerDays
+    shiftsAndOvertimePerDays,
   );
 
   return capacitySummaryPlanning;
 
-  // Funktion zur Berechnung der Setup-Zeiten
   function getSetupTime(workstationIndex: number): number {
     return WORKSTATION_SETUP_TIMES[workstationIndex] || 0;
   }
 
-  // TODO: funktioniert nicht wie es soll glaub ich
   function getPreviousPeriodSetupTime(workstationIndex: number, gameData: GameData): number {
     const waitinglistworkstations: WaitinglistWorkstations = gameData.results.waitinglistworkstations;
     const workplace: WaitingWorkplace[] = waitinglistworkstations[`workplace${workstationIndex}` as keyof WaitinglistWorkstations];
     let setupTime = 0;
 
     if (workplace) {
-      // Durchlaufe die Warteschlangen für die Arbeitsstation
       workplace.forEach((waitinglist: any) => {
-        // Addiere die Zeit für jede Warteschlange
         setupTime += parseInt(waitinglist.timeneed);
       });
     }
@@ -102,7 +111,6 @@ export function initializeCapacityPlanningSummary(
     return setupTime;
   }
 }
-
 
 
 const getProductProductionQuantity = (
