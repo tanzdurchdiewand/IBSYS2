@@ -29,7 +29,6 @@ export const useResult = () => {
   const capacitySummaryRows = useSelector(
     (state: RootState) => state.inputCapacityPlanning.summaryRows
   );
-  console.log(capacitySummaryRows);
   const productionPlan = useSelector(
     (state: RootState) => state.productionPlanning.list.productionPlan
   );

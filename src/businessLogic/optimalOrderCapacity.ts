@@ -100,7 +100,7 @@ export type Order = {
   piececosts?: number;
 };
 
-interface Product {
+export interface Product {
   productName: number;
   UsedInP1: number;
   UsedInP2: number;
@@ -112,7 +112,7 @@ interface Product {
   Lieferzeit: number;
   Abweichung: number;
   RabattMenge: number;
-  Bestellart: string;
+  Bestellart: number;
   Bestellmenge: number;
   BestandNachLieferung2: number;
   BestandNachLieferung3: number;
@@ -138,7 +138,7 @@ export const optimalOrderCapacity = (
     Lieferzeit: materialOrderPlanning[key].deliveryTime,
     Abweichung: materialOrderPlanning[key].deviation,
     RabattMenge: materialOrderPlanning[key].discountQuantity,
-    Bestellart: "",
+    Bestellart: 0,
     Bestellmenge: 0,
     BestandNachLieferung2: 0,
     BestandNachLieferung3: 0,
@@ -201,12 +201,11 @@ export const optimalOrderCapacity = (
       ZeitpunktLeer - (produkt.Lieferzeit + produkt.Abweichung + 1) >= 0 ||
       ZeitpunktLeer === 0
     ) {
-      produkt.Bestellart = "No order";
+      produkt.Bestellart = OrderType.Normal;
       produkt.Bestellmenge = 0;
     } else {
       if (ZeitpunktLeer - (produkt.Lieferzeit + produkt.Abweichung) < 0) {
-        console.log("Express order");
-        produkt.Bestellart = "Express order";
+        produkt.Bestellart = OrderType.Fast;
 
         if (produkt.RabattMenge - produkt.BedarfWoche1 <= 0) {
           let faktor: number;
@@ -284,34 +283,33 @@ export const optimalOrderCapacity = (
           produkt.Bestellmenge = produkt.RabattMenge;
         }
       } else {
-        console.log("Standard order");
-        produkt.Bestellart = "Standard order";
+        produkt.Bestellart = OrderType.Normal;
         produkt.Bestellmenge = produkt.RabattMenge;
       }
     }
 
     ausstehendeBestellungen.forEach((order) => {
       if (produkt.productName === order.article) {
-        produkt.Bestellart = "No order";
+        produkt.Bestellart = OrderType.Normal;
         produkt.Bestellmenge = 0;
       }
     });
 
     function BestandNachLieferung(
-      Bestellart: string,
+      Bestellart: number,
       Bestellmenge: number,
       Lieferzeit: number,
       Abweichung: number,
       Woche: number
     ): number {
       if (
-        Bestellart === "Express order" &&
+        Bestellart === OrderType.Fast &&
         Lieferzeit / 2 <= Woche &&
         Lieferzeit / 2 >= Woche - 1
       ) {
         return Bestellmenge;
       } else if (
-        Bestellart === "Standard order" &&
+        Bestellart === OrderType.Normal &&
         Lieferzeit + Abweichung <= Woche &&
         Lieferzeit + Abweichung >= Woche - 1
       ) {
@@ -474,9 +472,6 @@ export const optimalOrderCapacity = (
             produkt.Abweichung,
             3
           );
-    console.log(produkt);
   });
-
-  console.log(produkte);
   return produkte;
 };

@@ -6,9 +6,9 @@ import {
   orderDetail,
 } from "../types/orderPlanningTypes";
 import { ProductionProgramm } from "../types/productionPlanningTypes";
-import { optimalOrderCapacity } from "./optimalOrderCapacity";
+import { Product, optimalOrderCapacity } from "./optimalOrderCapacity";
 
-export function initializeOrderPlanning(
+export default function InitializeOrderPlanning(
   gameData: GameData,
   productionProgramm: ProductionProgramm,
   currentOrder: MaterialOrderPlanning | null
@@ -16,8 +16,10 @@ export function initializeOrderPlanning(
   const orderPlanning: any = {};
   const pendingOrders = gameData.results.futureinwardstockmovement.order;
 
+  let testDateProduct: Product[] = [];
+
+  console.log(currentOrder);
   if (currentOrder !== null) {
-    console.log("Current Order", currentOrder);
     const testData = optimalOrderCapacity(
       currentOrder,
       productionProgramm,
@@ -25,7 +27,12 @@ export function initializeOrderPlanning(
       gameData.results.period
     );
     console.log(testData);
+    testDateProduct = testData;
   }
+
+  testDateProduct.forEach((product) => {
+    console.log(product.Bestellmenge);
+  });
 
   Object.entries(orderDetail).forEach(([key, details]) => {
     const warehouseStock = returnWarehouseStockForProduct(gameData, key);
@@ -42,6 +49,12 @@ export function initializeOrderPlanning(
     const pendingOrderPeriod = filteredOrders?.orderperiod ?? 0;
     const pendingOrderAmount = filteredOrders?.amount ?? 0;
     const pendingOrderType = filteredOrders?.mode ?? 0;
+
+    const productData = testDateProduct.find(
+      (product) => product.productName.toString() === key
+    );
+
+    console.log(productData);
 
     interface OrderPlanningRow {
       productName: number;
@@ -100,32 +113,28 @@ export function initializeOrderPlanning(
     const calculatedOrderQuantityData = currentOrder
       ? currentOrder[key]
       : {
-        productName: key as unknown as number,
-        deliveryTime: details.deliveryTime,
-        deviation: details.deviation,
-        quantityP1: details.requiredQuantityP1,
-        quantityP2: details.requiredQuantityP2,
-        quantityP3: details.requiredQuantityP3,
-        discountQuantity: details.discountQuantity,
-        warehouseStock: warehouseStock,
-        demandForPeriod: demands,
-        orderQuantity: 0,
-        orderType: OrderType.Normal,
-        pendingOrderPeriod: pendingOrderPeriod,
-        pendingOrderAmount: pendingOrderAmount,
-        pendingOrderType: pendingOrderType,
-      };
+          productName: key as unknown as number,
+          deliveryTime: details.deliveryTime,
+          deviation: details.deviation,
+          quantityP1: details.requiredQuantityP1,
+          quantityP2: details.requiredQuantityP2,
+          quantityP3: details.requiredQuantityP3,
+          discountQuantity: details.discountQuantity,
+          warehouseStock: warehouseStock,
+          demandForPeriod: demands,
+          orderQuantity: 0,
+          orderType: OrderType.Normal,
+          pendingOrderPeriod: pendingOrderPeriod,
+          pendingOrderAmount: pendingOrderAmount,
+          pendingOrderType: pendingOrderType,
+        };
 
     const calculatedOrderQuantityTest = calculateOptimalOrder(
       calculatedOrderQuantityData
     );
 
-    const orderQuantity = currentOrder
-      ? currentOrder[key].orderQuantity
-      : calculatedOrderQuantityTest.optimalOrderQuantity;
-    const orderType = currentOrder
-      ? currentOrder[key].orderType
-      : calculatedOrderQuantityTest.orderType;
+    const orderQuantity = productData?.Bestellmenge;
+    const orderType = productData?.Bestellart;
 
     orderPlanning[key] = {
       productName: key,
@@ -198,11 +207,11 @@ function calculateDemands(
     ) {
       demands[i + 1] =
         productionProgram.P1.forecast[i].salesOrder.productionWish *
-        requiredQuantityP1 +
+          requiredQuantityP1 +
         productionProgram.P2.forecast[i].salesOrder.productionWish *
-        requiredQuantityP2 +
+          requiredQuantityP2 +
         productionProgram.P3.forecast[i].salesOrder.productionWish *
-        requiredQuantityP3;
+          requiredQuantityP3;
     }
   }
 

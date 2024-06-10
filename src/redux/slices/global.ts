@@ -7,7 +7,7 @@ import {
 import { AppThunk, RootState } from "../store";
 import { MaterialOrderPlanning } from "../../types/orderPlanningTypes";
 import { setOrderPlanning } from "./inputOrderPlanning";
-import { initializeOrderPlanning } from "../../businessLogic/orderPlanning";
+import InitializeOrderPlanning from "../../businessLogic/orderPlanning";
 
 // ----------------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ export const fetchInitialOrderPlanning = createAsyncThunk<
 
   const orderPlanning = inputOrderPlanning.data;
 
-  const orderData = initializeOrderPlanning(
+  const orderData = InitializeOrderPlanning(
     gameData,
     productionProgramm!,
     orderPlanning
