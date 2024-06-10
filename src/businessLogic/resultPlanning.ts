@@ -134,23 +134,34 @@ export function mapSummaryRowToWorkingTimeList(
   // Grundkapazität pro Arbeitsplatz pro Periode
   const baseCapacityPerPeriod = 2400; // Minuten
 
-  // Maximale Überstunden pro Periode (50% der Grundkapazität)
-  const maxOvertimePerPeriod = baseCapacityPerPeriod / 2;
-
   // Durchgehen der Werte für Überstunden und Schichten
   values.forEach((overtime, index) => {
-    // Überstunden pro Periode begrenzen
-    const cappedOvertime = Math.min(overtime, maxOvertimePerPeriod);
+    let shifts = 1;
+    let capacity = Math.round(overtime * 5 + baseCapacityPerPeriod);
+    let cappedOvertime = 0;
 
-    // TODO Shifts auf basis der Überstunden ausrechnen (für 5 da capa 0 immer 0)
-    // Hinzufügen der Arbeitszeit für die Schicht ohne Überstunden
+    if (capacity > baseCapacityPerPeriod && capacity <= 3600) {
+      cappedOvertime = capacity - baseCapacityPerPeriod;
+    } else if (capacity > 3600 && capacity <= 4800) {
+      shifts = 2;
+      cappedOvertime = 0;
+    } else if (capacity > 4800 && capacity <= 6000) {
+      shifts = 2;
+      cappedOvertime = capacity - 4800;
+    } else if (capacity > 6000) {
+      shifts = 3;
+      cappedOvertime = 0;
+    }
+
     const baseWorkingTime: WorkingTime = {
       station: index + 1,
-      shift: 1,
-      overtime: cappedOvertime, // Standardkapazität plus Überstunden
+      shift: shifts,
+      overtime: cappedOvertime,
     };
+
     workingTimes.push(baseWorkingTime);
   });
 
   return { workingTime: workingTimes };
 }
+
