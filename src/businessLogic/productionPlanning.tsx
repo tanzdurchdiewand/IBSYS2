@@ -85,14 +85,14 @@ export default function ProductionPlanning() {
     () => [
       {
         accessorKey: "id",
-        header: "ID",
+        header: "Position",
         enableEditing: false,
         size: 40,
         hidden: true,
       },
       {
         accessorKey: "item",
-        header: "Item",
+        header: "Article number",
         enableEditing: false,
         size: 80,
       },
