@@ -137,7 +137,7 @@ export function mapSummaryRowToWorkingTimeList(
   // Durchgehen der Werte für Überstunden und Schichten
   values.forEach((overtime, index) => {
     let shifts = 1;
-    let capacity = Math.round(overtime * 5 + baseCapacityPerPeriod);
+    let capacity = Math.round(overtime + baseCapacityPerPeriod);
     let cappedOvertime = 0;
 
     // Workstation 5 is not used
