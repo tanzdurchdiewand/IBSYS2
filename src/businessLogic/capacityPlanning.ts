@@ -1,3 +1,4 @@
+import { id } from "date-fns/locale";
 import {
   BikePartType,
   CapacityPlanningTable,
@@ -7,6 +8,7 @@ import {
 import {
   GameData,
   WaitingWorkplace,
+  Waitinglist,
   WaitinglistWorkstations,
 } from "../types/inputXMLTypes";
 import {
@@ -70,25 +72,35 @@ export function initializeCapacityPlanningSummary(
       setupTimes[index] = setupTime * orderCounts[index];
 
       // Append setup times from the previous period
-      const previousPeriodSetupTime = getPreviousPeriodSetupTime(
-        index + 1,
-        gameData
-      );
-      setupTimePreviousPeriods[index] += previousPeriodSetupTime;
+      const waitinglistworkstations: WaitinglistWorkstations =
+        gameData.results.waitinglistworkstations;
+
+      const previousPeriodSetupTime =
+        waitinglistworkstations.workplace.find(
+          (workplace: WaitingWorkplace) => Number(workplace.id) === index + 1
+        )?.timeneed || 0;
+      setupTimePreviousPeriods[index] = Number(previousPeriodSetupTime);
     });
   });
-
+  console.log("setupTimePreviousPeriods", setupTimePreviousPeriods);
+  console.log("capacityRequirements", capacityRequirements);
+  console.log("setupTimes", setupTimes);
   // Calculate total capacity requirements and overtime
   for (let i = 0; i < capacityRequirements.length; i++) {
     totalCapacityRequirements[i] =
       capacityRequirements[i] + setupTimes[i] + setupTimePreviousPeriods[i];
+
+    console.log("totalCapacityRequirements", totalCapacityRequirements);
+  }
+
+  for (let i = 0; i < totalCapacityRequirements.length; i++) {
     shiftsAndOvertimes[i] = Math.max(
       totalCapacityRequirements[i] - MINUTES_PER_PERIOD,
       0
     );
+    console.log("shiftsAndOvertimes", shiftsAndOvertimes);
     shiftsAndOvertimePerDays[i] = shiftsAndOvertimes[i] / 5;
   }
-
   // Calculate setup time based on the number of orders
   const setupTimeBasedOnOrders = generateArray();
   orderCounts.forEach((count, index) => {
@@ -116,18 +128,18 @@ export function initializeCapacityPlanningSummary(
   ): number {
     const waitinglistworkstations: WaitinglistWorkstations =
       gameData.results.waitinglistworkstations;
-    const workplace: WaitingWorkplace[] =
-      waitinglistworkstations[
-        `workplace${workstationIndex}` as keyof WaitinglistWorkstations
-      ];
+
     let setupTime = 0;
 
-    if (workplace) {
-      workplace.forEach((waitinglist: any) => {
-        setupTime += parseInt(waitinglist.timeneed);
-      });
-    }
-
+    // Iterate over all workplaces in waitinglistworkstations
+    waitinglistworkstations.workplace.forEach((workplace: WaitingWorkplace) => {
+      console.log("workplace", workplace.id);
+      console.log("workstationIndex", workstationIndex);
+      if (Number(workplace.id) === workstationIndex) {
+        setupTime = workplace.timeneed;
+      }
+    });
+    console.log("setupTime", setupTime);
     return setupTime;
   }
 }
@@ -182,7 +194,7 @@ const generateSummaryRows = (
       editable: false,
     },
     {
-      label: "setupTimes Previous Periods",
+      label: "Capacity Previous Periods",
       values: setupTimePreviousPeriods,
       editable: false,
     },
