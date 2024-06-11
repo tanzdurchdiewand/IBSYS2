@@ -159,7 +159,8 @@ function setPreviousWaitingQueueMap() {
 function generateWorkInProgressMap(gameData: GameData): Map<string, string> {
   if (
     gameData.results.ordersinwork.workplace !== undefined &&
-    gameData.results.ordersinwork.workplace !== null
+    gameData.results.ordersinwork.workplace !== null &&
+    Array.isArray(gameData.results.ordersinwork.workplace)
   ) {
     console.log("workplace", gameData.results.ordersinwork.workplace);
     return gameData.results.ordersinwork.workplace.reduce(
