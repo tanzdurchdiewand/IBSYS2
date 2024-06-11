@@ -18,7 +18,6 @@ export default function InitializeOrderPlanning(
 
   let testDateProduct: Product[] = [];
 
-  console.log(currentOrder);
   if (currentOrder !== null) {
     const testData = optimalOrderCapacity(
       currentOrder,
@@ -26,13 +25,10 @@ export default function InitializeOrderPlanning(
       pendingOrders,
       gameData.results.period
     );
-    console.log(testData);
     testDateProduct = testData;
   }
 
-  testDateProduct.forEach((product) => {
-    console.log(product.Bestellmenge);
-  });
+  testDateProduct.forEach((product) => {});
 
   Object.entries(orderDetail).forEach(([key, details]) => {
     const warehouseStock = returnWarehouseStockForProduct(gameData, key);
@@ -53,9 +49,6 @@ export default function InitializeOrderPlanning(
     const productData = testDateProduct.find(
       (product) => product.productName.toString() === key
     );
-
-    console.log(productData);
-
     interface OrderPlanningRow {
       productName: number;
       deliveryTime: number;

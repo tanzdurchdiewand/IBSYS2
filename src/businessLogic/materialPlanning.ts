@@ -162,7 +162,6 @@ function generateWorkInProgressMap(gameData: GameData): Map<string, string> {
     gameData.results.ordersinwork.workplace !== null &&
     Array.isArray(gameData.results.ordersinwork.workplace)
   ) {
-    console.log("workplace", gameData.results.ordersinwork.workplace);
     return gameData.results.ordersinwork.workplace.reduce(
       (map: Map<string, string>, workplace: WorkplaceOrdersInWork) => {
         const key = workplace.item.toString();

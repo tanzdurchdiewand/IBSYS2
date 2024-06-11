@@ -82,15 +82,11 @@ export function initializeCapacityPlanningSummary(
       setupTimePreviousPeriods[index] = Number(previousPeriodSetupTime);
     });
   });
-  console.log("setupTimePreviousPeriods", setupTimePreviousPeriods);
-  console.log("capacityRequirements", capacityRequirements);
-  console.log("setupTimes", setupTimes);
+
   // Calculate total capacity requirements and overtime
   for (let i = 0; i < capacityRequirements.length; i++) {
     totalCapacityRequirements[i] =
       capacityRequirements[i] + setupTimes[i] + setupTimePreviousPeriods[i];
-
-    console.log("totalCapacityRequirements", totalCapacityRequirements);
   }
 
   for (let i = 0; i < totalCapacityRequirements.length; i++) {
@@ -98,7 +94,6 @@ export function initializeCapacityPlanningSummary(
       totalCapacityRequirements[i] - MINUTES_PER_PERIOD,
       0
     );
-    console.log("shiftsAndOvertimes", shiftsAndOvertimes);
     shiftsAndOvertimePerDays[i] = shiftsAndOvertimes[i] / 5;
   }
   // Calculate setup time based on the number of orders
@@ -133,13 +128,10 @@ export function initializeCapacityPlanningSummary(
 
     // Iterate over all workplaces in waitinglistworkstations
     waitinglistworkstations.workplace.forEach((workplace: WaitingWorkplace) => {
-      console.log("workplace", workplace.id);
-      console.log("workstationIndex", workstationIndex);
       if (Number(workplace.id) === workstationIndex) {
         setupTime = workplace.timeneed;
       }
     });
-    console.log("setupTime", setupTime);
     return setupTime;
   }
 }
