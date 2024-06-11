@@ -169,6 +169,7 @@ export default function ProductionPlanning() {
     enableRowSelection: true,
     enableMultiRowSelection: false,
     editDisplayMode: "cell",
+    muiTableContainerProps: { sx: { maxHeight: "800px" } },
     initialState: { columnVisibility: { id: false } },
     //optionally, use single-click to activate editing mode instead of default double-click
     muiTableBodyCellProps: ({ cell, column, table }) => ({
