@@ -183,6 +183,15 @@ export default function ProductionPlanning() {
           }
         });
       },
+      onBlur: () => {
+        let testProductionResult: ProductionPlanTimesTotal = {
+          id: Number(cell.row.original.id),
+          item: Number(cell.row.original.item),
+          amount: Number(cell.row._valuesCache.amount),
+          workstationTimeAsString: cell.row.original.workstationTimeAsString,
+        };
+        updateProductionResult(testProductionResult);
+      },
     }),
     //select row
     getRowId: (row) => row.id.toString(),
@@ -236,14 +245,6 @@ export default function ProductionPlanning() {
           variant="contained"
         >
           {i18n.t("productionPlanning.splitOrder")}
-        </Button>
-        <Button
-          color="success"
-          variant="contained"
-          onClick={handleSaveUsers}
-          // disabled={Object.keys(testProductionResult).length === 0}
-        >
-          {"Save"}
         </Button>
       </Box>
     ),
