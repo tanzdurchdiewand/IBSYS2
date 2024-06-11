@@ -45,7 +45,7 @@ export const useCapacityPlanning = () => {
     valueIndex: number,
     value: number
   ) => {
-    if (value >= 0) {
+    if (value >= 0 && value <= 4800) {
       const newValues = [...summaryRows[index].values!];
       newValues[valueIndex] = value;
       dispatch(updateCapacityPlanningRow({ index, values: newValues }));
