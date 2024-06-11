@@ -4,8 +4,15 @@ import {
   SummaryTable,
   capacityPlanningData,
 } from "../types/capacityPlanningTypes";
-import { GameData, WaitingWorkplace, WaitinglistWorkstations } from "../types/inputXMLTypes";
-import { ProductionProgramm, WORKSTATION_SETUP_TIMES } from "../types/productionPlanningTypes";
+import {
+  GameData,
+  WaitingWorkplace,
+  WaitinglistWorkstations,
+} from "../types/inputXMLTypes";
+import {
+  ProductionProgramm,
+  WORKSTATION_SETUP_TIMES,
+} from "../types/productionPlanningTypes";
 
 export function initializeCapacityPlanning(
   productionProgramm: ProductionProgramm
@@ -63,16 +70,22 @@ export function initializeCapacityPlanningSummary(
       setupTimes[index] = setupTime * orderCounts[index];
 
       // Append setup times from the previous period
-      const previousPeriodSetupTime = getPreviousPeriodSetupTime(index + 1, gameData);
+      const previousPeriodSetupTime = getPreviousPeriodSetupTime(
+        index + 1,
+        gameData
+      );
       setupTimePreviousPeriods[index] += previousPeriodSetupTime;
     });
   });
 
-
   // Calculate total capacity requirements and overtime
   for (let i = 0; i < capacityRequirements.length; i++) {
-    totalCapacityRequirements[i] = capacityRequirements[i] + setupTimes[i] + setupTimePreviousPeriods[i];
-    shiftsAndOvertimes[i] = Math.max(totalCapacityRequirements[i] - MINUTES_PER_PERIOD, 0);
+    totalCapacityRequirements[i] =
+      capacityRequirements[i] + setupTimes[i] + setupTimePreviousPeriods[i];
+    shiftsAndOvertimes[i] = Math.max(
+      totalCapacityRequirements[i] - MINUTES_PER_PERIOD,
+      0
+    );
     shiftsAndOvertimePerDays[i] = shiftsAndOvertimes[i] / 5;
   }
 
@@ -88,7 +101,7 @@ export function initializeCapacityPlanningSummary(
     setupTimePreviousPeriods,
     totalCapacityRequirements,
     shiftsAndOvertimes,
-    shiftsAndOvertimePerDays,
+    shiftsAndOvertimePerDays
   );
 
   return capacitySummaryPlanning;
@@ -97,9 +110,16 @@ export function initializeCapacityPlanningSummary(
     return WORKSTATION_SETUP_TIMES[workstationIndex] || 0;
   }
 
-  function getPreviousPeriodSetupTime(workstationIndex: number, gameData: GameData): number {
-    const waitinglistworkstations: WaitinglistWorkstations = gameData.results.waitinglistworkstations;
-    const workplace: WaitingWorkplace[] = waitinglistworkstations[`workplace${workstationIndex}` as keyof WaitinglistWorkstations];
+  function getPreviousPeriodSetupTime(
+    workstationIndex: number,
+    gameData: GameData
+  ): number {
+    const waitinglistworkstations: WaitinglistWorkstations =
+      gameData.results.waitinglistworkstations;
+    const workplace: WaitingWorkplace[] =
+      waitinglistworkstations[
+        `workplace${workstationIndex}` as keyof WaitinglistWorkstations
+      ];
     let setupTime = 0;
 
     if (workplace) {
@@ -111,7 +131,6 @@ export function initializeCapacityPlanningSummary(
     return setupTime;
   }
 }
-
 
 const getProductProductionQuantity = (
   type: BikePartType,
@@ -173,12 +192,12 @@ const generateSummaryRows = (
       editable: false,
     },
     {
-      label: "Shifts And Overtimes",
+      label: "Overtimes",
       values: shiftsAndOvertimes,
       editable: true,
     },
     {
-      label: "Shifts And Overtime Per Days",
+      label: "Overtime Per Days",
       values: shiftsAndOvertimePerDays,
       editable: true,
     },

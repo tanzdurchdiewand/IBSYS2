@@ -1,4 +1,4 @@
-import { Box, Container, Tab, Tabs } from "@mui/material";
+import { Box, Container, Tab, Tabs, Grid } from "@mui/material";
 import { StyledCard } from "../components/styledComponets/styledCard";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { StyledButton } from "../components/styledComponets/styledButton";
@@ -17,7 +17,6 @@ import WorkingTimeResultComponent from "../components/resultComponents/workingTi
 import { useResult } from "../hooks/useResult";
 import i18n from "../locals/i18n";
 import { useLocales } from "../locals";
-import { Grid } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;

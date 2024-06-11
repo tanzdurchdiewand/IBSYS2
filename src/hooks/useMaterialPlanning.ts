@@ -44,14 +44,16 @@ export function useMaterialPlanning() {
   ) => {
     if (!initialPlanning) return;
 
-    const recalculatedPlanning = recalculatePlanning(
-      key,
-      field,
-      value,
-      initialPlanning,
-      type
-    );
-    dispatch(updateAndRecalculatePlanning(recalculatedPlanning));
+    if (value >= 0) {
+      const recalculatedPlanning = recalculatePlanning(
+        key,
+        field,
+        value,
+        initialPlanning,
+        type
+      );
+      dispatch(updateAndRecalculatePlanning(recalculatedPlanning));
+    }
   };
 
   return { initialPlanning, updateAndRecalculate };

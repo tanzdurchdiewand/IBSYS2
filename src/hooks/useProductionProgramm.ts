@@ -26,7 +26,7 @@ export const useProductionProgramm = () => {
   const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const parts = name.split(".");
-    if (parts.length === 3) {
+    if (parts.length === 3 && Number(value) >= 0) {
       const [part, category, key] = parts;
       if (part in { P1: true, P2: true, P3: true, directSell: true }) {
         dispatch(
@@ -44,7 +44,7 @@ export const useProductionProgramm = () => {
   const handleDirectSellChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const parts = name.split(".");
-    if (parts.length === 4) {
+    if (parts.length === 4 && Number(value) >= 0) {
       const [part, key] = parts;
       if (part === "directSell") {
         dispatch(
@@ -75,28 +75,30 @@ export const useProductionProgramm = () => {
         ? "P3"
         : "P1";
 
-    dispatch(
-      updateForecastProductionProgramm({
-        ...productionProgramm!,
-        [bikeType]: {
-          ...productionProgramm![type],
-          forecast: productionProgramm?.[type].forecast.map(
-            (forecast: { salesOrder: any }, index: number) => {
-              if (index === periodIndex) {
-                return {
-                  ...forecast,
-                  salesOrder: {
-                    ...forecast.salesOrder,
-                    [field]: parseInt(value),
-                  },
-                };
+    if (Number(value) >= 0) {
+      dispatch(
+        updateForecastProductionProgramm({
+          ...productionProgramm!,
+          [bikeType]: {
+            ...productionProgramm![type],
+            forecast: productionProgramm?.[type].forecast.map(
+              (forecast: { salesOrder: any }, index: number) => {
+                if (index === periodIndex) {
+                  return {
+                    ...forecast,
+                    salesOrder: {
+                      ...forecast.salesOrder,
+                      [field]: parseInt(value),
+                    },
+                  };
+                }
+                return forecast;
               }
-              return forecast;
-            }
-          ),
-        },
-      })
-    );
+            ),
+          },
+        })
+      );
+    }
   };
 
   return {

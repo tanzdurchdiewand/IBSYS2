@@ -120,7 +120,7 @@ export function mapSummaryRowToWorkingTimeList(
   summaryTable: SummaryTable
 ): WorkingTimeList | null {
   const shiftsAndOvertimesRow = summaryTable.find(
-    (row) => row.label === "Shifts And Overtime Per Days"
+    (row) => row.label === "Overtime Per Days"
   );
 
   if (!shiftsAndOvertimesRow) {

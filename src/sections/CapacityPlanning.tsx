@@ -102,7 +102,6 @@ export default function CapacityPlanning() {
     );
   };
 
-  // TODO Shifts in die sumary table hinzufügen (+ berechnen)
   return (
     <Container maxWidth={"xl"} sx={{ p: 3, position: "relative" }}>
       <StyledButton

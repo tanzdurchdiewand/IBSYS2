@@ -17,9 +17,7 @@ export const useCapacityPlanning = () => {
     (state: RootState) => state.inputProductionProgramm.data
   );
 
-  const gameData = useSelector(
-    (state: RootState) => state.inputXML.list.XML
-  );
+  const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
 
   const capacityRows = useSelector(
     (state: RootState) => state.inputCapacityPlanning.capacityRows
@@ -35,7 +33,11 @@ export const useCapacityPlanning = () => {
   }, [dispatch, productionProgramm]);
 
   useEffect(() => {
-    dispatch(setSummaryData(initializeCapacityPlanningSummary(capacityRows, summaryRows, gameData!)));
+    dispatch(
+      setSummaryData(
+        initializeCapacityPlanningSummary(capacityRows, summaryRows, gameData!)
+      )
+    );
   }, [dispatch, capacityRows]);
 
   const handleValueChange = (
@@ -43,9 +45,11 @@ export const useCapacityPlanning = () => {
     valueIndex: number,
     value: number
   ) => {
-    const newValues = [...summaryRows[index].values!];
-    newValues[valueIndex] = value;
-    dispatch(updateCapacityPlanningRow({ index, values: newValues }));
+    if (value >= 0) {
+      const newValues = [...summaryRows[index].values!];
+      newValues[valueIndex] = value;
+      dispatch(updateCapacityPlanningRow({ index, values: newValues }));
+    }
   };
 
   return {

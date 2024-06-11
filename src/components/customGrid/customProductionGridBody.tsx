@@ -90,7 +90,6 @@ export default function CustomProductionGridBody({
               variant="outlined"
               value={Number(productionProgramm[type].salesOrder.salesWish)}
               disabled={true}
-              //type="number"
             />
             <TextField
               name={`${bikeType.shortName}.salesOrder.productionWish`}

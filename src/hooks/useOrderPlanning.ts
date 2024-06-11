@@ -11,9 +11,7 @@ export function useOrderPlanning() {
     (state: RootState) => state.inputOrderPlanning.data
   );
 
-  const gameData = useSelector(
-    (state: RootState) => state.inputXML.list.XML
-  );
+  const gameData = useSelector((state: RootState) => state.inputXML.list.XML);
 
   const productionProgramm = useSelector(
     (state: RootState) => state.inputProductionProgramm.data
@@ -28,7 +26,9 @@ export function useOrderPlanning() {
     field: keyof OrderPlanningRow,
     value: number
   ) => {
-    dispatch(updateOrderPlanning({ key, field, value }));
+    if (value >= 0) {
+      dispatch(updateOrderPlanning({ key, field, value }));
+    }
   };
 
   return { orderPlanning, updateOrder };
