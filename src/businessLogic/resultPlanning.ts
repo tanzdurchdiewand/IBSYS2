@@ -102,8 +102,8 @@ function mapMaterialOrderPlanningToOrderList(
           orderType === OrderType.Normal
             ? 5
             : orderType === OrderType.Fast
-            ? 4
-            : 5,
+              ? 4
+              : 5,
       };
 
       // Only add to Orders if we need to Order the Article
@@ -120,7 +120,7 @@ export function mapSummaryRowToWorkingTimeList(
   summaryTable: SummaryTable
 ): WorkingTimeList | null {
   const shiftsAndOvertimesRow = summaryTable.find(
-    (row) => row.label === "Overtime Per Days"
+    (row) => row.label === "Total Capacity Requirements"
   );
 
   if (!shiftsAndOvertimesRow) {
@@ -161,7 +161,7 @@ export function mapSummaryRowToWorkingTimeList(
     const baseWorkingTime: WorkingTime = {
       station: index + 1,
       shift: shifts,
-      overtime: cappedOvertime,
+      overtime: cappedOvertime / 5,
     };
 
     workingTimes.push(baseWorkingTime);
