@@ -169,6 +169,7 @@ export default function ProductionPlanning() {
     enableRowSelection: true,
     enableMultiRowSelection: false,
     editDisplayMode: "cell",
+    muiTableContainerProps: { sx: { maxHeight: "800px" } },
     initialState: { columnVisibility: { id: false } },
     //optionally, use single-click to activate editing mode instead of default double-click
     muiTableBodyCellProps: ({ cell, column, table }) => ({
@@ -182,6 +183,15 @@ export default function ProductionPlanning() {
             textField.select?.();
           }
         });
+      },
+      onBlur: () => {
+        let testProductionResult: ProductionPlanTimesTotal = {
+          id: Number(cell.row.original.id),
+          item: Number(cell.row.original.item),
+          amount: Number(cell.row._valuesCache.amount),
+          workstationTimeAsString: cell.row.original.workstationTimeAsString,
+        };
+        updateProductionResult(testProductionResult);
       },
     }),
     //select row
@@ -236,14 +246,6 @@ export default function ProductionPlanning() {
           variant="contained"
         >
           {i18n.t("productionPlanning.splitOrder")}
-        </Button>
-        <Button
-          color="success"
-          variant="contained"
-          onClick={handleSaveUsers}
-          // disabled={Object.keys(testProductionResult).length === 0}
-        >
-          {"Save"}
         </Button>
       </Box>
     ),
