@@ -102,8 +102,8 @@ function mapMaterialOrderPlanningToOrderList(
           orderType === OrderType.Normal
             ? 5
             : orderType === OrderType.Fast
-              ? 4
-              : 5,
+            ? 4
+            : 5,
       };
 
       // Only add to Orders if we need to Order the Article
@@ -128,6 +128,7 @@ export function mapSummaryRowToWorkingTimeList(
   }
 
   const { values } = shiftsAndOvertimesRow;
+  console.log(values);
 
   const workingTimes: WorkingTime[] = [];
 
@@ -137,9 +138,10 @@ export function mapSummaryRowToWorkingTimeList(
   // Durchgehen der Werte für Überstunden und Schichten
   values.forEach((overtime, index) => {
     let shifts = 1;
-    let capacity = Math.round(overtime + baseCapacityPerPeriod);
+    let capacity = Math.round(overtime);
     let cappedOvertime = 0;
 
+    console.log(capacity);
     // Workstation 5 is not used
     if (index === 4) {
       shifts = 0;
@@ -163,6 +165,7 @@ export function mapSummaryRowToWorkingTimeList(
       shift: shifts,
       overtime: cappedOvertime / 5,
     };
+    console.log(baseWorkingTime);
 
     workingTimes.push(baseWorkingTime);
   });
